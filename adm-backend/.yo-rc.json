@@ -1,0 +1,35 @@
+{
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "com.quyenbeo.shopifym"
+        },
+        "jhipsterVersion": "5.8.0",
+        "applicationType": "monolith",
+        "baseName": "shopifym",
+        "packageName": "com.quyenbeo.shopifym",
+        "packageFolder": "com/quyenbeo/shopifym",
+        "serverPort": "8080",
+        "authenticationType": "jwt",
+        "cacheProvider": "ehcache",
+        "enableHibernateCache": true,
+        "websocket": false,
+        "databaseType": "sql",
+        "devDatabaseType": "mysql",
+        "prodDatabaseType": "mysql",
+        "searchEngine": false,
+        "messageBroker": false,
+        "serviceDiscoveryType": false,
+        "buildTool": "maven",
+        "enableSwaggerCodegen": false,
+        "jwtSecretKey": "NjE4Mjc5YjkxMDkzNzVjZjJlYWJhMDgyMTkzMzRjZTRmMjA4MWY5MzlkYjNkYzNiMWYzMjk3NzMyZTU2N2M1NGQ2ZjY0OTg1NTIzZDlkYmI2YTRjNDE3Mjg3ZjNiZDYzNzY1OTU0OGIwMjk4ZTU3MjdiZDg1YmEwOThkZDY5Mjk=",
+        "clientFramework": "angularX",
+        "useSass": false,
+        "clientPackageManager": "npm",
+        "testFrameworks": [],
+        "jhiPrefix": "jhi",
+        "entitySuffix": "",
+        "dtoSuffix": "DTO",
+        "otherModules": [],
+        "enableTranslation": false
+    }
+}
