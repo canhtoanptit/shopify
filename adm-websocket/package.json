@@ -1,0 +1,20 @@
+{
+  "name": "adm-websocket",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "toannc"
+  ],
+  "author": "toannc",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "socket.io": "^2.2.0"
+  }
+}
