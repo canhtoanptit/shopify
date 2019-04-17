@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Demo from '../../component/OrderComponent'
 import io from 'socket.io-client';
 
 const socket = io('http://localhost:3001');
@@ -22,9 +23,7 @@ class Orders extends Component {
   }
 
   render() {
-    return (
-      <p>Orders list</p>
-    )
+    return <Demo />
   }
 }
 
