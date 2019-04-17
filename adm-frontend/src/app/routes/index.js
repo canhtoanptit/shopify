@@ -11,8 +11,8 @@ class RootRoute extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Route path="/" component={Orders} />
-        <Route path="/login" component={Login} />
+        <Route path="/" component={Orders}/>
+        <Route path="/login" component={Login}/>
       </BrowserRouter>
     )
   }
