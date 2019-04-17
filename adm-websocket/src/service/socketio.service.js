@@ -1,11 +1,4 @@
 const CronJob = require('cron').CronJob;
-const Shopify = require('shopify-api-node');
-
-// const shopify = new Shopify({
-//     shopName: 'vuzila',
-//     apiKey: '',
-//     password: ''
-// });
 
 let ordersScheduler = function (io) {
   new CronJob('*/1 * * * *', function () {
