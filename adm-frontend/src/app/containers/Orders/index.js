@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Demo from '../../component/OrderComponent'
+import OrdersTable from '../../component/OrderComponent'
 import io from 'socket.io-client';
 import {getListOrders} from "../../services/ordersAPI";
 
@@ -10,7 +10,8 @@ class Orders extends Component {
     super(props);
     this.state = {
       orders: []
-    }
+    };
+    this._updateOrders = this._updateOrders.bind(this)
   }
 
   componentDidMount() {
@@ -21,19 +22,23 @@ class Orders extends Component {
           })
         }
       )
-      .catch((err) => console.log('error ', err))
+      .catch((err) => console.log('error ', err));
     socket.on('connect', function () {
       console.log('connected ', socket);
       socket.emit('authentication', {data: {name: 'toannc'}});
+    });
 
-      socket.on('update_order', function (msg) {
-        console.log('receive message ', msg);
-      });
+    socket.on('update_order', this._updateOrders);
+  }
+
+  _updateOrders(orders) {
+    this.setState({
+      orders: orders.data
     })
   }
 
   render() {
-    return <Demo orders={this.state.orders}/>
+    return <OrdersTable orders={this.state.orders}/>
   }
 }
 

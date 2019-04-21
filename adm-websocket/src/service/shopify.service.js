@@ -8,15 +8,15 @@ const shopify = new Shopify({
   password: ''
 });
 
-const getListOrder = function () {
+const getListOrder = async function () {
   const startOfDay = moment.tz('America/Juneau').startOf('day').format();
   const data = new Map();
-  // return shopify.order.list({limit: 100, fields: 'id,name,created_at,total_price,line_items', created_at_min: startOfDay})
-  return shopify.order.list({limit: 100, fields: 'id,name,created_at,total_price,line_items'})
+  const totalRecords = await shopify.order.count({created_at_min: startOfDay});
+  return shopify.order.list({limit: totalRecords, fields: 'id,name,created_at,total_price,line_items'})
     .then(res => {
       res.map(row => {
         row.line_items.map(item => {
-          const variant = data.get(item.variant_id);
+            const variant = data.get(item.variant_id);
             if (!variant) {
               data.set(item.variant_id, {
                 total: 1,
@@ -32,9 +32,6 @@ const getListOrder = function () {
       return util.convertMapToArray(data);
     })
     .catch(error => console.log('error ', error));
-  // shopify.order.count({created_at_min : startOfDay})
-  //   .then(res => console.log('response: ', res))
-  //   .catch(error => console.log('error ', error));
 };
 
 module.exports = {
