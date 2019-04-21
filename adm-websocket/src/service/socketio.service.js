@@ -1,9 +1,11 @@
 const CronJob = require('cron').CronJob;
+const shopifyService = require('./shopify.service');
 
 let ordersScheduler = function (io) {
-  new CronJob('*/1 * * * *', function () {
+  new CronJob('*/1 * * * *', async function () {
     console.log('you will see this message every minute');
-    io.to('1').emit('update_order', {data: 'hello'})
+    const data = await shopifyService.getListOrder();
+    io.to('1').emit('update_order', {data: data})
   }, null, true, 'America/Los_Angeles');
 };
 

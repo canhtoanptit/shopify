@@ -1,13 +1,16 @@
 const express = require('express')();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const server = require('./src/service/socketio.service')(express);
 const shopifyService = require('./src/service/shopify.service');
 
 express.use(bodyParser.json());
+express.use(cors());
 
-express.get('/', function (req, res) {
-  shopifyService.getListOrder();
-  res.send('hello user!')
+express.get('/api/orders', async function (req, res) {
+  const result = await shopifyService.getListOrder();
+
+  res.send(result)
 });
 
 server.listen(3001, function () {

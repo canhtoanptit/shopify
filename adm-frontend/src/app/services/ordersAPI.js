@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const HOST = 'localhost:9000';
+const HOST = 'http://localhost:3001';
 const GET_ORDERS = '/api/orders';
 
 const api = axios.create({
@@ -13,7 +13,12 @@ const api = axios.create({
 
 const getListOrders = async () => {
   try {
-    return await api.get(GET_ORDERS, {});
+    const result = await api.get(GET_ORDERS, {});
+    if (result.status !== 200) {
+      return []
+    }
+
+    return result.data
   } catch (e) {
     return e
   }
