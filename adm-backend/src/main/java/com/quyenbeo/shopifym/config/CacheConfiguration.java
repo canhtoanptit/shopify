@@ -42,6 +42,12 @@ public class CacheConfiguration {
             cm.createCache(ShopInfo.class.getName(), jcacheConfiguration);
             cm.createCache(ShopInfo.class.getName() + ".jhi_users", jcacheConfiguration);
             cm.createCache(ShopInfo.class.getName() + ".users", jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName(), jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName() + ".shop_infos", jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName() + ".shopInfos", jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName(), jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName() + ".users", jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName() + ".products", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

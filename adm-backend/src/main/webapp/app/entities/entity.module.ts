@@ -15,6 +15,30 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'shopinfo',
                 loadChildren: './shopinfo/shopinfo.module#ShopifymShopinfoModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#ShopifymProductModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#ShopifymProductModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#ShopifymProductModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#ShopifymProductModule'
+            },
+            {
+                path: 'product',
+                loadChildren: './product/product.module#ShopifymProductModule'
+            },
+            {
+                path: 'shop-info',
+                loadChildren: './shop-info/shop-info.module#ShopifymShopInfoModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ShopinfoRepository extends JpaRepository<ShopInfo, Long> {
+public interface ShopInfoRepository extends JpaRepository<ShopInfo, Long> {
 
     @Query(value = "select distinct shopinfo from ShopInfo shopinfo left join fetch shopinfo.users",
         countQuery = "select count(distinct shopinfo) from ShopInfo shopinfo")

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the ShopInfo entity.
  */
-public class ShopinfoDTO implements Serializable {
+public class ShopInfoDTO implements Serializable {
 
     private Long id;
 
@@ -73,11 +73,11 @@ public class ShopinfoDTO implements Serializable {
             return false;
         }
 
-        ShopinfoDTO shopinfoDTO = (ShopinfoDTO) o;
-        if (shopinfoDTO.getId() == null || getId() == null) {
+        ShopInfoDTO shopInfoDTO = (ShopInfoDTO) o;
+        if (shopInfoDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), shopinfoDTO.getId());
+        return Objects.equals(getId(), shopInfoDTO.getId());
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ShopinfoDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ShopinfoDTO{" +
+        return "ShopInfoDTO{" +
             "id=" + getId() +
             ", apiKey='" + getApiKey() + "'" +
             ", password='" + getPassword() + "'" +

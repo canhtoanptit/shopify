@@ -5,12 +5,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A ShopInfo.
@@ -21,7 +20,7 @@ import java.util.Objects;
 public class ShopInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,9 +40,13 @@ public class ShopInfo implements Serializable {
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "shopinfo_user",
-               joinColumns = @JoinColumn(name = "shopinfo_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "shop_info_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "shopInfo")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -115,6 +118,31 @@ public class ShopInfo implements Serializable {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public ShopInfo products(Set<Product> products) {
+        this.products = products;
+        return this;
+    }
+
+    public ShopInfo addProduct(Product product) {
+        this.products.add(product);
+        product.setShopInfo(this);
+        return this;
+    }
+
+    public ShopInfo removeProduct(Product product) {
+        this.products.remove(product);
+        product.setShopInfo(null);
+        return this;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -125,11 +153,11 @@ public class ShopInfo implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ShopInfo shopinfo = (ShopInfo) o;
-        if (shopinfo.getId() == null || getId() == null) {
+        ShopInfo shopInfo = (ShopInfo) o;
+        if (shopInfo.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), shopinfo.getId());
+        return Objects.equals(getId(), shopInfo.getId());
     }
 
     @Override

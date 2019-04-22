@@ -11,6 +11,13 @@
             "ownerSide": true,
             "otherEntityRelationshipName": "shopinfo",
             "otherEntityRelationshipNameUndefined": false
+        },
+        {
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "shopInfo",
+            "otherEntityRelationshipNameUndefined": false
         }
     ],
     "fields": [
