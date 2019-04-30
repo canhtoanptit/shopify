@@ -1,17 +1,18 @@
 package com.quyenbeo.shopifym.config;
 
-import java.time.Duration;
-
 import com.quyenbeo.shopifym.domain.ShopInfo;
-import org.ehcache.config.builders.*;
-import org.ehcache.jsr107.Eh107Configuration;
-
-import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
 import io.github.jhipster.config.JHipsterProperties;
-
+import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.jsr107.Eh107Configuration;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching
@@ -44,9 +45,6 @@ public class CacheConfiguration {
             cm.createCache(ShopInfo.class.getName() + ".users", jcacheConfiguration);
             cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName(), jcacheConfiguration);
             cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName() + ".shop_infos", jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName() + ".shopInfos", jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName(), jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName() + ".users", jcacheConfiguration);
             cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName() + ".products", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };

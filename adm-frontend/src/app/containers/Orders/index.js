@@ -3,8 +3,6 @@ import OrdersTable from '../../component/OrderComponent'
 import io from 'socket.io-client';
 import {getListOrders} from "../../services/ordersAPI";
 
-const socket = io('http://localhost:3001');
-
 class Orders extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +13,13 @@ class Orders extends Component {
   }
 
   componentDidMount() {
+    const socket = io('http://quyenbeo.com:3001');
+    socket.on('connect', function () {
+      console.log('connected ', socket);
+      socket.emit('authentication', {data: {name: 'toannc'}});
+    });
+
+    socket.on('update_order', this._updateOrders);
     getListOrders()
       .then((res) => {
           this.setState({
@@ -23,12 +28,6 @@ class Orders extends Component {
         }
       )
       .catch((err) => console.log('error ', err));
-    socket.on('connect', function () {
-      console.log('connected ', socket);
-      socket.emit('authentication', {data: {name: 'toannc'}});
-    });
-
-    socket.on('update_order', this._updateOrders);
   }
 
   _updateOrders(orders) {

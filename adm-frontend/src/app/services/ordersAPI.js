@@ -1,6 +1,7 @@
 import axios from 'axios';
+import {AUTHENTICATE_TOKEN} from "../constants/common";
 
-const HOST = 'http://localhost:3001';
+const HOST = 'http://quyenbeo.com:3001';
 const GET_ORDERS = '/api/orders';
 
 const api = axios.create({
@@ -12,8 +13,13 @@ const api = axios.create({
 });
 
 const getListOrders = async () => {
+  const userToken = localStorage.getItem(AUTHENTICATE_TOKEN);
   try {
-    const result = await api.get(GET_ORDERS, {});
+    const result = await api.get(GET_ORDERS, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    },);
     if (result.status !== 200) {
       return []
     }

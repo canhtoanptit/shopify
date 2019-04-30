@@ -1,0 +1,92 @@
+:local(.containerForm) {
+  background-color: #fffaf5;
+  /* position: fixed; */
+  /* width: 1000px; */
+  height: 100vh;
+  min-height: 800px;
+  left: 0;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+:local(.container) {
+  /* width: 1000px; */
+  height: 100vh;
+  min-height: 800px;
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  width: 50%;
+  font-size: 40px;
+}
+
+.label {
+  font-family: AvenirNext;
+  font-size: 30px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #9b9b9b;
+}
+
+.labelHightlight {
+  /* font-family: AvenirNext; */
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #f9976b;
+  font-style: italic;
+}
+
+.image {
+  width: 360px;
+  height: 128px;
+}
+
+.option {
+  flex-direction: row;
+  justify-content: space-between;
+  display: inline-flex;
+  width: 50%;
+  min-width: 560px;
+  align-items: center;
+}
+
+.checkboxContainer {
+  display: inline-block;
+  font-family: AvenirNext;
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #4a434d;
+}
+
+.forgotPassword {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #f9976b;
+  text-decoration: underline;
+}
+
+.sk-line-scale-pulse-out {
+  height: 44px;
+  width: 44px;
+}

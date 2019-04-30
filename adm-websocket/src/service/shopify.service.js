@@ -4,8 +4,8 @@ const util = require('../util/data.util');
 
 const shopify = new Shopify({
   shopName: 'vuzila',
-  apiKey: '',
-  password: ''
+  apiKey: 'b2512f8ab6040a122505b9807082fd5f',
+  password: '94db542ec643724f96eabc8d1ab34e49'
 });
 
 const getListOrder = async function () {
