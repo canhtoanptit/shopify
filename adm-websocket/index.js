@@ -3,14 +3,35 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const server = require('./src/service/socketio.service')(express);
 const shopifyService = require('./src/service/shopify.service');
+const validation = require('./src/util/validation');
 
 express.use(bodyParser.json());
 express.use(cors());
 
 express.get('/api/orders', async function (req, res) {
-  const result = await shopifyService.getListOrder();
-
-  res.send(result)
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    console.log('token is ', token);
+    validation.verifyToken(token, function (payload, err) {
+      if (err) {
+        console.log('error: ', err);
+        res.status(401);
+        res.send('invalid token')
+      }
+      if (payload) {
+        shopifyService.getListOrder()
+          .then(result => res.send(result))
+          .catch(err => {
+            console.log('error: ', err);
+            res.status(500);
+            res.send('internal error')
+          })
+      }
+    });
+  } catch (e) {
+    res.status(500);
+    res.send('internal error')
+  }
 });
 
 server.listen(3001, function () {

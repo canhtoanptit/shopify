@@ -15,7 +15,7 @@ class RootRoute extends Component {
   }
 
   componentDidMount() {
-    const userToken = localStorage.getItem(AUTHENTICATE_TOKEN);
+    const userToken = sessionStorage.getItem(AUTHENTICATE_TOKEN);
     if (userToken) {
       this.setState({
         isLoading: false,
@@ -28,7 +28,7 @@ class RootRoute extends Component {
   }
 
   render() {
-    const userToken = localStorage.getItem(AUTHENTICATE_TOKEN);
+    const userToken = sessionStorage.getItem(AUTHENTICATE_TOKEN);
     const {isLoading} = this.state;
     if (isLoading) {
       return (

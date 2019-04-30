@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import OrdersTable from '../../component/OrderComponent'
 import io from 'socket.io-client';
 import {getListOrders} from "../../services/ordersAPI";
+import {AUTHENTICATE_TOKEN} from "../../constants/common";
+import {Redirect} from 'react-router-dom';
 
 class Orders extends Component {
   constructor(props) {
@@ -13,13 +15,16 @@ class Orders extends Component {
   }
 
   componentDidMount() {
-    const socket = io('http://quyenbeo.com:3001');
-    socket.on('connect', function () {
-      console.log('connected ', socket);
-      socket.emit('authentication', {data: {name: 'toannc'}});
-    });
+    const userToken = sessionStorage.getItem(AUTHENTICATE_TOKEN);
+    if (userToken) {
+      const socket = io('http://quyenbeo.com:3001');
+      socket.on('connect', function () {
+        console.log('connected ', socket);
+        socket.emit('authentication', {data: {name: 'toannc'}});
+      });
 
-    socket.on('update_order', this._updateOrders);
+      socket.on('update_order', this._updateOrders);
+    }
     getListOrders()
       .then((res) => {
           this.setState({
@@ -37,6 +42,16 @@ class Orders extends Component {
   }
 
   render() {
+    const userToken = sessionStorage.getItem(AUTHENTICATE_TOKEN);
+    if (!userToken) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/login',
+          }}
+        />
+      );
+    }
     return <OrdersTable orders={this.state.orders}/>
   }
 }

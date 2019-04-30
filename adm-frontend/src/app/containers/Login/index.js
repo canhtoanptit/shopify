@@ -57,7 +57,7 @@ class Login extends Component {
         console.log('res is: ', res);
         if (res.status === 200) {
           const {history} = this.props;
-          localStorage.setItem(AUTHENTICATE_TOKEN, res.data.id_token);
+          sessionStorage.setItem(AUTHENTICATE_TOKEN, res.data.id_token);
           history.push('/orders');
         } else if (res.response) {
           console.log('res.response.data', res.response.data);
