@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const HOST = 'http://quyenbeo.com:8080';
+const HOST = 'http://quyenbeo.com';
 const SIGN_IN = '/api/authenticate';
 
 const api = axios.create({
