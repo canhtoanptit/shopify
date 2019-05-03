@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {AUTHENTICATE_TOKEN} from "../constants/common";
 
-const HOST = 'http://quyenbeo.com:3001';
+const HOST = 'http://13.251.52.49:3001';
 const GET_ORDERS = '/api/orders';
 
 const api = axios.create({

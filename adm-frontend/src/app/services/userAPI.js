@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const HOST = 'http://quyenbeo.com';
+const HOST = 'http://13.251.52.49';
 const SIGN_IN = '/api/authenticate';
 
 const api = axios.create({
