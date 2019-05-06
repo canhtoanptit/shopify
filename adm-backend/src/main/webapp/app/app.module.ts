@@ -11,12 +11,12 @@ import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
-import { ShopifymSharedModule } from 'app/shared';
-import { ShopifymCoreModule } from 'app/core';
-import { ShopifymAppRoutingModule } from './app-routing.module';
-import { ShopifymHomeModule } from './home/home.module';
-import { ShopifymAccountModule } from './account/account.module';
-import { ShopifymEntityModule } from './entities/entity.module';
+import { ShopifymbackendSharedModule } from 'app/shared';
+import { ShopifymbackendCoreModule } from 'app/core';
+import { ShopifymbackendAppRoutingModule } from './app-routing.module';
+import { ShopifymbackendHomeModule } from './home/home.module';
+import { ShopifymbackendAccountModule } from './account/account.module';
+import { ShopifymbackendEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
@@ -30,13 +30,13 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
             alertAsToast: false,
             alertTimeout: 5000
         }),
-        ShopifymSharedModule.forRoot(),
-        ShopifymCoreModule,
-        ShopifymHomeModule,
-        ShopifymAccountModule,
+        ShopifymbackendSharedModule.forRoot(),
+        ShopifymbackendCoreModule,
+        ShopifymbackendHomeModule,
+        ShopifymbackendAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
-        ShopifymEntityModule,
-        ShopifymAppRoutingModule
+        ShopifymbackendEntityModule,
+        ShopifymbackendAppRoutingModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
     providers: [
@@ -63,7 +63,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
     ],
     bootstrap: [JhiMainComponent]
 })
-export class ShopifymAppModule {
+export class ShopifymbackendAppModule {
     constructor(private dpConfig: NgbDatepickerConfig) {
         this.dpConfig.minDate = { year: moment().year() - 100, month: 1, day: 1 };
     }

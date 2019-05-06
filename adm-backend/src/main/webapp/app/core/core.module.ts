@@ -17,7 +17,7 @@ import locale from '@angular/common/locales/en';
         DatePipe
     ]
 })
-export class ShopifymCoreModule {
+export class ShopifymbackendCoreModule {
     constructor() {
         registerLocaleData(locale);
     }

@@ -1,11 +1,13 @@
 const Shopify = require('shopify-api-node');
 const moment = require('moment-timezone');
 const util = require('../util/data.util');
+const Config = require('../config/config.json');
+const productRepo = require('../repository/product.repository');
 
 const shopify = new Shopify({
-  shopName: 'vuzila',
-  apiKey: 'b2512f8ab6040a122505b9807082fd5f',
-  password: '94db542ec643724f96eabc8d1ab34e49'
+  shopName: Config.shopify.shopName,
+  apiKey: Config.shopify.apiKey,
+  password: Config.shopify.password
 });
 
 const getListOrder = async function () {
@@ -34,6 +36,17 @@ const getListOrder = async function () {
     .catch(error => console.log('error ', error));
 };
 
+const getAllProduct = () => {
+  shopify.product.list({limit: 250, fields: 'id,title,variants'})
+    .then(res => {
+      return productRepo.insertAllProduct(util.convertProductToVariants(res))
+    })
+    .catch(error => {
+      console.log('error ', error)
+    })
+};
+
 module.exports = {
-  getListOrder
+  getListOrder,
+  getAllProduct
 };

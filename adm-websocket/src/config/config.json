@@ -1,3 +1,14 @@
 {
-  "secret": "NjE4Mjc5YjkxMDkzNzVjZjJlYWJhMDgyMTkzMzRjZTRmMjA4MWY5MzlkYjNkYzNiMWYzMjk3NzMyZTU2N2M1NGQ2ZjY0OTg1NTIzZDlkYmI2YTRjNDE3Mjg3ZjNiZDYzNzY1OTU0OGIwMjk4ZTU3MjdiZDg1YmEwOThkZDY5Mjk="
+  "secret": "NjE4Mjc5YjkxMDkzNzVjZjJlYWJhMDgyMTkzMzRjZTRmMjA4MWY5MzlkYjNkYzNiMWYzMjk3NzMyZTU2N2M1NGQ2ZjY0OTg1NTIzZDlkYmI2YTRjNDE3Mjg3ZjNiZDYzNzY1OTU0OGIwMjk4ZTU3MjdiZDg1YmEwOThkZDY5Mjk=",
+  "db" : {
+    "host": "localhost",
+    "user": "root",
+    "password": "123456123",
+    "database": "shopifym"
+  },
+  "shopify": {
+    "apiKey": "b2512f8ab6040a122505b9807082fd5f",
+    "password": "94db542ec643724f96eabc8d1ab34e49",
+    "shopName": "vuzila"
+  }
 }

@@ -11,7 +11,6 @@ express.use(cors());
 express.get('/api/orders', async function (req, res) {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    console.log('token is ', token);
     validation.verifyToken(token, function (payload, err) {
       if (err) {
         console.log('error: ', err);
@@ -21,6 +20,34 @@ express.get('/api/orders', async function (req, res) {
       if (payload) {
         shopifyService.getListOrder()
           .then(result => res.send(result))
+          .catch(err => {
+            console.log('error: ', err);
+            res.status(500);
+            res.send('internal error')
+          })
+      }
+    });
+  } catch (e) {
+    res.status(500);
+    res.send('internal error')
+  }
+});
+
+express.post('/api/product', async function (req, res) {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    validation.verifyToken(token, function (payload, err) {
+      if (err) {
+        console.log('error: ', err);
+        res.status(401);
+        res.send('invalid token')
+      }
+      if (payload) {
+        shopifyService.getAllProduct()
+          .then(result => {
+            console.log('result: ', result);
+            res.send('ok')
+          })
           .catch(err => {
             console.log('error: ', err);
             res.status(500);

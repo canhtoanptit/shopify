@@ -61,7 +61,7 @@ management:
 
 spring:
     application:
-        name: shopifym
+        name: shopifymbackend
     profiles:
         # The commented value for `active` can be replaced with valid Spring profiles to load.
         # Otherwise, it will be filled in by maven when building the WAR file
@@ -115,11 +115,11 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: shopifym@localhost
+        from: shopifymbackend@localhost
     swagger:
         default-include-pattern: /api/.*
-        title: shopifym API
-        description: shopifym API documentation
+        title: shopifymbackend API
+        description: shopifymbackend API documentation
         version: 0.0.1
         terms-of-service-url:
         contact-name:

@@ -5,40 +5,16 @@ import { RouterModule } from '@angular/router';
     imports: [
         RouterModule.forChild([
             {
-                path: 'shopinfo',
-                loadChildren: './shopinfo/shopinfo.module#ShopifymShopinfoModule'
+                path: 'variants',
+                loadChildren: './variants/variants.module#ShopifymbackendVariantsModule'
             },
             {
-                path: 'shopinfo',
-                loadChildren: './shopinfo/shopinfo.module#ShopifymShopinfoModule'
+                path: 'variants',
+                loadChildren: './variants/variants.module#ShopifymbackendVariantsModule'
             },
             {
-                path: 'shopinfo',
-                loadChildren: './shopinfo/shopinfo.module#ShopifymShopinfoModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#ShopifymProductModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#ShopifymProductModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#ShopifymProductModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#ShopifymProductModule'
-            },
-            {
-                path: 'product',
-                loadChildren: './product/product.module#ShopifymProductModule'
-            },
-            {
-                path: 'shop-info',
-                loadChildren: './shop-info/shop-info.module#ShopifymShopInfoModule'
+                path: 'variants',
+                loadChildren: './variants/variants.module#ShopifymbackendVariantsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])
@@ -48,4 +24,4 @@ import { RouterModule } from '@angular/router';
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ShopifymEntityModule {}
+export class ShopifymbackendEntityModule {}

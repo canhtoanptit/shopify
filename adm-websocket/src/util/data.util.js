@@ -9,6 +9,18 @@ function convertMapToArray(map) {
   return ary;
 }
 
+function convertProductToVariants(product) {
+  const rs = [];
+  product.forEach((product) => {
+    product.variants.forEach(variant => {
+      rs.push([variant.id, product.id, variant.title, product.title, 0, Number.parseFloat(variant.price)])
+    })
+  });
+
+  return rs;
+}
+
 module.exports = {
-  convertMapToArray
+  convertMapToArray,
+  convertProductToVariants
 };

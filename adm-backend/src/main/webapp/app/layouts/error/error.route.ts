@@ -8,7 +8,7 @@ export const errorRoute: Routes = [
         component: ErrorComponent,
         data: {
             authorities: [],
-            pageTitle: 'shopifym'
+            pageTitle: 'shopifymbackend'
         }
     },
     {
@@ -16,7 +16,7 @@ export const errorRoute: Routes = [
         component: ErrorComponent,
         data: {
             authorities: [],
-            pageTitle: 'shopifym',
+            pageTitle: 'shopifymbackend',
             error403: true
         }
     },
@@ -25,7 +25,7 @@ export const errorRoute: Routes = [
         component: ErrorComponent,
         data: {
             authorities: [],
-            pageTitle: 'shopifym',
+            pageTitle: 'shopifymbackend',
             error404: true
         }
     },

@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.quyenbeo.shopifym</groupId>
-    <artifactId>shopifym</artifactId>
+    <artifactId>shopifymbackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Shopifym</name>
+    <name>Shopifymbackend</name>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -321,12 +321,6 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -481,7 +475,7 @@
                           <image>openjdk:8-jre-alpine</image>
                       </from>
                       <to>
-                          <image>shopifym:latest</image>
+                          <image>shopifymbackend:latest</image>
                       </to>
                       <container>
                           <entrypoint>
@@ -507,12 +501,12 @@
                     <configuration>
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-                        <driver>com.mysql.jdbc.Driver</driver>
-                        <url>jdbc:mysql://localhost:3306/shopifym</url>
-                        <defaultSchemaName>shopifym</defaultSchemaName>
-                        <username>root</username>
+                        <driver></driver>
+                        <url></url>
+                        <defaultSchemaName></defaultSchemaName>
+                        <username>shopifymbackend</username>
                         <password></password>
-                        <referenceUrl>hibernate:spring:com.quyenbeo.shopifym.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+                        <referenceUrl>hibernate:spring:com.quyenbeo.shopifym.domain?dialect=&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                         <verbose>true</verbose>
                         <logging>debug</logging>
                     </configuration>
@@ -734,6 +728,10 @@
                     <artifactId>spring-boot-devtools</artifactId>
                     <optional>true</optional>
                 </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
             </dependencies>
             <build>
                 <plugins>
@@ -807,6 +805,10 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-devtools</artifactId>
                     <optional>true</optional>
+                </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
                 </dependency>
             </dependencies>
             <build>

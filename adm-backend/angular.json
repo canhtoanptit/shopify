@@ -3,14 +3,14 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "shopifym": {
+        "shopifymbackend": {
             "root": "",
             "sourceRoot": "src/main/webapp",
             "projectType": "application",
             "architect": {}
         }
     },
-    "defaultProject": "shopifym",
+    "defaultProject": "shopifymbackend",
     "cli": {
         "packageManager": "npm"
     },

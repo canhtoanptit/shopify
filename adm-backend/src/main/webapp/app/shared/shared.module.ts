@@ -2,20 +2,20 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbDateMomentAdapter } from './util/datepicker-adapter';
-import { ShopifymSharedLibsModule, ShopifymSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { ShopifymbackendSharedLibsModule, ShopifymbackendSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
 
 @NgModule({
-    imports: [ShopifymSharedLibsModule, ShopifymSharedCommonModule],
+    imports: [ShopifymbackendSharedLibsModule, ShopifymbackendSharedCommonModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
-    exports: [ShopifymSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
+    exports: [ShopifymbackendSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ShopifymSharedModule {
+export class ShopifymbackendSharedModule {
     static forRoot() {
         return {
-            ngModule: ShopifymSharedModule
+            ngModule: ShopifymbackendSharedModule
         };
     }
 }

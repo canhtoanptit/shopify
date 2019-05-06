@@ -40,7 +40,7 @@ export class JhiConfigurationService {
             }
         }
         // by default, use the default ApplicationContext Id
-        return res['contexts']['shopifym']['beans'];
+        return res['contexts']['shopifymbackend']['beans'];
     }
 
     getEnv(): Observable<any> {

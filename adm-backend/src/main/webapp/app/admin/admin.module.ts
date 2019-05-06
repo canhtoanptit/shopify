@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ShopifymSharedModule } from 'app/shared';
+import { ShopifymbackendSharedModule } from 'app/shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 import {
@@ -20,7 +20,7 @@ import {
 
 @NgModule({
     imports: [
-        ShopifymSharedModule,
+        ShopifymbackendSharedModule,
         RouterModule.forChild(adminState)
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
@@ -40,4 +40,4 @@ import {
     entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ShopifymAdminModule {}
+export class ShopifymbackendAdminModule {}

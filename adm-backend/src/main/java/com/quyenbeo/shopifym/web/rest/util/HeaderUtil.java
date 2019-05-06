@@ -4,9 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
-
 /**
  * Utility class for HTTP headers creation.
  */
@@ -14,7 +11,7 @@ public final class HeaderUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
-    private static final String APPLICATION_NAME = "shopifymApp";
+    private static final String APPLICATION_NAME = "shopifymbackendApp";
 
     private HeaderUtil() {
     }
@@ -44,15 +41,5 @@ public final class HeaderUtil {
         headers.add("X-" + APPLICATION_NAME + "-error", defaultMessage);
         headers.add("X-" + APPLICATION_NAME + "-params", entityName);
         return headers;
-    }
-
-    public static HttpHeaders createHeaders(String username, String password) {
-        return new HttpHeaders() {{
-            String auth = username + ":" + password;
-            String encodedAuth = Base64.getEncoder().encodeToString(
-                auth.getBytes(Charset.forName("US-ASCII")));
-            String authHeader = "Basic " + encodedAuth;
-            set("Authorization", authHeader);
-        }};
     }
 }

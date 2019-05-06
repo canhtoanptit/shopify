@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { ShopifymSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent } from './';
+import { ShopifymbackendSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent } from './';
 
 @NgModule({
-    imports: [ShopifymSharedLibsModule],
+    imports: [ShopifymbackendSharedLibsModule],
     declarations: [JhiAlertComponent, JhiAlertErrorComponent],
-    exports: [ShopifymSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent]
+    exports: [ShopifymbackendSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent]
 })
-export class ShopifymSharedCommonModule {}
+export class ShopifymbackendSharedCommonModule {}

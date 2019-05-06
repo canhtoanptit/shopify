@@ -11,7 +11,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
             [
                 {
                     path: 'admin',
-                    loadChildren: './admin/admin.module#ShopifymAdminModule'
+                    loadChildren: './admin/admin.module#ShopifymbackendAdminModule'
                 },
                 ...LAYOUT_ROUTES
             ],
@@ -20,4 +20,4 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
     ],
     exports: [RouterModule]
 })
-export class ShopifymAppRoutingModule {}
+export class ShopifymbackendAppRoutingModule {}

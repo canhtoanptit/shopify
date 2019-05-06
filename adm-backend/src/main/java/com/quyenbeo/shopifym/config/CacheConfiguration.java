@@ -1,18 +1,16 @@
 package com.quyenbeo.shopifym.config;
 
-import com.quyenbeo.shopifym.domain.ShopInfo;
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.ExpiryPolicyBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
+import java.time.Duration;
+
+import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
+
+import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
+import io.github.jhipster.config.JHipsterProperties;
+
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.time.Duration;
+import org.springframework.context.annotation.*;
 
 @Configuration
 @EnableCaching
@@ -40,12 +38,7 @@ public class CacheConfiguration {
             cm.createCache(com.quyenbeo.shopifym.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.quyenbeo.shopifym.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.quyenbeo.shopifym.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(ShopInfo.class.getName(), jcacheConfiguration);
-            cm.createCache(ShopInfo.class.getName() + ".jhi_users", jcacheConfiguration);
-            cm.createCache(ShopInfo.class.getName() + ".users", jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName(), jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.Product.class.getName() + ".shop_infos", jcacheConfiguration);
-            cm.createCache(com.quyenbeo.shopifym.domain.ShopInfo.class.getName() + ".products", jcacheConfiguration);
+            cm.createCache(com.quyenbeo.shopifym.domain.Variants.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
