@@ -3,7 +3,7 @@
   "db" : {
     "host": "localhost",
     "user": "root",
-    "password": "123456123",
+    "password": "Ab@123456",
     "database": "shopifym"
   },
   "shopify": {
