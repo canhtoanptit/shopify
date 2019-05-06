@@ -44,8 +44,7 @@ express.post('/api/product', async function (req, res) {
       }
       if (payload) {
         shopifyService.getAllProduct()
-          .then(result => {
-            console.log('result: ', result);
+          .then(() => {
             res.send('ok')
           })
           .catch(err => {
