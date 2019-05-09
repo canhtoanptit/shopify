@@ -5,6 +5,13 @@ const insertAllProduct = async (variants) => {
   return await pool.query(sql, [variants]);
 };
 
+const findAllProductById = async (ids) => {
+  console.log('findAllCostById ', ids);
+  const sql = "SELECT id, jhi_cost FROM `variants` WHERE `id` IN (?)";
+  return await pool.query(sql, [ids])
+};
+
 module.exports = {
-  insertAllProduct
+  insertAllProduct,
+  findAllProductById
 };

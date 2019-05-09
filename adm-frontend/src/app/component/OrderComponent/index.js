@@ -31,6 +31,7 @@ function SimpleTable(props) {
             <TableCell align="left">Name</TableCell>
             <TableCell align="right">Total</TableCell>
             <TableCell align="right">Cost</TableCell>
+            <TableCell align="right">MO</TableCell>
             <TableCell align="left">Total price</TableCell>
             <TableCell align="right">Profit</TableCell>
           </TableRow>
@@ -43,7 +44,8 @@ function SimpleTable(props) {
               </TableCell>
               <TableCell align="left">{row.data.data.name}</TableCell>
               <TableCell align="right">{row.data.total}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.cost}</TableCell>
+              <TableCell align="right">0</TableCell>
               <TableCell align="left">{Number.parseFloat(row.data.total * row.data.data.price).toFixed(2)}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
