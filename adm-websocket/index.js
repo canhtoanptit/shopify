@@ -28,6 +28,7 @@ express.get('/api/orders', async function (req, res) {
       }
     });
   } catch (e) {
+    console.log('error: ', e);
     res.status(500);
     res.send('internal error')
   }
@@ -55,6 +56,7 @@ express.post('/api/product', async function (req, res) {
       }
     });
   } catch (e) {
+    console.log('error: ', e);
     res.status(500);
     res.send('internal error')
   }
