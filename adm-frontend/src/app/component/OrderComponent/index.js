@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Modal from 'react-responsive-modal';
+import {Formik} from "formik";
 
 const styles = theme => ({
   root: {
@@ -59,18 +59,42 @@ class OrderList extends Component {
                 <TableCell align="left">{row.data.data.name}</TableCell>
                 <TableCell align="right">{row.data.total}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
-                <CustomTableCell align="right">
-                  {row.mo ? row.mo : 0}
-                </CustomTableCell>
+                <Formik
+                  initialValues={{ id: row.variant_id, mo: row.mo ? row.mo : 0 }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    console.log('values ', values)
+                  }}
+                >
+                  {({
+                      values,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting,
+                      /* and other goodies */
+                    }) => (
+                    <form onSubmit={handleSubmit}>
+                      <CustomTableCell align="right">
+                      <input
+                        type="number"
+                        name="mo"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.mo}
+                      />
+                      </CustomTableCell>
+                      <button type="submit" disabled={isSubmitting}>
+                        Submit
+                      </button>
+                    </form>
+                  )}
+                </Formik>
                 <TableCell align="left">{Number.parseFloat(row.data.total * row.data.data.price).toFixed(2)}</TableCell>
                 <TableCell align="right">{row.protein}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Modal>
-
-        </Modal>
       </Paper>
     )
   }
