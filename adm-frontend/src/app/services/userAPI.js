@@ -12,7 +12,6 @@ const api = axios.create({
 });
 
 const signIn = async (username, password) => {
-  console.log(username, password);
   try {
     return await api.post(SIGN_IN, {
       username,
