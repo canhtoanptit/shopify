@@ -8,7 +8,6 @@ class OrderDetail extends PureComponent {
 
   render() {
     const {orderDetail} = this.props;
-    console.log('detail ', orderDetail);
     return (
       <div>
         <Formik
@@ -16,9 +15,10 @@ class OrderDetail extends PureComponent {
           onSubmit={async (values, {setSubmitting}) => {
             console.log('values ', values);
             setSubmitting(false);
+            orderDetail.mo = values.mo;
             let res = await updateProductMO(orderDetail);
             if (res.status === 200) {
-              console.log('ok ', res.data)
+              console.log('ok ', res.data);
             }
           }}
         >

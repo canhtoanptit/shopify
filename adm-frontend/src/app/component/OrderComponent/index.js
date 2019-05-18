@@ -42,6 +42,7 @@ class OrderList extends Component {
       orderDetail: {},
       redirect: false
     };
+
   }
 
   toggleEditMO = (row) => {

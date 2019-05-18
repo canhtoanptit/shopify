@@ -2,19 +2,21 @@ function convertMapToArray(map, product) {
   const ary = [];
   map.forEach((value, key) => {
     let cost = 0;
+    let mo = 0;
     if (product && Array.isArray(product)) {
       for (let i = 0; i < product.length; i++) {
         if (product[i].id === key) {
-          cost = product[i].jhi_cost
+          cost = product[i].jhi_cost;
+          mo = product[i].mo;
+          break
         }
-
-        break;
       }
     }
     ary.push({
       variant_id: key,
       data: value,
-      cost: cost
+      cost: cost,
+      mo: mo
     })
   });
   return ary;

@@ -25,6 +25,8 @@ public class VariantsDTO implements Serializable {
     @NotNull
     private Double price;
 
+    private Double mo;
+
     public Long getId() {
         return id;
     }
@@ -73,6 +75,14 @@ public class VariantsDTO implements Serializable {
         this.price = price;
     }
 
+    public Double getMo() {
+        return mo;
+    }
+
+    public void setMo(Double mo) {
+        this.mo = mo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -103,6 +113,7 @@ public class VariantsDTO implements Serializable {
             ", productTitle='" + getProductTitle() + "'" +
             ", cost=" + getCost() +
             ", price=" + getPrice() +
+            ", mo=" + getMo() +
             "}";
     }
 }

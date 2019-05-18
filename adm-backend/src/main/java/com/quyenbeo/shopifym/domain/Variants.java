@@ -43,6 +43,9 @@ public class Variants implements Serializable {
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Column(name = "mo")
+    private Double mo;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -116,6 +119,19 @@ public class Variants implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    public Double getMo() {
+        return mo;
+    }
+
+    public Variants mo(Double mo) {
+        this.mo = mo;
+        return this;
+    }
+
+    public void setMo(Double mo) {
+        this.mo = mo;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -147,6 +163,7 @@ public class Variants implements Serializable {
             ", productTitle='" + getProductTitle() + "'" +
             ", cost=" + getCost() +
             ", price=" + getPrice() +
+            ", mo=" + getMo() +
             "}";
     }
 }

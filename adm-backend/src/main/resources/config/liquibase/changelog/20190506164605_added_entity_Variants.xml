@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-    
+
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -23,28 +21,35 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="title" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="product_title" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <column name="jhi_cost" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
             <column name="price" type="double">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+
+    </changeSet>
+    <changeSet id="20190506164605-2" author="jhipster">
+        <addColumn tableName="variants">
+            <column name="mo" type="double">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

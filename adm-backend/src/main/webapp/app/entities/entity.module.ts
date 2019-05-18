@@ -15,6 +15,10 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'variants',
                 loadChildren: './variants/variants.module#ShopifymbackendVariantsModule'
+            },
+            {
+                path: 'variants',
+                loadChildren: './variants/variants.module#ShopifymbackendVariantsModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

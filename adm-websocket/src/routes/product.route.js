@@ -33,7 +33,7 @@ const productService = require('../service/product.service');
 });
  **/
 
-router.put(':id', async function (req, res) {
+router.put('/:id', async function (req, res) {
   try {
     console.log('update product id');
     const token = req.headers.authorization.split(" ")[1];
@@ -62,3 +62,5 @@ router.put(':id', async function (req, res) {
     res.send('internal error')
   }
 });
+
+module.exports = router;

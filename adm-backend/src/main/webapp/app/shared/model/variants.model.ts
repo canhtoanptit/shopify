@@ -5,6 +5,7 @@ export interface IVariants {
     productTitle?: string;
     cost?: number;
     price?: number;
+    mo?: number;
 }
 
 export class Variants implements IVariants {
@@ -14,6 +15,7 @@ export class Variants implements IVariants {
         public title?: string,
         public productTitle?: string,
         public cost?: number,
-        public price?: number
+        public price?: number,
+        public mo?: number
     ) {}
 }
