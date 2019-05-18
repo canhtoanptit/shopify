@@ -17,7 +17,7 @@ class Orders extends Component {
   componentDidMount() {
     const userToken = sessionStorage.getItem(AUTHENTICATE_TOKEN);
     if (userToken) {
-      const socket = io('http://quyenbeo.com:3001');
+      const socket = io('http://13.251.52.49:3001');
       socket.on('connect', function () {
         console.log('connected ', socket);
         socket.emit('authentication', {data: {name: 'toannc'}});

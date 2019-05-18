@@ -11,7 +11,14 @@ const findAllProductById = async (ids) => {
   return await pool.query(sql, [ids])
 };
 
+const updateProductMo = (id, mo) => {
+  console.log('updateProductMo');
+  const sql = "UPDATE `variants` SET `mo` = ? WHERE `id` = ?";
+  return pool.query(sql, [id, mo])
+};
+
 module.exports = {
   insertAllProduct,
-  findAllProductById
+  findAllProductById,
+  updateProductMo
 };
