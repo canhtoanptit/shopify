@@ -20,6 +20,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "mysql": "^2.17.1",
+    "paypal-rest-sdk": "^1.8.1",
     "shopify-api-node": "^2.18.2",
     "socket.io": "^2.2.0"
   }
