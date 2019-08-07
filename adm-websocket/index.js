@@ -14,5 +14,4 @@ express.use('/api/products', productRouter);
 
 server.listen(3001, async function () {
   console.log("server listen at port 3001")
-  paypalService.getPaypalToken()
 });

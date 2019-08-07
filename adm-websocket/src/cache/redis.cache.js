@@ -15,5 +15,6 @@ const getPaypalToken = () => {
 };
 
 module.exports = {
-  setPaypalToken
+  setPaypalToken,
+  getPaypalToken
 };
