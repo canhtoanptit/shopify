@@ -46,6 +46,13 @@ const getAllProduct = () => {
     })
 };
 
+const getOrderFullfield = async () => {
+  const startOfDay = moment.tz('America/Juneau').startOf('day').format();
+  const data = new Map();
+  const totalRecords = await shopify.order.count({created_at_min: startOfDay});
+  let res = await shopify.order.list({limit: totalRecords, fields: 'id,name,created_at,total_price,line_items'});
+};
+
 module.exports = {
   getListOrder,
   getAllProduct

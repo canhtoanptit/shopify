@@ -7,8 +7,20 @@
     "database": "shopifym"
   },
   "shopify": {
-    "apiKey": "b2512f8ab6040a122505b9807082fd5f",
-    "password": "94db542ec643724f96eabc8d1ab34e49",
-    "shopName": "vuzila"
+    "apiKey": "e79e8ddd6e77536093f7f4931c5f141e",
+    "password": "f8cc5732099fd4e52d92709f3cdd8fae",
+    "shopName": "actimazo"
+  },
+  "paypal": {
+    "sanbox": {
+      "host": "https://api.sandbox.paypal.com",
+      "client_id": "AeRubVn5gmXwpLfwSibYfJ55W21lPHevxuvLq9FX4mEc-HKPUxIv83RgVTmD7OODdXTs8DO3tTu8guip",
+      "secret": "EGQwMPCj-NfM9A125hTs9eGAMbCWc8dueVNOPe7SvcDsJRgMdLwN8tUpT6l5rIbnX3qsIGSE4Gflt-ki"
+    },
+    "live": {
+      "host": "https://api.paypal.com",
+      "client_id": "",
+      "secret": ""
+    }
   }
 }
