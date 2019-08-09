@@ -4,6 +4,7 @@ const TOKEN_PATH = '/v1/oauth2/token';
 const TRACKING_PATH = '/v1/shipping/trackers-batch';
 const querystring = require('querystring');
 const cacher = require('../cache/redis.cache');
+const trackerRepo = require('../repository/tracker.repository');
 
 const api = axios.create({
   baseURL: Config.paypal.sanbox.host,
@@ -30,9 +31,13 @@ const getPaypalToken = async () => {
 };
 
 const batchAddTrackingNumbers = async (trackers) => {
-  const url = Config.paypal.sanbox.host + TRACKING_PATH;
-  const token = 'Bearer ' + await cacher.getPaypalToken();
   try {
+    // Check if tracking number exist
+    trackers.filter(async tracker => {
+      return tracker.transaction_id !== await cacher.getTrackerIdentifier(tracker.tracking_number)
+    });
+    const url = Config.paypal.sanbox.host + TRACKING_PATH;
+    const token = 'Bearer ' + await cacher.getPaypalToken();
     const res = await axios.post(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -43,17 +48,24 @@ const batchAddTrackingNumbers = async (trackers) => {
       }
     });
     if (res.status === 200) {
-      console.log('res data ', res.data)
+      console.log('res data ', res.data);
+      //add to cache
+      res.data.tracker_identifiers.forEach(tracker_identifier => cacher.setTrackerIdentifier(tracker_identifier));
+      // add to database
+      trackerRepo.insertAll(res.data.tracker_identifiers);
+      return res.data
     } else {
       console.log('res ', res)
     }
-    return res
   } catch (e) {
     console.log('error when batch tracking number ', e);
     return e
   }
 };
 
+const getTrackingInfo = () => {
+
+};
 module.exports = {
   getPaypalToken,
   batchAddTrackingNumbers

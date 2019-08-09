@@ -10,11 +10,22 @@ const setPaypalToken = (token, expiresIn) => {
   client.set('paypal_token', token, 'EX', expiresIn)
 };
 
-const getPaypalToken = () => {
+const getPaypalToken = async () => {
   return getAsync('paypal_token')
+};
+
+const setTrackerIdentifier = (tracker_identifier) => {
+  console.log('set tracker identifier ', tracker_identifier);
+  client.set(tracker_identifier.tracking_number, tracker_identifier.transaction_id)
+};
+
+const getTrackerIdentifier = async (tracking_number ) => {
+  return getAsync(tracking_number)
 };
 
 module.exports = {
   setPaypalToken,
-  getPaypalToken
+  getPaypalToken,
+  setTrackerIdentifier,
+  getTrackerIdentifier
 };
