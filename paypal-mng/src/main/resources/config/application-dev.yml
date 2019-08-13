@@ -121,4 +121,8 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  paypal:
+    host: 'https://api.sandbox.paypal.com'
+  redis:
+    host: 'localhost:6379'
