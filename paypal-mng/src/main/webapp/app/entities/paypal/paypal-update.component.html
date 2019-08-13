@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-paypal-heading">Create or edit a Paypal</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_client_id">Client Id</label>
+                    <input type="text" class="form-control" name="client_id" id="field_client_id"
+                           formControlName="client_id"/>
+                    <div *ngIf="editForm.get('client_id').invalid && (editForm.get('client_id').dirty || editForm.get('client_id').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('client_id').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_secret">Secret</label>
+                    <input type="text" class="form-control" name="secret" id="field_secret"
+                           formControlName="secret"/>
+                    <div *ngIf="editForm.get('secret').invalid && (editForm.get('secret').dirty || editForm.get('secret').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('secret').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_created_at">Created At</label>
+                    <div class="d-flex">
+                        <input id="field_created_at" type="datetime-local" class="form-control" name="created_at" formControlName="created_at" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updated_at">Updated At</label>
+                    <div class="d-flex">
+                        <input id="field_updated_at" type="datetime-local" class="form-control" name="updated_at" formControlName="updated_at" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

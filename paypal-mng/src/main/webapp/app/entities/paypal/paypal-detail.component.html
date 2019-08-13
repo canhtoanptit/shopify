@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="paypal">
+            <h2><span>Paypal</span> {{paypal.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Client Id</span></dt>
+                <dd>
+                    <span>{{paypal.client_id}}</span>
+                </dd>
+                <dt><span>Secret</span></dt>
+                <dd>
+                    <span>{{paypal.secret}}</span>
+                </dd>
+                <dt><span>Created At</span></dt>
+                <dd>
+                    <span>{{paypal.created_at}}</span>
+                </dd>
+                <dt><span>Updated At</span></dt>
+                <dd>
+                    <span>{{paypal.updated_at}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/paypal', paypal.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
