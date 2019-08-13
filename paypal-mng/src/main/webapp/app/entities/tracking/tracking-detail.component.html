@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="tracking">
+            <h2><span>Tracking</span> {{tracking.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Tracking Number</span></dt>
+                <dd>
+                    <span>{{tracking.tracking_number}}</span>
+                </dd>
+                <dt><span>Tracking Url</span></dt>
+                <dd>
+                    <span>{{tracking.tracking_url}}</span>
+                </dd>
+                <dt><span>Paypal Tracker Id</span></dt>
+                <dd>
+                    <span>{{tracking.paypal_tracker_id}}</span>
+                </dd>
+                <dt><span>Created At</span></dt>
+                <dd>
+                    <span>{{tracking.created_at}}</span>
+                </dd>
+                <dt><span>Updated At</span></dt>
+                <dd>
+                    <span>{{tracking.updated_at}}</span>
+                </dd>
+                <dt><span>Order</span></dt>
+                <dd>
+                    <div *ngIf="tracking.orderId">
+                        <a [routerLink]="['/order', tracking.orderId, 'view']">{{tracking.orderId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/tracking', tracking.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

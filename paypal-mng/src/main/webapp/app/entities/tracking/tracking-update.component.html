@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-tracking-heading">Create or edit a Tracking</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tracking_number">Tracking Number</label>
+                    <input type="number" class="form-control" name="tracking_number" id="field_tracking_number"
+                           formControlName="tracking_number"/>
+                    <div *ngIf="editForm.get('tracking_number').invalid && (editForm.get('tracking_number').dirty || editForm.get('tracking_number').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tracking_number').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('tracking_number')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tracking_url">Tracking Url</label>
+                    <input type="text" class="form-control" name="tracking_url" id="field_tracking_url"
+                           formControlName="tracking_url"/>
+                    <div *ngIf="editForm.get('tracking_url').invalid && (editForm.get('tracking_url').dirty || editForm.get('tracking_url').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tracking_url').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paypal_tracker_id">Paypal Tracker Id</label>
+                    <input type="text" class="form-control" name="paypal_tracker_id" id="field_paypal_tracker_id"
+                           formControlName="paypal_tracker_id"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_created_at">Created At</label>
+                    <div class="d-flex">
+                        <input id="field_created_at" type="datetime-local" class="form-control" name="created_at" formControlName="created_at" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updated_at">Updated At</label>
+                    <div class="d-flex">
+                        <input id="field_updated_at" type="datetime-local" class="form-control" name="updated_at" formControlName="updated_at" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_order">Order</label>
+                    <select class="form-control" id="field_order" name="order" formControlName="orderId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="orderOption.id" *ngFor="let orderOption of orders; trackBy: trackOrderById">{{orderOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
