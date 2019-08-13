@@ -1,0 +1,116 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { JhiAlertService } from 'ng-jhipster';
+import { IStore, Store } from 'app/shared/model/store.model';
+import { StoreService } from './store.service';
+import { IPaypal } from 'app/shared/model/paypal.model';
+import { PaypalService } from 'app/entities/paypal';
+
+@Component({
+  selector: 'jhi-store-update',
+  templateUrl: './store-update.component.html'
+})
+export class StoreUpdateComponent implements OnInit {
+  isSaving: boolean;
+
+  paypals: IPaypal[];
+
+  editForm = this.fb.group({
+    id: [],
+    shopify_api_key: [null, [Validators.required]],
+    shopify_api_password: [null, [Validators.required]],
+    store_name: [null, [Validators.required]],
+    created_at: [],
+    updated_at: [],
+    paypalId: []
+  });
+
+  constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected storeService: StoreService,
+    protected paypalService: PaypalService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.isSaving = false;
+    this.activatedRoute.data.subscribe(({ store }) => {
+      this.updateForm(store);
+    });
+    this.paypalService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IPaypal[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IPaypal[]>) => response.body)
+      )
+      .subscribe((res: IPaypal[]) => (this.paypals = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  updateForm(store: IStore) {
+    this.editForm.patchValue({
+      id: store.id,
+      shopify_api_key: store.shopify_api_key,
+      shopify_api_password: store.shopify_api_password,
+      store_name: store.store_name,
+      created_at: store.created_at != null ? store.created_at.format(DATE_TIME_FORMAT) : null,
+      updated_at: store.updated_at != null ? store.updated_at.format(DATE_TIME_FORMAT) : null,
+      paypalId: store.paypalId
+    });
+  }
+
+  previousState() {
+    window.history.back();
+  }
+
+  save() {
+    this.isSaving = true;
+    const store = this.createFromForm();
+    if (store.id !== undefined) {
+      this.subscribeToSaveResponse(this.storeService.update(store));
+    } else {
+      this.subscribeToSaveResponse(this.storeService.create(store));
+    }
+  }
+
+  private createFromForm(): IStore {
+    return {
+      ...new Store(),
+      id: this.editForm.get(['id']).value,
+      shopify_api_key: this.editForm.get(['shopify_api_key']).value,
+      shopify_api_password: this.editForm.get(['shopify_api_password']).value,
+      store_name: this.editForm.get(['store_name']).value,
+      created_at:
+        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
+      updated_at:
+        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined,
+      paypalId: this.editForm.get(['paypalId']).value
+    };
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IStore>>) {
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess() {
+    this.isSaving = false;
+    this.previousState();
+  }
+
+  protected onSaveError() {
+    this.isSaving = false;
+  }
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackPaypalById(index: number, item: IPaypal) {
+    return item.id;
+  }
+}

@@ -7,6 +7,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'paypal',
         loadChildren: () => import('./paypal/paypal.module').then(m => m.PaypalmngPaypalModule)
+      },
+      {
+        path: 'store',
+        loadChildren: () => import('./store/store.module').then(m => m.PaypalmngStoreModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
