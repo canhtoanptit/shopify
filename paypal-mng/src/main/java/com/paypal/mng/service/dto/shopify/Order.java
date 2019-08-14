@@ -30,6 +30,9 @@ public class Order
     @JsonProperty(value = JsonConstants.CUSTOMER)
     private Customer customer;
 
+    @JsonProperty(value = JsonConstants.ORDER_NUMBER)
+    private Integer orderNumber;
+
     @JsonProperty(value = JsonConstants.BILLING_ADDRESS)
     private Address billingAddress;
 
@@ -48,6 +51,9 @@ public class Order
     @JsonDeserialize(using = FlexDateDeserializer.class)
     @JsonSerialize(using = FlexDateSerializer.class)
     private Date processedAt;
+
+    @JsonProperty(value = JsonConstants.FULFILLMENTS)
+    private List<Fulfillment> fulfillments;
 
     public long getId() {
         return id;
@@ -135,5 +141,21 @@ public class Order
 
     public void setProcessedAt(Date processedAt) {
         this.processedAt = processedAt;
+    }
+
+    public List<Fulfillment> getFulfillments() {
+        return fulfillments;
+    }
+
+    public void setFulfillments(List<Fulfillment> fulfillments) {
+        this.fulfillments = fulfillments;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 }

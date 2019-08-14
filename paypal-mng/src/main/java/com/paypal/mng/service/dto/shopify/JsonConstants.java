@@ -79,6 +79,8 @@ public final class JsonConstants
     public static final String QUANTITY = "quantity";
     public static final String BILLING_ADDRESS = "billing_address";
     public static final String SHIPPING_ADDRESS = "shipping_address";
+    public static final String FULFILLMENTS = "fulfillments";
+    public static final String ORDER_NUMBER = "order_number";
 
     // Webhook
     public static final String WEBHOOK = "webhook";
@@ -98,6 +100,7 @@ public final class JsonConstants
     public static final String STATUS = "status";
     public static final String CURRENCY = "currency";
     public static final String AMOUNT = "amount";
+    public static final String AUTHORIZATION = "authorization";
 
     // Recurring application
     public static final String RECURRING_APPLICATION_CHARGE = "recurring_application_charge";

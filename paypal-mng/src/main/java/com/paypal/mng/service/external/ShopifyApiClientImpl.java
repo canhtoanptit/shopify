@@ -1,6 +1,8 @@
 package com.paypal.mng.service.external;
 
 import com.paypal.mng.service.dto.shopify.OrderList;
+import com.paypal.mng.service.dto.shopify.Transaction;
+import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.util.RestUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -18,9 +20,15 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
     }
 
     @Override
-    public OrderList getOrder(String url, String username, String password) {
+    public OrderList getOrders(String url, String username, String password) {
         ResponseEntity<OrderList> rs = restTemplate.exchange(url,
             HttpMethod.GET, new HttpEntity<OrderList>(RestUtil.createHeaders(username, password)), OrderList.class);
+        return rs.getBody();
+    }
+
+    public TransactionList getTransactions(String url, String username, String password) {
+        ResponseEntity<TransactionList> rs = restTemplate.exchange(url, HttpMethod.GET,
+            new HttpEntity<TransactionList>(RestUtil.createHeaders(username, password)), TransactionList.class);
         return rs.getBody();
     }
 }

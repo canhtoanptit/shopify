@@ -34,6 +34,9 @@ public class Transaction
     @JsonProperty(value = JsonConstants.CURRENCY)
     private String currency;
 
+    @JsonProperty(value = JsonConstants.AUTHORIZATION)
+    private String authorization;
+
     public long getId() {
         return id;
     }
@@ -88,5 +91,27 @@ public class Transaction
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+            "id=" + id +
+            ", orderId=" + orderId +
+            ", amount=" + amount +
+            ", kind='" + kind + '\'' +
+            ", status='" + status + '\'' +
+            ", createdAt=" + createdAt +
+            ", currency='" + currency + '\'' +
+            ", authorization='" + authorization + '\'' +
+            '}';
     }
 }
