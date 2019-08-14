@@ -3,14 +3,12 @@ package com.paypal.mng.service.dto.shopify;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.storakle.shopify.jackson.FlexDateDeserializer;
-import com.storakle.shopify.jackson.FlexDateSerializer;
-import lombok.Data;
+import com.paypal.mng.config.jackson.FlexDateDeserializer;
+import com.paypal.mng.config.jackson.FlexDateSerializer;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
 public class Transaction
 {
     @JsonProperty(value = JsonConstants.ID)
@@ -35,4 +33,60 @@ public class Transaction
 
     @JsonProperty(value = JsonConstants.CURRENCY)
     private String currency;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

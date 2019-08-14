@@ -319,27 +319,11 @@
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-core</artifactId>
-            <version>10.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-jackson</artifactId>
-            <version>10.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-            <version>3.11.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.redisson</groupId>-->
+<!--            <artifactId>redisson</artifactId>-->
+<!--            <version>3.11.2</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

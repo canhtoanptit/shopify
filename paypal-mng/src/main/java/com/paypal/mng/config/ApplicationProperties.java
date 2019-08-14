@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
     private Paypal paypal = new ApplicationProperties.Paypal();
+    private Redis redis = new ApplicationProperties.Redis();
 
     public ApplicationProperties() {
     }
@@ -23,10 +24,32 @@ public class ApplicationProperties {
         this.paypal = paypal;
     }
 
+    public Redis getRedis() {
+        return redis;
+    }
+
+    public void setRedis(Redis redis) {
+        this.redis = redis;
+    }
+
     public static class Paypal {
         private String host;
 
         public Paypal() {
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+    }
+    public static class Redis {
+        private String host;
+
+        public Redis() {
         }
 
         public String getHost() {

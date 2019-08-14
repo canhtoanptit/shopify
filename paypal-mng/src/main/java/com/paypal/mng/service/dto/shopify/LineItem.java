@@ -1,11 +1,9 @@
 package com.paypal.mng.service.dto.shopify;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 public class LineItem
 {
     @JsonProperty(value = JsonConstants.ID)
@@ -34,4 +32,76 @@ public class LineItem
 
     @JsonProperty(value = JsonConstants.PRICE)
     private BigDecimal price;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public boolean isProductExists() {
+        return productExists;
+    }
+
+    public void setProductExists(boolean productExists) {
+        this.productExists = productExists;
+    }
+
+    public long getVariantId() {
+        return variantId;
+    }
+
+    public void setVariantId(long variantId) {
+        this.variantId = variantId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVariantTitle() {
+        return variantTitle;
+    }
+
+    public void setVariantTitle(String variantTitle) {
+        this.variantTitle = variantTitle;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }
