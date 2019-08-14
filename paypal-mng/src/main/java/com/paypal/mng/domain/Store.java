@@ -25,23 +25,24 @@ public class Store implements Serializable {
 
     @NotNull
     @Column(name = "shopify_api_key", nullable = false)
-    private String shopify_api_key;
+    private String shopifyApiKey;
 
     @NotNull
     @Column(name = "shopify_api_password", nullable = false)
-    private String shopify_api_password;
+    private String shopifyApiPassword;
 
     @NotNull
     @Column(name = "store_name", nullable = false)
-    private String store_name;
+    private String storeName;
 
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 
     @ManyToOne
+    @JsonIgnoreProperties("stores")
     private Paypal paypal;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -53,69 +54,69 @@ public class Store implements Serializable {
         this.id = id;
     }
 
-    public String getShopify_api_key() {
-        return shopify_api_key;
+    public String getShopifyApiKey() {
+        return shopifyApiKey;
     }
 
-    public Store shopify_api_key(String shopify_api_key) {
-        this.shopify_api_key = shopify_api_key;
+    public Store shopifyApiKey(String shopifyApiKey) {
+        this.shopifyApiKey = shopifyApiKey;
         return this;
     }
 
-    public void setShopify_api_key(String shopify_api_key) {
-        this.shopify_api_key = shopify_api_key;
+    public void setShopifyApiKey(String shopifyApiKey) {
+        this.shopifyApiKey = shopifyApiKey;
     }
 
-    public String getShopify_api_password() {
-        return shopify_api_password;
+    public String getShopifyApiPassword() {
+        return shopifyApiPassword;
     }
 
-    public Store shopify_api_password(String shopify_api_password) {
-        this.shopify_api_password = shopify_api_password;
+    public Store shopifyApiPassword(String shopifyApiPassword) {
+        this.shopifyApiPassword = shopifyApiPassword;
         return this;
     }
 
-    public void setShopify_api_password(String shopify_api_password) {
-        this.shopify_api_password = shopify_api_password;
+    public void setShopifyApiPassword(String shopifyApiPassword) {
+        this.shopifyApiPassword = shopifyApiPassword;
     }
 
-    public String getStore_name() {
-        return store_name;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public Store store_name(String store_name) {
-        this.store_name = store_name;
+    public Store storeName(String storeName) {
+        this.storeName = storeName;
         return this;
     }
 
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public Store created_at(Instant created_at) {
-        this.created_at = created_at;
+    public Store createdAt(Instant createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Store updated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public Store updatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Paypal getPaypal() {
@@ -152,11 +153,11 @@ public class Store implements Serializable {
     public String toString() {
         return "Store{" +
             "id=" + getId() +
-            ", shopify_api_key='" + getShopify_api_key() + "'" +
-            ", shopify_api_password='" + getShopify_api_password() + "'" +
-            ", store_name='" + getStore_name() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", shopifyApiKey='" + getShopifyApiKey() + "'" +
+            ", shopifyApiPassword='" + getShopifyApiPassword() + "'" +
+            ", storeName='" + getStoreName() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

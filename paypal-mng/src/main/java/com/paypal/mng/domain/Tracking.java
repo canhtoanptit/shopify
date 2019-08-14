@@ -25,22 +25,27 @@ public class Tracking implements Serializable {
 
     @NotNull
     @Column(name = "tracking_number", nullable = false, unique = true)
-    private Integer tracking_number;
+    private String trackingNumber;
+
+    @NotNull
+    @Column(name = "tracking_company", nullable = false)
+    private String trackingCompany;
 
     @NotNull
     @Column(name = "tracking_url", nullable = false)
-    private String tracking_url;
+    private String trackingUrl;
 
     @Column(name = "paypal_tracker_id")
-    private String paypal_tracker_id;
+    private String paypalTrackerId;
 
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 
     @ManyToOne
+    @JsonIgnoreProperties("trackings")
     private Order order;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -52,69 +57,82 @@ public class Tracking implements Serializable {
         this.id = id;
     }
 
-    public Integer getTracking_number() {
-        return tracking_number;
+    public String getTrackingNumber() {
+        return trackingNumber;
     }
 
-    public Tracking tracking_number(Integer tracking_number) {
-        this.tracking_number = tracking_number;
+    public Tracking trackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
         return this;
     }
 
-    public void setTracking_number(Integer tracking_number) {
-        this.tracking_number = tracking_number;
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 
-    public String getTracking_url() {
-        return tracking_url;
+    public String getTrackingCompany() {
+        return trackingCompany;
     }
 
-    public Tracking tracking_url(String tracking_url) {
-        this.tracking_url = tracking_url;
+    public Tracking trackingCompany(String trackingCompany) {
+        this.trackingCompany = trackingCompany;
         return this;
     }
 
-    public void setTracking_url(String tracking_url) {
-        this.tracking_url = tracking_url;
+    public void setTrackingCompany(String trackingCompany) {
+        this.trackingCompany = trackingCompany;
     }
 
-    public String getPaypal_tracker_id() {
-        return paypal_tracker_id;
+    public String getTrackingUrl() {
+        return trackingUrl;
     }
 
-    public Tracking paypal_tracker_id(String paypal_tracker_id) {
-        this.paypal_tracker_id = paypal_tracker_id;
+    public Tracking trackingUrl(String trackingUrl) {
+        this.trackingUrl = trackingUrl;
         return this;
     }
 
-    public void setPaypal_tracker_id(String paypal_tracker_id) {
-        this.paypal_tracker_id = paypal_tracker_id;
+    public void setTrackingUrl(String trackingUrl) {
+        this.trackingUrl = trackingUrl;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public String getPaypalTrackerId() {
+        return paypalTrackerId;
     }
 
-    public Tracking created_at(Instant created_at) {
-        this.created_at = created_at;
+    public Tracking paypalTrackerId(String paypalTrackerId) {
+        this.paypalTrackerId = paypalTrackerId;
         return this;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setPaypalTrackerId(String paypalTrackerId) {
+        this.paypalTrackerId = paypalTrackerId;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public Tracking updated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public Tracking createdAt(Instant createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Tracking updatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Order getOrder() {
@@ -151,11 +169,12 @@ public class Tracking implements Serializable {
     public String toString() {
         return "Tracking{" +
             "id=" + getId() +
-            ", tracking_number=" + getTracking_number() +
-            ", tracking_url='" + getTracking_url() + "'" +
-            ", paypal_tracker_id='" + getPaypal_tracker_id() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", trackingNumber='" + getTrackingNumber() + "'" +
+            ", trackingCompany='" + getTrackingCompany() + "'" +
+            ", trackingUrl='" + getTrackingUrl() + "'" +
+            ", paypalTrackerId='" + getPaypalTrackerId() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

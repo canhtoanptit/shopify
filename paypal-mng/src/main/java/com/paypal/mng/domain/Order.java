@@ -25,15 +25,16 @@ public class Order implements Serializable {
 
     @NotNull
     @Column(name = "order_number", nullable = false, unique = true)
-    private Integer order_number;
+    private String orderNumber;
 
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 
     @ManyToOne
+    @JsonIgnoreProperties("orders")
     private Store store;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -45,43 +46,43 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Integer getOrder_number() {
-        return order_number;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public Order order_number(Integer order_number) {
-        this.order_number = order_number;
+    public Order orderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
         return this;
     }
 
-    public void setOrder_number(Integer order_number) {
-        this.order_number = order_number;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public Order created_at(Instant created_at) {
-        this.created_at = created_at;
+    public Order createdAt(Instant createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Order updated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public Order updatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Store getStore() {
@@ -118,9 +119,9 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
             "id=" + getId() +
-            ", order_number=" + getOrder_number() +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", orderNumber='" + getOrderNumber() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

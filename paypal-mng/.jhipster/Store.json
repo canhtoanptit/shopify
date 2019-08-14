@@ -6,37 +6,38 @@
             "relationshipName": "paypal",
             "otherEntityName": "paypal",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "store"
         }
     ],
     "fields": [
         {
-            "fieldName": "shopify_api_key",
+            "fieldName": "shopifyApiKey",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "shopify_api_password",
+            "fieldName": "shopifyApiPassword",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "store_name",
+            "fieldName": "storeName",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "created_at",
+            "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "updated_at",
+            "fieldName": "updatedAt",
             "fieldType": "Instant"
         }
     ],

@@ -23,11 +23,11 @@ export class StoreUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    shopify_api_key: [null, [Validators.required]],
-    shopify_api_password: [null, [Validators.required]],
-    store_name: [null, [Validators.required]],
-    created_at: [],
-    updated_at: [],
+    shopifyApiKey: [null, [Validators.required]],
+    shopifyApiPassword: [null, [Validators.required]],
+    storeName: [null, [Validators.required]],
+    createdAt: [],
+    updatedAt: [],
     paypalId: []
   });
 
@@ -56,11 +56,11 @@ export class StoreUpdateComponent implements OnInit {
   updateForm(store: IStore) {
     this.editForm.patchValue({
       id: store.id,
-      shopify_api_key: store.shopify_api_key,
-      shopify_api_password: store.shopify_api_password,
-      store_name: store.store_name,
-      created_at: store.created_at != null ? store.created_at.format(DATE_TIME_FORMAT) : null,
-      updated_at: store.updated_at != null ? store.updated_at.format(DATE_TIME_FORMAT) : null,
+      shopifyApiKey: store.shopifyApiKey,
+      shopifyApiPassword: store.shopifyApiPassword,
+      storeName: store.storeName,
+      createdAt: store.createdAt != null ? store.createdAt.format(DATE_TIME_FORMAT) : null,
+      updatedAt: store.updatedAt != null ? store.updatedAt.format(DATE_TIME_FORMAT) : null,
       paypalId: store.paypalId
     });
   }
@@ -83,13 +83,13 @@ export class StoreUpdateComponent implements OnInit {
     return {
       ...new Store(),
       id: this.editForm.get(['id']).value,
-      shopify_api_key: this.editForm.get(['shopify_api_key']).value,
-      shopify_api_password: this.editForm.get(['shopify_api_password']).value,
-      store_name: this.editForm.get(['store_name']).value,
-      created_at:
-        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
-      updated_at:
-        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined,
+      shopifyApiKey: this.editForm.get(['shopifyApiKey']).value,
+      shopifyApiPassword: this.editForm.get(['shopifyApiPassword']).value,
+      storeName: this.editForm.get(['storeName']).value,
+      createdAt:
+        this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
+      updatedAt:
+        this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       paypalId: this.editForm.get(['paypalId']).value
     };
   }

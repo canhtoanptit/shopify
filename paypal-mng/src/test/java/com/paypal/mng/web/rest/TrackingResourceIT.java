@@ -38,9 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PaypalmngApp.class)
 public class TrackingResourceIT {
 
-    private static final Integer DEFAULT_TRACKING_NUMBER = 1;
-    private static final Integer UPDATED_TRACKING_NUMBER = 2;
-    private static final Integer SMALLER_TRACKING_NUMBER = 1 - 1;
+    private static final String DEFAULT_TRACKING_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_TRACKING_NUMBER = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TRACKING_COMPANY = "AAAAAAAAAA";
+    private static final String UPDATED_TRACKING_COMPANY = "BBBBBBBBBB";
 
     private static final String DEFAULT_TRACKING_URL = "AAAAAAAAAA";
     private static final String UPDATED_TRACKING_URL = "BBBBBBBBBB";
@@ -104,11 +106,12 @@ public class TrackingResourceIT {
      */
     public static Tracking createEntity(EntityManager em) {
         Tracking tracking = new Tracking()
-            .tracking_number(DEFAULT_TRACKING_NUMBER)
-            .tracking_url(DEFAULT_TRACKING_URL)
-            .paypal_tracker_id(DEFAULT_PAYPAL_TRACKER_ID)
-            .created_at(DEFAULT_CREATED_AT)
-            .updated_at(DEFAULT_UPDATED_AT);
+            .trackingNumber(DEFAULT_TRACKING_NUMBER)
+            .trackingCompany(DEFAULT_TRACKING_COMPANY)
+            .trackingUrl(DEFAULT_TRACKING_URL)
+            .paypalTrackerId(DEFAULT_PAYPAL_TRACKER_ID)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return tracking;
     }
     /**
@@ -119,11 +122,12 @@ public class TrackingResourceIT {
      */
     public static Tracking createUpdatedEntity(EntityManager em) {
         Tracking tracking = new Tracking()
-            .tracking_number(UPDATED_TRACKING_NUMBER)
-            .tracking_url(UPDATED_TRACKING_URL)
-            .paypal_tracker_id(UPDATED_PAYPAL_TRACKER_ID)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .trackingNumber(UPDATED_TRACKING_NUMBER)
+            .trackingCompany(UPDATED_TRACKING_COMPANY)
+            .trackingUrl(UPDATED_TRACKING_URL)
+            .paypalTrackerId(UPDATED_PAYPAL_TRACKER_ID)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         return tracking;
     }
 
@@ -148,11 +152,12 @@ public class TrackingResourceIT {
         List<Tracking> trackingList = trackingRepository.findAll();
         assertThat(trackingList).hasSize(databaseSizeBeforeCreate + 1);
         Tracking testTracking = trackingList.get(trackingList.size() - 1);
-        assertThat(testTracking.getTracking_number()).isEqualTo(DEFAULT_TRACKING_NUMBER);
-        assertThat(testTracking.getTracking_url()).isEqualTo(DEFAULT_TRACKING_URL);
-        assertThat(testTracking.getPaypal_tracker_id()).isEqualTo(DEFAULT_PAYPAL_TRACKER_ID);
-        assertThat(testTracking.getCreated_at()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testTracking.getUpdated_at()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testTracking.getTrackingNumber()).isEqualTo(DEFAULT_TRACKING_NUMBER);
+        assertThat(testTracking.getTrackingCompany()).isEqualTo(DEFAULT_TRACKING_COMPANY);
+        assertThat(testTracking.getTrackingUrl()).isEqualTo(DEFAULT_TRACKING_URL);
+        assertThat(testTracking.getPaypalTrackerId()).isEqualTo(DEFAULT_PAYPAL_TRACKER_ID);
+        assertThat(testTracking.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testTracking.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
     }
 
     @Test
@@ -178,10 +183,10 @@ public class TrackingResourceIT {
 
     @Test
     @Transactional
-    public void checkTracking_numberIsRequired() throws Exception {
+    public void checkTrackingNumberIsRequired() throws Exception {
         int databaseSizeBeforeTest = trackingRepository.findAll().size();
         // set the field null
-        tracking.setTracking_number(null);
+        tracking.setTrackingNumber(null);
 
         // Create the Tracking, which fails.
         TrackingDTO trackingDTO = trackingMapper.toDto(tracking);
@@ -197,10 +202,29 @@ public class TrackingResourceIT {
 
     @Test
     @Transactional
-    public void checkTracking_urlIsRequired() throws Exception {
+    public void checkTrackingCompanyIsRequired() throws Exception {
         int databaseSizeBeforeTest = trackingRepository.findAll().size();
         // set the field null
-        tracking.setTracking_url(null);
+        tracking.setTrackingCompany(null);
+
+        // Create the Tracking, which fails.
+        TrackingDTO trackingDTO = trackingMapper.toDto(tracking);
+
+        restTrackingMockMvc.perform(post("/api/trackings")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(trackingDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Tracking> trackingList = trackingRepository.findAll();
+        assertThat(trackingList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkTrackingUrlIsRequired() throws Exception {
+        int databaseSizeBeforeTest = trackingRepository.findAll().size();
+        // set the field null
+        tracking.setTrackingUrl(null);
 
         // Create the Tracking, which fails.
         TrackingDTO trackingDTO = trackingMapper.toDto(tracking);
@@ -225,11 +249,12 @@ public class TrackingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tracking.getId().intValue())))
-            .andExpect(jsonPath("$.[*].tracking_number").value(hasItem(DEFAULT_TRACKING_NUMBER)))
-            .andExpect(jsonPath("$.[*].tracking_url").value(hasItem(DEFAULT_TRACKING_URL.toString())))
-            .andExpect(jsonPath("$.[*].paypal_tracker_id").value(hasItem(DEFAULT_PAYPAL_TRACKER_ID.toString())))
-            .andExpect(jsonPath("$.[*].created_at").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updated_at").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].trackingNumber").value(hasItem(DEFAULT_TRACKING_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].trackingCompany").value(hasItem(DEFAULT_TRACKING_COMPANY.toString())))
+            .andExpect(jsonPath("$.[*].trackingUrl").value(hasItem(DEFAULT_TRACKING_URL.toString())))
+            .andExpect(jsonPath("$.[*].paypalTrackerId").value(hasItem(DEFAULT_PAYPAL_TRACKER_ID.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
     
     @Test
@@ -243,11 +268,12 @@ public class TrackingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(tracking.getId().intValue()))
-            .andExpect(jsonPath("$.tracking_number").value(DEFAULT_TRACKING_NUMBER))
-            .andExpect(jsonPath("$.tracking_url").value(DEFAULT_TRACKING_URL.toString()))
-            .andExpect(jsonPath("$.paypal_tracker_id").value(DEFAULT_PAYPAL_TRACKER_ID.toString()))
-            .andExpect(jsonPath("$.created_at").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updated_at").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.trackingNumber").value(DEFAULT_TRACKING_NUMBER.toString()))
+            .andExpect(jsonPath("$.trackingCompany").value(DEFAULT_TRACKING_COMPANY.toString()))
+            .andExpect(jsonPath("$.trackingUrl").value(DEFAULT_TRACKING_URL.toString()))
+            .andExpect(jsonPath("$.paypalTrackerId").value(DEFAULT_PAYPAL_TRACKER_ID.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -271,11 +297,12 @@ public class TrackingResourceIT {
         // Disconnect from session so that the updates on updatedTracking are not directly saved in db
         em.detach(updatedTracking);
         updatedTracking
-            .tracking_number(UPDATED_TRACKING_NUMBER)
-            .tracking_url(UPDATED_TRACKING_URL)
-            .paypal_tracker_id(UPDATED_PAYPAL_TRACKER_ID)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .trackingNumber(UPDATED_TRACKING_NUMBER)
+            .trackingCompany(UPDATED_TRACKING_COMPANY)
+            .trackingUrl(UPDATED_TRACKING_URL)
+            .paypalTrackerId(UPDATED_PAYPAL_TRACKER_ID)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         TrackingDTO trackingDTO = trackingMapper.toDto(updatedTracking);
 
         restTrackingMockMvc.perform(put("/api/trackings")
@@ -287,11 +314,12 @@ public class TrackingResourceIT {
         List<Tracking> trackingList = trackingRepository.findAll();
         assertThat(trackingList).hasSize(databaseSizeBeforeUpdate);
         Tracking testTracking = trackingList.get(trackingList.size() - 1);
-        assertThat(testTracking.getTracking_number()).isEqualTo(UPDATED_TRACKING_NUMBER);
-        assertThat(testTracking.getTracking_url()).isEqualTo(UPDATED_TRACKING_URL);
-        assertThat(testTracking.getPaypal_tracker_id()).isEqualTo(UPDATED_PAYPAL_TRACKER_ID);
-        assertThat(testTracking.getCreated_at()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testTracking.getUpdated_at()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testTracking.getTrackingNumber()).isEqualTo(UPDATED_TRACKING_NUMBER);
+        assertThat(testTracking.getTrackingCompany()).isEqualTo(UPDATED_TRACKING_COMPANY);
+        assertThat(testTracking.getTrackingUrl()).isEqualTo(UPDATED_TRACKING_URL);
+        assertThat(testTracking.getPaypalTrackerId()).isEqualTo(UPDATED_PAYPAL_TRACKER_ID);
+        assertThat(testTracking.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testTracking.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
     }
 
     @Test

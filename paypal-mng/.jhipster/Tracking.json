@@ -6,35 +6,43 @@
             "relationshipName": "order",
             "otherEntityName": "order",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "tracking"
         }
     ],
     "fields": [
         {
-            "fieldName": "tracking_number",
-            "fieldType": "Integer",
+            "fieldName": "trackingNumber",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required",
                 "unique"
             ]
         },
         {
-            "fieldName": "tracking_url",
+            "fieldName": "trackingCompany",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "paypal_tracker_id",
+            "fieldName": "trackingUrl",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "paypalTrackerId",
             "fieldType": "String"
         },
         {
-            "fieldName": "created_at",
+            "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "updated_at",
+            "fieldName": "updatedAt",
             "fieldType": "Instant"
         }
     ],

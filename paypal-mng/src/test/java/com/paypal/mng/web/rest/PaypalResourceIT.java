@@ -38,11 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PaypalmngApp.class)
 public class PaypalResourceIT {
 
-    private static final String DEFAULT_CLIENT_ID = "AAAAAAAAAA";
-    private static final String UPDATED_CLIENT_ID = "BBBBBBBBBB";
-
     private static final String DEFAULT_SECRET = "AAAAAAAAAA";
     private static final String UPDATED_SECRET = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CLIENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_CLIENT_ID = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -100,10 +100,10 @@ public class PaypalResourceIT {
      */
     public static Paypal createEntity(EntityManager em) {
         Paypal paypal = new Paypal()
-            .client_id(DEFAULT_CLIENT_ID)
             .secret(DEFAULT_SECRET)
-            .created_at(DEFAULT_CREATED_AT)
-            .updated_at(DEFAULT_UPDATED_AT);
+            .clientId(DEFAULT_CLIENT_ID)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return paypal;
     }
     /**
@@ -114,10 +114,10 @@ public class PaypalResourceIT {
      */
     public static Paypal createUpdatedEntity(EntityManager em) {
         Paypal paypal = new Paypal()
-            .client_id(UPDATED_CLIENT_ID)
             .secret(UPDATED_SECRET)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .clientId(UPDATED_CLIENT_ID)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         return paypal;
     }
 
@@ -142,10 +142,10 @@ public class PaypalResourceIT {
         List<Paypal> paypalList = paypalRepository.findAll();
         assertThat(paypalList).hasSize(databaseSizeBeforeCreate + 1);
         Paypal testPaypal = paypalList.get(paypalList.size() - 1);
-        assertThat(testPaypal.getClient_id()).isEqualTo(DEFAULT_CLIENT_ID);
         assertThat(testPaypal.getSecret()).isEqualTo(DEFAULT_SECRET);
-        assertThat(testPaypal.getCreated_at()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testPaypal.getUpdated_at()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testPaypal.getClientId()).isEqualTo(DEFAULT_CLIENT_ID);
+        assertThat(testPaypal.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testPaypal.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
     }
 
     @Test
@@ -171,10 +171,10 @@ public class PaypalResourceIT {
 
     @Test
     @Transactional
-    public void checkClient_idIsRequired() throws Exception {
+    public void checkSecretIsRequired() throws Exception {
         int databaseSizeBeforeTest = paypalRepository.findAll().size();
         // set the field null
-        paypal.setClient_id(null);
+        paypal.setSecret(null);
 
         // Create the Paypal, which fails.
         PaypalDTO paypalDTO = paypalMapper.toDto(paypal);
@@ -190,10 +190,10 @@ public class PaypalResourceIT {
 
     @Test
     @Transactional
-    public void checkSecretIsRequired() throws Exception {
+    public void checkClientIdIsRequired() throws Exception {
         int databaseSizeBeforeTest = paypalRepository.findAll().size();
         // set the field null
-        paypal.setSecret(null);
+        paypal.setClientId(null);
 
         // Create the Paypal, which fails.
         PaypalDTO paypalDTO = paypalMapper.toDto(paypal);
@@ -218,10 +218,10 @@ public class PaypalResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(paypal.getId().intValue())))
-            .andExpect(jsonPath("$.[*].client_id").value(hasItem(DEFAULT_CLIENT_ID.toString())))
             .andExpect(jsonPath("$.[*].secret").value(hasItem(DEFAULT_SECRET.toString())))
-            .andExpect(jsonPath("$.[*].created_at").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updated_at").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].clientId").value(hasItem(DEFAULT_CLIENT_ID.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
     
     @Test
@@ -235,10 +235,10 @@ public class PaypalResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(paypal.getId().intValue()))
-            .andExpect(jsonPath("$.client_id").value(DEFAULT_CLIENT_ID.toString()))
             .andExpect(jsonPath("$.secret").value(DEFAULT_SECRET.toString()))
-            .andExpect(jsonPath("$.created_at").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updated_at").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.clientId").value(DEFAULT_CLIENT_ID.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -262,10 +262,10 @@ public class PaypalResourceIT {
         // Disconnect from session so that the updates on updatedPaypal are not directly saved in db
         em.detach(updatedPaypal);
         updatedPaypal
-            .client_id(UPDATED_CLIENT_ID)
             .secret(UPDATED_SECRET)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .clientId(UPDATED_CLIENT_ID)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         PaypalDTO paypalDTO = paypalMapper.toDto(updatedPaypal);
 
         restPaypalMockMvc.perform(put("/api/paypals")
@@ -277,10 +277,10 @@ public class PaypalResourceIT {
         List<Paypal> paypalList = paypalRepository.findAll();
         assertThat(paypalList).hasSize(databaseSizeBeforeUpdate);
         Paypal testPaypal = paypalList.get(paypalList.size() - 1);
-        assertThat(testPaypal.getClient_id()).isEqualTo(UPDATED_CLIENT_ID);
         assertThat(testPaypal.getSecret()).isEqualTo(UPDATED_SECRET);
-        assertThat(testPaypal.getCreated_at()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testPaypal.getUpdated_at()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testPaypal.getClientId()).isEqualTo(UPDATED_CLIENT_ID);
+        assertThat(testPaypal.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testPaypal.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
     }
 
     @Test

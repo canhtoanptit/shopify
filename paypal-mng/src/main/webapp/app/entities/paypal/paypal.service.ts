@@ -51,16 +51,16 @@ export class PaypalService {
 
   protected convertDateFromClient(paypal: IPaypal): IPaypal {
     const copy: IPaypal = Object.assign({}, paypal, {
-      created_at: paypal.created_at != null && paypal.created_at.isValid() ? paypal.created_at.toJSON() : null,
-      updated_at: paypal.updated_at != null && paypal.updated_at.isValid() ? paypal.updated_at.toJSON() : null
+      createdAt: paypal.createdAt != null && paypal.createdAt.isValid() ? paypal.createdAt.toJSON() : null,
+      updatedAt: paypal.updatedAt != null && paypal.updatedAt.isValid() ? paypal.updatedAt.toJSON() : null
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.created_at = res.body.created_at != null ? moment(res.body.created_at) : null;
-      res.body.updated_at = res.body.updated_at != null ? moment(res.body.updated_at) : null;
+      res.body.createdAt = res.body.createdAt != null ? moment(res.body.createdAt) : null;
+      res.body.updatedAt = res.body.updatedAt != null ? moment(res.body.updatedAt) : null;
     }
     return res;
   }
@@ -68,8 +68,8 @@ export class PaypalService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((paypal: IPaypal) => {
-        paypal.created_at = paypal.created_at != null ? moment(paypal.created_at) : null;
-        paypal.updated_at = paypal.updated_at != null ? moment(paypal.updated_at) : null;
+        paypal.createdAt = paypal.createdAt != null ? moment(paypal.createdAt) : null;
+        paypal.updatedAt = paypal.updatedAt != null ? moment(paypal.updatedAt) : null;
       });
     }
     return res;

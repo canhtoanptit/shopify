@@ -38,9 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PaypalmngApp.class)
 public class OrderResourceIT {
 
-    private static final Integer DEFAULT_ORDER_NUMBER = 1;
-    private static final Integer UPDATED_ORDER_NUMBER = 2;
-    private static final Integer SMALLER_ORDER_NUMBER = 1 - 1;
+    private static final String DEFAULT_ORDER_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_ORDER_NUMBER = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -98,9 +97,9 @@ public class OrderResourceIT {
      */
     public static Order createEntity(EntityManager em) {
         Order order = new Order()
-            .order_number(DEFAULT_ORDER_NUMBER)
-            .created_at(DEFAULT_CREATED_AT)
-            .updated_at(DEFAULT_UPDATED_AT);
+            .orderNumber(DEFAULT_ORDER_NUMBER)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return order;
     }
     /**
@@ -111,9 +110,9 @@ public class OrderResourceIT {
      */
     public static Order createUpdatedEntity(EntityManager em) {
         Order order = new Order()
-            .order_number(UPDATED_ORDER_NUMBER)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .orderNumber(UPDATED_ORDER_NUMBER)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         return order;
     }
 
@@ -138,9 +137,9 @@ public class OrderResourceIT {
         List<Order> orderList = orderRepository.findAll();
         assertThat(orderList).hasSize(databaseSizeBeforeCreate + 1);
         Order testOrder = orderList.get(orderList.size() - 1);
-        assertThat(testOrder.getOrder_number()).isEqualTo(DEFAULT_ORDER_NUMBER);
-        assertThat(testOrder.getCreated_at()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testOrder.getUpdated_at()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testOrder.getOrderNumber()).isEqualTo(DEFAULT_ORDER_NUMBER);
+        assertThat(testOrder.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testOrder.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
     }
 
     @Test
@@ -166,10 +165,10 @@ public class OrderResourceIT {
 
     @Test
     @Transactional
-    public void checkOrder_numberIsRequired() throws Exception {
+    public void checkOrderNumberIsRequired() throws Exception {
         int databaseSizeBeforeTest = orderRepository.findAll().size();
         // set the field null
-        order.setOrder_number(null);
+        order.setOrderNumber(null);
 
         // Create the Order, which fails.
         OrderDTO orderDTO = orderMapper.toDto(order);
@@ -194,9 +193,9 @@ public class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(order.getId().intValue())))
-            .andExpect(jsonPath("$.[*].order_number").value(hasItem(DEFAULT_ORDER_NUMBER)))
-            .andExpect(jsonPath("$.[*].created_at").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updated_at").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
     
     @Test
@@ -210,9 +209,9 @@ public class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(order.getId().intValue()))
-            .andExpect(jsonPath("$.order_number").value(DEFAULT_ORDER_NUMBER))
-            .andExpect(jsonPath("$.created_at").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updated_at").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -236,9 +235,9 @@ public class OrderResourceIT {
         // Disconnect from session so that the updates on updatedOrder are not directly saved in db
         em.detach(updatedOrder);
         updatedOrder
-            .order_number(UPDATED_ORDER_NUMBER)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .orderNumber(UPDATED_ORDER_NUMBER)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
         restOrderMockMvc.perform(put("/api/orders")
@@ -250,9 +249,9 @@ public class OrderResourceIT {
         List<Order> orderList = orderRepository.findAll();
         assertThat(orderList).hasSize(databaseSizeBeforeUpdate);
         Order testOrder = orderList.get(orderList.size() - 1);
-        assertThat(testOrder.getOrder_number()).isEqualTo(UPDATED_ORDER_NUMBER);
-        assertThat(testOrder.getCreated_at()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testOrder.getUpdated_at()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testOrder.getOrderNumber()).isEqualTo(UPDATED_ORDER_NUMBER);
+        assertThat(testOrder.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testOrder.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
     }
 
     @Test

@@ -103,11 +103,11 @@ public class StoreResourceIT {
      */
     public static Store createEntity(EntityManager em) {
         Store store = new Store()
-            .shopify_api_key(DEFAULT_SHOPIFY_API_KEY)
-            .shopify_api_password(DEFAULT_SHOPIFY_API_PASSWORD)
-            .store_name(DEFAULT_STORE_NAME)
-            .created_at(DEFAULT_CREATED_AT)
-            .updated_at(DEFAULT_UPDATED_AT);
+            .shopifyApiKey(DEFAULT_SHOPIFY_API_KEY)
+            .shopifyApiPassword(DEFAULT_SHOPIFY_API_PASSWORD)
+            .storeName(DEFAULT_STORE_NAME)
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return store;
     }
     /**
@@ -118,11 +118,11 @@ public class StoreResourceIT {
      */
     public static Store createUpdatedEntity(EntityManager em) {
         Store store = new Store()
-            .shopify_api_key(UPDATED_SHOPIFY_API_KEY)
-            .shopify_api_password(UPDATED_SHOPIFY_API_PASSWORD)
-            .store_name(UPDATED_STORE_NAME)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .shopifyApiKey(UPDATED_SHOPIFY_API_KEY)
+            .shopifyApiPassword(UPDATED_SHOPIFY_API_PASSWORD)
+            .storeName(UPDATED_STORE_NAME)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         return store;
     }
 
@@ -147,11 +147,11 @@ public class StoreResourceIT {
         List<Store> storeList = storeRepository.findAll();
         assertThat(storeList).hasSize(databaseSizeBeforeCreate + 1);
         Store testStore = storeList.get(storeList.size() - 1);
-        assertThat(testStore.getShopify_api_key()).isEqualTo(DEFAULT_SHOPIFY_API_KEY);
-        assertThat(testStore.getShopify_api_password()).isEqualTo(DEFAULT_SHOPIFY_API_PASSWORD);
-        assertThat(testStore.getStore_name()).isEqualTo(DEFAULT_STORE_NAME);
-        assertThat(testStore.getCreated_at()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testStore.getUpdated_at()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testStore.getShopifyApiKey()).isEqualTo(DEFAULT_SHOPIFY_API_KEY);
+        assertThat(testStore.getShopifyApiPassword()).isEqualTo(DEFAULT_SHOPIFY_API_PASSWORD);
+        assertThat(testStore.getStoreName()).isEqualTo(DEFAULT_STORE_NAME);
+        assertThat(testStore.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testStore.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
     }
 
     @Test
@@ -177,10 +177,10 @@ public class StoreResourceIT {
 
     @Test
     @Transactional
-    public void checkShopify_api_keyIsRequired() throws Exception {
+    public void checkShopifyApiKeyIsRequired() throws Exception {
         int databaseSizeBeforeTest = storeRepository.findAll().size();
         // set the field null
-        store.setShopify_api_key(null);
+        store.setShopifyApiKey(null);
 
         // Create the Store, which fails.
         StoreDTO storeDTO = storeMapper.toDto(store);
@@ -196,10 +196,10 @@ public class StoreResourceIT {
 
     @Test
     @Transactional
-    public void checkShopify_api_passwordIsRequired() throws Exception {
+    public void checkShopifyApiPasswordIsRequired() throws Exception {
         int databaseSizeBeforeTest = storeRepository.findAll().size();
         // set the field null
-        store.setShopify_api_password(null);
+        store.setShopifyApiPassword(null);
 
         // Create the Store, which fails.
         StoreDTO storeDTO = storeMapper.toDto(store);
@@ -215,10 +215,10 @@ public class StoreResourceIT {
 
     @Test
     @Transactional
-    public void checkStore_nameIsRequired() throws Exception {
+    public void checkStoreNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = storeRepository.findAll().size();
         // set the field null
-        store.setStore_name(null);
+        store.setStoreName(null);
 
         // Create the Store, which fails.
         StoreDTO storeDTO = storeMapper.toDto(store);
@@ -243,11 +243,11 @@ public class StoreResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(store.getId().intValue())))
-            .andExpect(jsonPath("$.[*].shopify_api_key").value(hasItem(DEFAULT_SHOPIFY_API_KEY.toString())))
-            .andExpect(jsonPath("$.[*].shopify_api_password").value(hasItem(DEFAULT_SHOPIFY_API_PASSWORD.toString())))
-            .andExpect(jsonPath("$.[*].store_name").value(hasItem(DEFAULT_STORE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].created_at").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updated_at").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].shopifyApiKey").value(hasItem(DEFAULT_SHOPIFY_API_KEY.toString())))
+            .andExpect(jsonPath("$.[*].shopifyApiPassword").value(hasItem(DEFAULT_SHOPIFY_API_PASSWORD.toString())))
+            .andExpect(jsonPath("$.[*].storeName").value(hasItem(DEFAULT_STORE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
     
     @Test
@@ -261,11 +261,11 @@ public class StoreResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(store.getId().intValue()))
-            .andExpect(jsonPath("$.shopify_api_key").value(DEFAULT_SHOPIFY_API_KEY.toString()))
-            .andExpect(jsonPath("$.shopify_api_password").value(DEFAULT_SHOPIFY_API_PASSWORD.toString()))
-            .andExpect(jsonPath("$.store_name").value(DEFAULT_STORE_NAME.toString()))
-            .andExpect(jsonPath("$.created_at").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updated_at").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.shopifyApiKey").value(DEFAULT_SHOPIFY_API_KEY.toString()))
+            .andExpect(jsonPath("$.shopifyApiPassword").value(DEFAULT_SHOPIFY_API_PASSWORD.toString()))
+            .andExpect(jsonPath("$.storeName").value(DEFAULT_STORE_NAME.toString()))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -289,11 +289,11 @@ public class StoreResourceIT {
         // Disconnect from session so that the updates on updatedStore are not directly saved in db
         em.detach(updatedStore);
         updatedStore
-            .shopify_api_key(UPDATED_SHOPIFY_API_KEY)
-            .shopify_api_password(UPDATED_SHOPIFY_API_PASSWORD)
-            .store_name(UPDATED_STORE_NAME)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .shopifyApiKey(UPDATED_SHOPIFY_API_KEY)
+            .shopifyApiPassword(UPDATED_SHOPIFY_API_PASSWORD)
+            .storeName(UPDATED_STORE_NAME)
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         StoreDTO storeDTO = storeMapper.toDto(updatedStore);
 
         restStoreMockMvc.perform(put("/api/stores")
@@ -305,11 +305,11 @@ public class StoreResourceIT {
         List<Store> storeList = storeRepository.findAll();
         assertThat(storeList).hasSize(databaseSizeBeforeUpdate);
         Store testStore = storeList.get(storeList.size() - 1);
-        assertThat(testStore.getShopify_api_key()).isEqualTo(UPDATED_SHOPIFY_API_KEY);
-        assertThat(testStore.getShopify_api_password()).isEqualTo(UPDATED_SHOPIFY_API_PASSWORD);
-        assertThat(testStore.getStore_name()).isEqualTo(UPDATED_STORE_NAME);
-        assertThat(testStore.getCreated_at()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testStore.getUpdated_at()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testStore.getShopifyApiKey()).isEqualTo(UPDATED_SHOPIFY_API_KEY);
+        assertThat(testStore.getShopifyApiPassword()).isEqualTo(UPDATED_SHOPIFY_API_PASSWORD);
+        assertThat(testStore.getStoreName()).isEqualTo(UPDATED_STORE_NAME);
+        assertThat(testStore.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testStore.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
     }
 
     @Test

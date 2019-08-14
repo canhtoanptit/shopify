@@ -18,11 +18,11 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="shopify_api_key"><span>Shopify Api Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="shopify_api_password"><span>Shopify Api Password</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="store_name"><span>Store Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="created_at"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updated_at"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyApiKey"><span>Shopify Api Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyApiPassword"><span>Shopify Api Password</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="storeName"><span>Store Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paypalId"><span>Paypal</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -30,11 +30,11 @@
             <tbody>
             <tr *ngFor="let store of stores ;trackBy: trackId">
                 <td><a [routerLink]="['/store', store.id, 'view' ]">{{store.id}}</a></td>
-                <td>{{store.shopify_api_key}}</td>
-                <td>{{store.shopify_api_password}}</td>
-                <td>{{store.store_name}}</td>
-                <td>{{store.created_at | date:'medium'}}</td>
-                <td>{{store.updated_at | date:'medium'}}</td>
+                <td>{{store.shopifyApiKey}}</td>
+                <td>{{store.shopifyApiPassword}}</td>
+                <td>{{store.storeName}}</td>
+                <td>{{store.createdAt | date:'medium'}}</td>
+                <td>{{store.updatedAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="store.paypalId">
                         <a [routerLink]="['/paypal', store.paypalId , 'view' ]" >{{store.paypalId}}</a>

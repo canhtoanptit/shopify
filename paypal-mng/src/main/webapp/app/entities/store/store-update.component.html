@@ -10,48 +10,48 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_shopify_api_key">Shopify Api Key</label>
-                    <input type="text" class="form-control" name="shopify_api_key" id="field_shopify_api_key"
-                           formControlName="shopify_api_key"/>
-                    <div *ngIf="editForm.get('shopify_api_key').invalid && (editForm.get('shopify_api_key').dirty || editForm.get('shopify_api_key').touched)">
+                    <label class="form-control-label" for="field_shopifyApiKey">Shopify Api Key</label>
+                    <input type="text" class="form-control" name="shopifyApiKey" id="field_shopifyApiKey"
+                           formControlName="shopifyApiKey"/>
+                    <div *ngIf="editForm.get('shopifyApiKey').invalid && (editForm.get('shopifyApiKey').dirty || editForm.get('shopifyApiKey').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('shopify_api_key').errors.required">
+                               *ngIf="editForm.get('shopifyApiKey').errors.required">
                         This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_shopify_api_password">Shopify Api Password</label>
-                    <input type="text" class="form-control" name="shopify_api_password" id="field_shopify_api_password"
-                           formControlName="shopify_api_password"/>
-                    <div *ngIf="editForm.get('shopify_api_password').invalid && (editForm.get('shopify_api_password').dirty || editForm.get('shopify_api_password').touched)">
+                    <label class="form-control-label" for="field_shopifyApiPassword">Shopify Api Password</label>
+                    <input type="text" class="form-control" name="shopifyApiPassword" id="field_shopifyApiPassword"
+                           formControlName="shopifyApiPassword"/>
+                    <div *ngIf="editForm.get('shopifyApiPassword').invalid && (editForm.get('shopifyApiPassword').dirty || editForm.get('shopifyApiPassword').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('shopify_api_password').errors.required">
+                               *ngIf="editForm.get('shopifyApiPassword').errors.required">
                         This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_store_name">Store Name</label>
-                    <input type="text" class="form-control" name="store_name" id="field_store_name"
-                           formControlName="store_name"/>
-                    <div *ngIf="editForm.get('store_name').invalid && (editForm.get('store_name').dirty || editForm.get('store_name').touched)">
+                    <label class="form-control-label" for="field_storeName">Store Name</label>
+                    <input type="text" class="form-control" name="storeName" id="field_storeName"
+                           formControlName="storeName"/>
+                    <div *ngIf="editForm.get('storeName').invalid && (editForm.get('storeName').dirty || editForm.get('storeName').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('store_name').errors.required">
+                               *ngIf="editForm.get('storeName').errors.required">
                         This field is required.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_created_at">Created At</label>
+                    <label class="form-control-label" for="field_createdAt">Created At</label>
                     <div class="d-flex">
-                        <input id="field_created_at" type="datetime-local" class="form-control" name="created_at" formControlName="created_at" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_updated_at">Updated At</label>
+                    <label class="form-control-label" for="field_updatedAt">Updated At</label>
                     <div class="d-flex">
-                        <input id="field_updated_at" type="datetime-local" class="form-control" name="updated_at" formControlName="updated_at" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" formControlName="updatedAt" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
 

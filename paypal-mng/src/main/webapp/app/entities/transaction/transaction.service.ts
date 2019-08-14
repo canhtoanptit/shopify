@@ -51,16 +51,16 @@ export class TransactionService {
 
   protected convertDateFromClient(transaction: ITransaction): ITransaction {
     const copy: ITransaction = Object.assign({}, transaction, {
-      created_at: transaction.created_at != null && transaction.created_at.isValid() ? transaction.created_at.toJSON() : null,
-      updated_at: transaction.updated_at != null && transaction.updated_at.isValid() ? transaction.updated_at.toJSON() : null
+      createdAt: transaction.createdAt != null && transaction.createdAt.isValid() ? transaction.createdAt.toJSON() : null,
+      updatedAt: transaction.updatedAt != null && transaction.updatedAt.isValid() ? transaction.updatedAt.toJSON() : null
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.created_at = res.body.created_at != null ? moment(res.body.created_at) : null;
-      res.body.updated_at = res.body.updated_at != null ? moment(res.body.updated_at) : null;
+      res.body.createdAt = res.body.createdAt != null ? moment(res.body.createdAt) : null;
+      res.body.updatedAt = res.body.updatedAt != null ? moment(res.body.updatedAt) : null;
     }
     return res;
   }
@@ -68,8 +68,8 @@ export class TransactionService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((transaction: ITransaction) => {
-        transaction.created_at = transaction.created_at != null ? moment(transaction.created_at) : null;
-        transaction.updated_at = transaction.updated_at != null ? moment(transaction.updated_at) : null;
+        transaction.createdAt = transaction.createdAt != null ? moment(transaction.createdAt) : null;
+        transaction.updatedAt = transaction.updatedAt != null ? moment(transaction.updatedAt) : null;
       });
     }
     return res;

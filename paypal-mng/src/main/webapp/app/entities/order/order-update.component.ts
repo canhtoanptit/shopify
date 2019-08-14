@@ -23,9 +23,9 @@ export class OrderUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    order_number: [null, [Validators.required]],
-    created_at: [],
-    updated_at: [],
+    orderNumber: [null, [Validators.required]],
+    createdAt: [],
+    updatedAt: [],
     storeId: []
   });
 
@@ -54,9 +54,9 @@ export class OrderUpdateComponent implements OnInit {
   updateForm(order: IOrder) {
     this.editForm.patchValue({
       id: order.id,
-      order_number: order.order_number,
-      created_at: order.created_at != null ? order.created_at.format(DATE_TIME_FORMAT) : null,
-      updated_at: order.updated_at != null ? order.updated_at.format(DATE_TIME_FORMAT) : null,
+      orderNumber: order.orderNumber,
+      createdAt: order.createdAt != null ? order.createdAt.format(DATE_TIME_FORMAT) : null,
+      updatedAt: order.updatedAt != null ? order.updatedAt.format(DATE_TIME_FORMAT) : null,
       storeId: order.storeId
     });
   }
@@ -79,11 +79,11 @@ export class OrderUpdateComponent implements OnInit {
     return {
       ...new Order(),
       id: this.editForm.get(['id']).value,
-      order_number: this.editForm.get(['order_number']).value,
-      created_at:
-        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
-      updated_at:
-        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined,
+      orderNumber: this.editForm.get(['orderNumber']).value,
+      createdAt:
+        this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
+      updatedAt:
+        this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       storeId: this.editForm.get(['storeId']).value
     };
   }

@@ -14,9 +14,9 @@ public class TransactionDTO implements Serializable {
     @NotNull
     private String authorization;
 
-    private Instant created_at;
+    private Instant createdAt;
 
-    private Instant updated_at;
+    private Instant updatedAt;
 
 
     private Long orderId;
@@ -37,20 +37,20 @@ public class TransactionDTO implements Serializable {
         this.authorization = authorization;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getOrderId() {
@@ -87,8 +87,8 @@ public class TransactionDTO implements Serializable {
         return "TransactionDTO{" +
             "id=" + getId() +
             ", authorization='" + getAuthorization() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             ", order=" + getOrderId() +
             "}";
     }

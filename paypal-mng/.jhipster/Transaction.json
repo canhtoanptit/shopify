@@ -6,7 +6,8 @@
             "relationshipName": "order",
             "otherEntityName": "order",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "transaction"
         }
     ],
     "fields": [
@@ -18,11 +19,11 @@
             ]
         },
         {
-            "fieldName": "created_at",
+            "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "updated_at",
+            "fieldName": "updatedAt",
             "fieldType": "Instant"
         }
     ],

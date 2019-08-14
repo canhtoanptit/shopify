@@ -18,11 +18,12 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="tracking_number"><span>Tracking Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="tracking_url"><span>Tracking Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="paypal_tracker_id"><span>Paypal Tracker Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="created_at"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updated_at"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="trackingNumber"><span>Tracking Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="trackingCompany"><span>Tracking Company</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="trackingUrl"><span>Tracking Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="paypalTrackerId"><span>Paypal Tracker Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orderId"><span>Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -30,11 +31,12 @@
             <tbody>
             <tr *ngFor="let tracking of trackings ;trackBy: trackId">
                 <td><a [routerLink]="['/tracking', tracking.id, 'view' ]">{{tracking.id}}</a></td>
-                <td>{{tracking.tracking_number}}</td>
-                <td>{{tracking.tracking_url}}</td>
-                <td>{{tracking.paypal_tracker_id}}</td>
-                <td>{{tracking.created_at | date:'medium'}}</td>
-                <td>{{tracking.updated_at | date:'medium'}}</td>
+                <td>{{tracking.trackingNumber}}</td>
+                <td>{{tracking.trackingCompany}}</td>
+                <td>{{tracking.trackingUrl}}</td>
+                <td>{{tracking.paypalTrackerId}}</td>
+                <td>{{tracking.createdAt | date:'medium'}}</td>
+                <td>{{tracking.updatedAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="tracking.orderId">
                         <a [routerLink]="['/order', tracking.orderId , 'view' ]" >{{tracking.orderId}}</a>

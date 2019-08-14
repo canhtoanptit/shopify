@@ -6,24 +6,25 @@
             "relationshipName": "store",
             "otherEntityName": "store",
             "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "order"
         }
     ],
     "fields": [
         {
-            "fieldName": "order_number",
-            "fieldType": "Integer",
+            "fieldName": "orderNumber",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required",
                 "unique"
             ]
         },
         {
-            "fieldName": "created_at",
+            "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "updated_at",
+            "fieldName": "updatedAt",
             "fieldType": "Instant"
         }
     ],

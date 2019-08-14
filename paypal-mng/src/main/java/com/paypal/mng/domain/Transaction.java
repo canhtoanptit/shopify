@@ -28,12 +28,13 @@ public class Transaction implements Serializable {
     private String authorization;
 
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 
     @ManyToOne
+    @JsonIgnoreProperties("transactions")
     private Order order;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -58,30 +59,30 @@ public class Transaction implements Serializable {
         this.authorization = authorization;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public Transaction created_at(Instant created_at) {
-        this.created_at = created_at;
+    public Transaction createdAt(Instant createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Transaction updated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public Transaction updatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Order getOrder() {
@@ -119,8 +120,8 @@ public class Transaction implements Serializable {
         return "Transaction{" +
             "id=" + getId() +
             ", authorization='" + getAuthorization() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

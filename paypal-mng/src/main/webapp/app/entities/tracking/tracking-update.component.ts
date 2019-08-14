@@ -23,11 +23,12 @@ export class TrackingUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    tracking_number: [null, [Validators.required]],
-    tracking_url: [null, [Validators.required]],
-    paypal_tracker_id: [],
-    created_at: [],
-    updated_at: [],
+    trackingNumber: [null, [Validators.required]],
+    trackingCompany: [null, [Validators.required]],
+    trackingUrl: [null, [Validators.required]],
+    paypalTrackerId: [],
+    createdAt: [],
+    updatedAt: [],
     orderId: []
   });
 
@@ -56,11 +57,12 @@ export class TrackingUpdateComponent implements OnInit {
   updateForm(tracking: ITracking) {
     this.editForm.patchValue({
       id: tracking.id,
-      tracking_number: tracking.tracking_number,
-      tracking_url: tracking.tracking_url,
-      paypal_tracker_id: tracking.paypal_tracker_id,
-      created_at: tracking.created_at != null ? tracking.created_at.format(DATE_TIME_FORMAT) : null,
-      updated_at: tracking.updated_at != null ? tracking.updated_at.format(DATE_TIME_FORMAT) : null,
+      trackingNumber: tracking.trackingNumber,
+      trackingCompany: tracking.trackingCompany,
+      trackingUrl: tracking.trackingUrl,
+      paypalTrackerId: tracking.paypalTrackerId,
+      createdAt: tracking.createdAt != null ? tracking.createdAt.format(DATE_TIME_FORMAT) : null,
+      updatedAt: tracking.updatedAt != null ? tracking.updatedAt.format(DATE_TIME_FORMAT) : null,
       orderId: tracking.orderId
     });
   }
@@ -83,13 +85,14 @@ export class TrackingUpdateComponent implements OnInit {
     return {
       ...new Tracking(),
       id: this.editForm.get(['id']).value,
-      tracking_number: this.editForm.get(['tracking_number']).value,
-      tracking_url: this.editForm.get(['tracking_url']).value,
-      paypal_tracker_id: this.editForm.get(['paypal_tracker_id']).value,
-      created_at:
-        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
-      updated_at:
-        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined,
+      trackingNumber: this.editForm.get(['trackingNumber']).value,
+      trackingCompany: this.editForm.get(['trackingCompany']).value,
+      trackingUrl: this.editForm.get(['trackingUrl']).value,
+      paypalTrackerId: this.editForm.get(['paypalTrackerId']).value,
+      createdAt:
+        this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
+      updatedAt:
+        this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       orderId: this.editForm.get(['orderId']).value
     };
   }

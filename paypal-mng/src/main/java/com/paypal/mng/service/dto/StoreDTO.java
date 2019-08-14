@@ -12,17 +12,17 @@ public class StoreDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String shopify_api_key;
+    private String shopifyApiKey;
 
     @NotNull
-    private String shopify_api_password;
+    private String shopifyApiPassword;
 
     @NotNull
-    private String store_name;
+    private String storeName;
 
-    private Instant created_at;
+    private Instant createdAt;
 
-    private Instant updated_at;
+    private Instant updatedAt;
 
 
     private Long paypalId;
@@ -35,44 +35,44 @@ public class StoreDTO implements Serializable {
         this.id = id;
     }
 
-    public String getShopify_api_key() {
-        return shopify_api_key;
+    public String getShopifyApiKey() {
+        return shopifyApiKey;
     }
 
-    public void setShopify_api_key(String shopify_api_key) {
-        this.shopify_api_key = shopify_api_key;
+    public void setShopifyApiKey(String shopifyApiKey) {
+        this.shopifyApiKey = shopifyApiKey;
     }
 
-    public String getShopify_api_password() {
-        return shopify_api_password;
+    public String getShopifyApiPassword() {
+        return shopifyApiPassword;
     }
 
-    public void setShopify_api_password(String shopify_api_password) {
-        this.shopify_api_password = shopify_api_password;
+    public void setShopifyApiPassword(String shopifyApiPassword) {
+        this.shopifyApiPassword = shopifyApiPassword;
     }
 
-    public String getStore_name() {
-        return store_name;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getPaypalId() {
@@ -108,11 +108,11 @@ public class StoreDTO implements Serializable {
     public String toString() {
         return "StoreDTO{" +
             "id=" + getId() +
-            ", shopify_api_key='" + getShopify_api_key() + "'" +
-            ", shopify_api_password='" + getShopify_api_password() + "'" +
-            ", store_name='" + getStore_name() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", shopifyApiKey='" + getShopifyApiKey() + "'" +
+            ", shopifyApiPassword='" + getShopifyApiPassword() + "'" +
+            ", storeName='" + getStoreName() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             ", paypal=" + getPaypalId() +
             "}";
     }

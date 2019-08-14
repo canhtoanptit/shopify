@@ -38,8 +38,8 @@ public class ShopifyWorker {
                     transactions.getTransactions().forEach(System.out::println);
                     TrackingDTO trackingDto = new TrackingDTO();
                     Instant now = Instant.now();
-                    trackingDto.setCreated_at(now);
-                    trackingDto.setUpdated_at(now);
+                    trackingDto.setCreatedAt(now);
+                    trackingDto.setUpdatedAt(now);
                     trackingDto.setOrderId(order.getId());
                     trackingService.save(trackingDto);
                 }

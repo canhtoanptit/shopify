@@ -12,16 +12,19 @@ public class TrackingDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Integer tracking_number;
+    private String trackingNumber;
 
     @NotNull
-    private String tracking_url;
+    private String trackingCompany;
 
-    private String paypal_tracker_id;
+    @NotNull
+    private String trackingUrl;
 
-    private Instant created_at;
+    private String paypalTrackerId;
 
-    private Instant updated_at;
+    private Instant createdAt;
+
+    private Instant updatedAt;
 
 
     private Long orderId;
@@ -34,44 +37,52 @@ public class TrackingDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getTracking_number() {
-        return tracking_number;
+    public String getTrackingNumber() {
+        return trackingNumber;
     }
 
-    public void setTracking_number(Integer tracking_number) {
-        this.tracking_number = tracking_number;
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 
-    public String getTracking_url() {
-        return tracking_url;
+    public String getTrackingCompany() {
+        return trackingCompany;
     }
 
-    public void setTracking_url(String tracking_url) {
-        this.tracking_url = tracking_url;
+    public void setTrackingCompany(String trackingCompany) {
+        this.trackingCompany = trackingCompany;
     }
 
-    public String getPaypal_tracker_id() {
-        return paypal_tracker_id;
+    public String getTrackingUrl() {
+        return trackingUrl;
     }
 
-    public void setPaypal_tracker_id(String paypal_tracker_id) {
-        this.paypal_tracker_id = paypal_tracker_id;
+    public void setTrackingUrl(String trackingUrl) {
+        this.trackingUrl = trackingUrl;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public String getPaypalTrackerId() {
+        return paypalTrackerId;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setPaypalTrackerId(String paypalTrackerId) {
+        this.paypalTrackerId = paypalTrackerId;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getOrderId() {
@@ -107,11 +118,12 @@ public class TrackingDTO implements Serializable {
     public String toString() {
         return "TrackingDTO{" +
             "id=" + getId() +
-            ", tracking_number=" + getTracking_number() +
-            ", tracking_url='" + getTracking_url() + "'" +
-            ", paypal_tracker_id='" + getPaypal_tracker_id() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", trackingNumber='" + getTrackingNumber() + "'" +
+            ", trackingCompany='" + getTrackingCompany() + "'" +
+            ", trackingUrl='" + getTrackingUrl() + "'" +
+            ", paypalTrackerId='" + getPaypalTrackerId() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             ", order=" + getOrderId() +
             "}";
     }

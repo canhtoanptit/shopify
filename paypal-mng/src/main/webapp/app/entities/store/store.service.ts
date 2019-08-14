@@ -51,16 +51,16 @@ export class StoreService {
 
   protected convertDateFromClient(store: IStore): IStore {
     const copy: IStore = Object.assign({}, store, {
-      created_at: store.created_at != null && store.created_at.isValid() ? store.created_at.toJSON() : null,
-      updated_at: store.updated_at != null && store.updated_at.isValid() ? store.updated_at.toJSON() : null
+      createdAt: store.createdAt != null && store.createdAt.isValid() ? store.createdAt.toJSON() : null,
+      updatedAt: store.updatedAt != null && store.updatedAt.isValid() ? store.updatedAt.toJSON() : null
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.created_at = res.body.created_at != null ? moment(res.body.created_at) : null;
-      res.body.updated_at = res.body.updated_at != null ? moment(res.body.updated_at) : null;
+      res.body.createdAt = res.body.createdAt != null ? moment(res.body.createdAt) : null;
+      res.body.updatedAt = res.body.updatedAt != null ? moment(res.body.updatedAt) : null;
     }
     return res;
   }
@@ -68,8 +68,8 @@ export class StoreService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((store: IStore) => {
-        store.created_at = store.created_at != null ? moment(store.created_at) : null;
-        store.updated_at = store.updated_at != null ? moment(store.updated_at) : null;
+        store.createdAt = store.createdAt != null ? moment(store.createdAt) : null;
+        store.updatedAt = store.updatedAt != null ? moment(store.updatedAt) : null;
       });
     }
     return res;

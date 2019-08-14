@@ -51,16 +51,16 @@ export class TrackingService {
 
   protected convertDateFromClient(tracking: ITracking): ITracking {
     const copy: ITracking = Object.assign({}, tracking, {
-      created_at: tracking.created_at != null && tracking.created_at.isValid() ? tracking.created_at.toJSON() : null,
-      updated_at: tracking.updated_at != null && tracking.updated_at.isValid() ? tracking.updated_at.toJSON() : null
+      createdAt: tracking.createdAt != null && tracking.createdAt.isValid() ? tracking.createdAt.toJSON() : null,
+      updatedAt: tracking.updatedAt != null && tracking.updatedAt.isValid() ? tracking.updatedAt.toJSON() : null
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.created_at = res.body.created_at != null ? moment(res.body.created_at) : null;
-      res.body.updated_at = res.body.updated_at != null ? moment(res.body.updated_at) : null;
+      res.body.createdAt = res.body.createdAt != null ? moment(res.body.createdAt) : null;
+      res.body.updatedAt = res.body.updatedAt != null ? moment(res.body.updatedAt) : null;
     }
     return res;
   }
@@ -68,8 +68,8 @@ export class TrackingService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((tracking: ITracking) => {
-        tracking.created_at = tracking.created_at != null ? moment(tracking.created_at) : null;
-        tracking.updated_at = tracking.updated_at != null ? moment(tracking.updated_at) : null;
+        tracking.createdAt = tracking.createdAt != null ? moment(tracking.createdAt) : null;
+        tracking.updatedAt = tracking.updatedAt != null ? moment(tracking.updatedAt) : null;
       });
     }
     return res;

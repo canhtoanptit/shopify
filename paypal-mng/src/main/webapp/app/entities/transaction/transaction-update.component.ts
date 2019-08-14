@@ -24,8 +24,8 @@ export class TransactionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     authorization: [null, [Validators.required]],
-    created_at: [],
-    updated_at: [],
+    createdAt: [],
+    updatedAt: [],
     orderId: []
   });
 
@@ -55,8 +55,8 @@ export class TransactionUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: transaction.id,
       authorization: transaction.authorization,
-      created_at: transaction.created_at != null ? transaction.created_at.format(DATE_TIME_FORMAT) : null,
-      updated_at: transaction.updated_at != null ? transaction.updated_at.format(DATE_TIME_FORMAT) : null,
+      createdAt: transaction.createdAt != null ? transaction.createdAt.format(DATE_TIME_FORMAT) : null,
+      updatedAt: transaction.updatedAt != null ? transaction.updatedAt.format(DATE_TIME_FORMAT) : null,
       orderId: transaction.orderId
     });
   }
@@ -80,10 +80,10 @@ export class TransactionUpdateComponent implements OnInit {
       ...new Transaction(),
       id: this.editForm.get(['id']).value,
       authorization: this.editForm.get(['authorization']).value,
-      created_at:
-        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
-      updated_at:
-        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined,
+      createdAt:
+        this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
+      updatedAt:
+        this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       orderId: this.editForm.get(['orderId']).value
     };
   }

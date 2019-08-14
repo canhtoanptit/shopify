@@ -19,8 +19,8 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="authorization"><span>Authorization</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="created_at"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updated_at"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orderId"><span>Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -29,8 +29,8 @@
             <tr *ngFor="let transaction of transactions ;trackBy: trackId">
                 <td><a [routerLink]="['/transaction', transaction.id, 'view' ]">{{transaction.id}}</a></td>
                 <td>{{transaction.authorization}}</td>
-                <td>{{transaction.created_at | date:'medium'}}</td>
-                <td>{{transaction.updated_at | date:'medium'}}</td>
+                <td>{{transaction.createdAt | date:'medium'}}</td>
+                <td>{{transaction.updatedAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="transaction.orderId">
                         <a [routerLink]="['/order', transaction.orderId , 'view' ]" >{{transaction.orderId}}</a>

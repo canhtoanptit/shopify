@@ -18,20 +18,20 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="client_id"><span>Client Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="secret"><span>Secret</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="created_at"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="updated_at"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="clientId"><span>Client Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let paypal of paypals ;trackBy: trackId">
                 <td><a [routerLink]="['/paypal', paypal.id, 'view' ]">{{paypal.id}}</a></td>
-                <td>{{paypal.client_id}}</td>
                 <td>{{paypal.secret}}</td>
-                <td>{{paypal.created_at | date:'medium'}}</td>
-                <td>{{paypal.updated_at | date:'medium'}}</td>
+                <td>{{paypal.clientId}}</td>
+                <td>{{paypal.createdAt | date:'medium'}}</td>
+                <td>{{paypal.updatedAt | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

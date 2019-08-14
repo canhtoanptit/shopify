@@ -2,18 +2,12 @@ import { Moment } from 'moment';
 
 export interface IPaypal {
   id?: number;
-  client_id?: string;
   secret?: string;
-  created_at?: Moment;
-  updated_at?: Moment;
+  clientId?: string;
+  createdAt?: Moment;
+  updatedAt?: Moment;
 }
 
 export class Paypal implements IPaypal {
-  constructor(
-    public id?: number,
-    public client_id?: string,
-    public secret?: string,
-    public created_at?: Moment,
-    public updated_at?: Moment
-  ) {}
+  constructor(public id?: number, public secret?: string, public clientId?: string, public createdAt?: Moment, public updatedAt?: Moment) {}
 }

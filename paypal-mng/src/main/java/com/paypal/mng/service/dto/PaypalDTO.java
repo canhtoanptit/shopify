@@ -12,14 +12,14 @@ public class PaypalDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String client_id;
-
-    @NotNull
     private String secret;
 
-    private Instant created_at;
+    @NotNull
+    private String clientId;
 
-    private Instant updated_at;
+    private Instant createdAt;
+
+    private Instant updatedAt;
 
 
     public Long getId() {
@@ -30,14 +30,6 @@ public class PaypalDTO implements Serializable {
         this.id = id;
     }
 
-    public String getClient_id() {
-        return client_id;
-    }
-
-    public void setClient_id(String client_id) {
-        this.client_id = client_id;
-    }
-
     public String getSecret() {
         return secret;
     }
@@ -46,20 +38,28 @@ public class PaypalDTO implements Serializable {
         this.secret = secret;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -87,10 +87,10 @@ public class PaypalDTO implements Serializable {
     public String toString() {
         return "PaypalDTO{" +
             "id=" + getId() +
-            ", client_id='" + getClient_id() + "'" +
             ", secret='" + getSecret() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", clientId='" + getClientId() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

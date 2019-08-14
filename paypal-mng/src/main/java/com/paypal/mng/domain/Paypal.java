@@ -23,18 +23,18 @@ public class Paypal implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "client_id", nullable = false, unique = true)
-    private String client_id;
-
-    @NotNull
     @Column(name = "secret", nullable = false)
     private String secret;
 
+    @NotNull
+    @Column(name = "client_id", nullable = false)
+    private String clientId;
+
     @Column(name = "created_at")
-    private Instant created_at;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updated_at;
+    private Instant updatedAt;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -43,19 +43,6 @@ public class Paypal implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getClient_id() {
-        return client_id;
-    }
-
-    public Paypal client_id(String client_id) {
-        this.client_id = client_id;
-        return this;
-    }
-
-    public void setClient_id(String client_id) {
-        this.client_id = client_id;
     }
 
     public String getSecret() {
@@ -71,30 +58,43 @@ public class Paypal implements Serializable {
         this.secret = secret;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public String getClientId() {
+        return clientId;
     }
 
-    public Paypal created_at(Instant created_at) {
-        this.created_at = created_at;
+    public Paypal clientId(String clientId) {
+        this.clientId = clientId;
         return this;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public Paypal updated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public Paypal createdAt(Instant createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Paypal updatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -118,10 +118,10 @@ public class Paypal implements Serializable {
     public String toString() {
         return "Paypal{" +
             "id=" + getId() +
-            ", client_id='" + getClient_id() + "'" +
             ", secret='" + getSecret() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", clientId='" + getClientId() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             "}";
     }
 }

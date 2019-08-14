@@ -12,11 +12,11 @@ public class OrderDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Integer order_number;
+    private String orderNumber;
 
-    private Instant created_at;
+    private Instant createdAt;
 
-    private Instant updated_at;
+    private Instant updatedAt;
 
 
     private Long storeId;
@@ -29,28 +29,28 @@ public class OrderDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getOrder_number() {
-        return order_number;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrder_number(Integer order_number) {
-        this.order_number = order_number;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Instant created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Instant getUpdated_at() {
-        return updated_at;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Instant updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getStoreId() {
@@ -86,9 +86,9 @@ public class OrderDTO implements Serializable {
     public String toString() {
         return "OrderDTO{" +
             "id=" + getId() +
-            ", order_number=" + getOrder_number() +
-            ", created_at='" + getCreated_at() + "'" +
-            ", updated_at='" + getUpdated_at() + "'" +
+            ", orderNumber='" + getOrderNumber() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", updatedAt='" + getUpdatedAt() + "'" +
             ", store=" + getStoreId() +
             "}";
     }

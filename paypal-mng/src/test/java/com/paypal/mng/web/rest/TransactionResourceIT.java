@@ -98,8 +98,8 @@ public class TransactionResourceIT {
     public static Transaction createEntity(EntityManager em) {
         Transaction transaction = new Transaction()
             .authorization(DEFAULT_AUTHORIZATION)
-            .created_at(DEFAULT_CREATED_AT)
-            .updated_at(DEFAULT_UPDATED_AT);
+            .createdAt(DEFAULT_CREATED_AT)
+            .updatedAt(DEFAULT_UPDATED_AT);
         return transaction;
     }
     /**
@@ -111,8 +111,8 @@ public class TransactionResourceIT {
     public static Transaction createUpdatedEntity(EntityManager em) {
         Transaction transaction = new Transaction()
             .authorization(UPDATED_AUTHORIZATION)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         return transaction;
     }
 
@@ -138,8 +138,8 @@ public class TransactionResourceIT {
         assertThat(transactionList).hasSize(databaseSizeBeforeCreate + 1);
         Transaction testTransaction = transactionList.get(transactionList.size() - 1);
         assertThat(testTransaction.getAuthorization()).isEqualTo(DEFAULT_AUTHORIZATION);
-        assertThat(testTransaction.getCreated_at()).isEqualTo(DEFAULT_CREATED_AT);
-        assertThat(testTransaction.getUpdated_at()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testTransaction.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testTransaction.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
     }
 
     @Test
@@ -194,8 +194,8 @@ public class TransactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(transaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].authorization").value(hasItem(DEFAULT_AUTHORIZATION.toString())))
-            .andExpect(jsonPath("$.[*].created_at").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updated_at").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
     }
     
     @Test
@@ -210,8 +210,8 @@ public class TransactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(transaction.getId().intValue()))
             .andExpect(jsonPath("$.authorization").value(DEFAULT_AUTHORIZATION.toString()))
-            .andExpect(jsonPath("$.created_at").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updated_at").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
     }
 
     @Test
@@ -236,8 +236,8 @@ public class TransactionResourceIT {
         em.detach(updatedTransaction);
         updatedTransaction
             .authorization(UPDATED_AUTHORIZATION)
-            .created_at(UPDATED_CREATED_AT)
-            .updated_at(UPDATED_UPDATED_AT);
+            .createdAt(UPDATED_CREATED_AT)
+            .updatedAt(UPDATED_UPDATED_AT);
         TransactionDTO transactionDTO = transactionMapper.toDto(updatedTransaction);
 
         restTransactionMockMvc.perform(put("/api/transactions")
@@ -250,8 +250,8 @@ public class TransactionResourceIT {
         assertThat(transactionList).hasSize(databaseSizeBeforeUpdate);
         Transaction testTransaction = transactionList.get(transactionList.size() - 1);
         assertThat(testTransaction.getAuthorization()).isEqualTo(UPDATED_AUTHORIZATION);
-        assertThat(testTransaction.getCreated_at()).isEqualTo(UPDATED_CREATED_AT);
-        assertThat(testTransaction.getUpdated_at()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testTransaction.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testTransaction.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
     }
 
     @Test

@@ -27,15 +27,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Tracking(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, currentDate);
+      elemDefault = new Tracking(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
         const returnedFromService = Object.assign(
           {
-            created_at: currentDate.format(DATE_TIME_FORMAT),
-            updated_at: currentDate.format(DATE_TIME_FORMAT)
+            createdAt: currentDate.format(DATE_TIME_FORMAT),
+            updatedAt: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -53,15 +53,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            created_at: currentDate.format(DATE_TIME_FORMAT),
-            updated_at: currentDate.format(DATE_TIME_FORMAT)
+            createdAt: currentDate.format(DATE_TIME_FORMAT),
+            updatedAt: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            created_at: currentDate,
-            updated_at: currentDate
+            createdAt: currentDate,
+            updatedAt: currentDate
           },
           returnedFromService
         );
@@ -77,19 +77,20 @@ describe('Service Tests', () => {
       it('should update a Tracking', async () => {
         const returnedFromService = Object.assign(
           {
-            tracking_number: 1,
-            tracking_url: 'BBBBBB',
-            paypal_tracker_id: 'BBBBBB',
-            created_at: currentDate.format(DATE_TIME_FORMAT),
-            updated_at: currentDate.format(DATE_TIME_FORMAT)
+            trackingNumber: 'BBBBBB',
+            trackingCompany: 'BBBBBB',
+            trackingUrl: 'BBBBBB',
+            paypalTrackerId: 'BBBBBB',
+            createdAt: currentDate.format(DATE_TIME_FORMAT),
+            updatedAt: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            created_at: currentDate,
-            updated_at: currentDate
+            createdAt: currentDate,
+            updatedAt: currentDate
           },
           returnedFromService
         );
@@ -105,18 +106,19 @@ describe('Service Tests', () => {
       it('should return a list of Tracking', async () => {
         const returnedFromService = Object.assign(
           {
-            tracking_number: 1,
-            tracking_url: 'BBBBBB',
-            paypal_tracker_id: 'BBBBBB',
-            created_at: currentDate.format(DATE_TIME_FORMAT),
-            updated_at: currentDate.format(DATE_TIME_FORMAT)
+            trackingNumber: 'BBBBBB',
+            trackingCompany: 'BBBBBB',
+            trackingUrl: 'BBBBBB',
+            paypalTrackerId: 'BBBBBB',
+            createdAt: currentDate.format(DATE_TIME_FORMAT),
+            updatedAt: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            created_at: currentDate,
-            updated_at: currentDate
+            createdAt: currentDate,
+            updatedAt: currentDate
           },
           returnedFromService
         );

@@ -17,10 +17,10 @@ export class PaypalUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    client_id: [null, [Validators.required]],
     secret: [null, [Validators.required]],
-    created_at: [],
-    updated_at: []
+    clientId: [null, [Validators.required]],
+    createdAt: [],
+    updatedAt: []
   });
 
   constructor(protected paypalService: PaypalService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -35,10 +35,10 @@ export class PaypalUpdateComponent implements OnInit {
   updateForm(paypal: IPaypal) {
     this.editForm.patchValue({
       id: paypal.id,
-      client_id: paypal.client_id,
       secret: paypal.secret,
-      created_at: paypal.created_at != null ? paypal.created_at.format(DATE_TIME_FORMAT) : null,
-      updated_at: paypal.updated_at != null ? paypal.updated_at.format(DATE_TIME_FORMAT) : null
+      clientId: paypal.clientId,
+      createdAt: paypal.createdAt != null ? paypal.createdAt.format(DATE_TIME_FORMAT) : null,
+      updatedAt: paypal.updatedAt != null ? paypal.updatedAt.format(DATE_TIME_FORMAT) : null
     });
   }
 
@@ -60,12 +60,12 @@ export class PaypalUpdateComponent implements OnInit {
     return {
       ...new Paypal(),
       id: this.editForm.get(['id']).value,
-      client_id: this.editForm.get(['client_id']).value,
       secret: this.editForm.get(['secret']).value,
-      created_at:
-        this.editForm.get(['created_at']).value != null ? moment(this.editForm.get(['created_at']).value, DATE_TIME_FORMAT) : undefined,
-      updated_at:
-        this.editForm.get(['updated_at']).value != null ? moment(this.editForm.get(['updated_at']).value, DATE_TIME_FORMAT) : undefined
+      clientId: this.editForm.get(['clientId']).value,
+      createdAt:
+        this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
+      updatedAt:
+        this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined
     };
   }
 

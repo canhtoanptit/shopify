@@ -4,14 +4,6 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "client_id",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "unique"
-            ]
-        },
-        {
             "fieldName": "secret",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -19,11 +11,18 @@
             ]
         },
         {
-            "fieldName": "created_at",
+            "fieldName": "clientId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
-            "fieldName": "updated_at",
+            "fieldName": "updatedAt",
             "fieldType": "Instant"
         }
     ],
