@@ -61,6 +61,7 @@
             <column name="created_at" type="datetime"/>
             <column name="updated_at" type="datetime"/>
             <column name="order_number" type="numeric"/>
+            <column name="store_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

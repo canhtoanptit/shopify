@@ -33,7 +33,8 @@ public class Order implements Serializable {
     @Column(name = "order_number", nullable = false, unique = true)
     private Integer orderNumber;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("orders")
     private Store store;
 

@@ -6,6 +6,9 @@
             "relationshipName": "store",
             "otherEntityName": "store",
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
             "otherEntityField": "id",
             "otherEntityRelationshipName": "order"
         }

@@ -26,7 +26,7 @@ export class OrderUpdateComponent implements OnInit {
     createdAt: [],
     updatedAt: [],
     orderNumber: [null, [Validators.required]],
-    storeId: []
+    storeId: [null, Validators.required]
   });
 
   constructor(

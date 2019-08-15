@@ -2,6 +2,7 @@ package com.paypal.mng.web.rest;
 
 import com.paypal.mng.PaypalmngApp;
 import com.paypal.mng.domain.Order;
+import com.paypal.mng.domain.Store;
 import com.paypal.mng.repository.OrderRepository;
 import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.dto.OrderDTO;
@@ -101,6 +102,16 @@ public class OrderResourceIT {
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT)
             .orderNumber(DEFAULT_ORDER_NUMBER);
+        // Add required entity
+        Store store;
+        if (TestUtil.findAll(em, Store.class).isEmpty()) {
+            store = StoreResourceIT.createEntity(em);
+            em.persist(store);
+            em.flush();
+        } else {
+            store = TestUtil.findAll(em, Store.class).get(0);
+        }
+        order.setStore(store);
         return order;
     }
     /**
@@ -114,6 +125,16 @@ public class OrderResourceIT {
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
             .orderNumber(UPDATED_ORDER_NUMBER);
+        // Add required entity
+        Store store;
+        if (TestUtil.findAll(em, Store.class).isEmpty()) {
+            store = StoreResourceIT.createUpdatedEntity(em);
+            em.persist(store);
+            em.flush();
+        } else {
+            store = TestUtil.findAll(em, Store.class).get(0);
+        }
+        order.setStore(store);
         return order;
     }
 
