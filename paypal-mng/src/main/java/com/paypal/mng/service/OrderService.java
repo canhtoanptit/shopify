@@ -5,6 +5,7 @@ import com.paypal.mng.service.dto.OrderDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,4 +44,13 @@ public interface OrderService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+
+    /**
+     * get list exist orders by order number
+     *
+     * @param orderNumbers
+     * @return
+     */
+    List<OrderDTO> findByOrderNumbers(List<Integer> orderNumbers);
 }

@@ -23,6 +23,7 @@
             <th jhiSortBy="storeName"><span>Store Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyApiUrl"><span>Shopify Api Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paypalId"><span>Paypal</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -35,6 +36,7 @@
                 <td>{{store.storeName}}</td>
                 <td>{{store.createdAt | date:'medium'}}</td>
                 <td>{{store.updatedAt | date:'medium'}}</td>
+                <td>{{store.shopifyApiUrl}}</td>
                 <td>
                     <div *ngIf="store.paypalId">
                         <a [routerLink]="['/paypal', store.paypalId , 'view' ]" >{{store.paypalId}}</a>

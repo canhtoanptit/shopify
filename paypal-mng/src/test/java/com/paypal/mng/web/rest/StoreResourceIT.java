@@ -2,6 +2,7 @@ package com.paypal.mng.web.rest;
 
 import com.paypal.mng.PaypalmngApp;
 import com.paypal.mng.domain.Store;
+import com.paypal.mng.domain.Paypal;
 import com.paypal.mng.repository.StoreRepository;
 import com.paypal.mng.service.StoreService;
 import com.paypal.mng.service.dto.StoreDTO;
@@ -55,6 +56,9 @@ public class StoreResourceIT {
     private static final Instant UPDATED_UPDATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_UPDATED_AT = Instant.ofEpochMilli(-1L);
 
+    private static final String DEFAULT_SHOPIFY_API_URL = "AAAAAAAAAA";
+    private static final String UPDATED_SHOPIFY_API_URL = "BBBBBBBBBB";
+
     @Autowired
     private StoreRepository storeRepository;
 
@@ -107,7 +111,18 @@ public class StoreResourceIT {
             .shopifyApiPassword(DEFAULT_SHOPIFY_API_PASSWORD)
             .storeName(DEFAULT_STORE_NAME)
             .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT);
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .shopifyApiUrl(DEFAULT_SHOPIFY_API_URL);
+        // Add required entity
+        Paypal paypal;
+        if (TestUtil.findAll(em, Paypal.class).isEmpty()) {
+            paypal = PaypalResourceIT.createEntity(em);
+            em.persist(paypal);
+            em.flush();
+        } else {
+            paypal = TestUtil.findAll(em, Paypal.class).get(0);
+        }
+        store.setPaypal(paypal);
         return store;
     }
     /**
@@ -122,7 +137,18 @@ public class StoreResourceIT {
             .shopifyApiPassword(UPDATED_SHOPIFY_API_PASSWORD)
             .storeName(UPDATED_STORE_NAME)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .shopifyApiUrl(UPDATED_SHOPIFY_API_URL);
+        // Add required entity
+        Paypal paypal;
+        if (TestUtil.findAll(em, Paypal.class).isEmpty()) {
+            paypal = PaypalResourceIT.createUpdatedEntity(em);
+            em.persist(paypal);
+            em.flush();
+        } else {
+            paypal = TestUtil.findAll(em, Paypal.class).get(0);
+        }
+        store.setPaypal(paypal);
         return store;
     }
 
@@ -152,6 +178,7 @@ public class StoreResourceIT {
         assertThat(testStore.getStoreName()).isEqualTo(DEFAULT_STORE_NAME);
         assertThat(testStore.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testStore.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testStore.getShopifyApiUrl()).isEqualTo(DEFAULT_SHOPIFY_API_URL);
     }
 
     @Test
@@ -234,6 +261,25 @@ public class StoreResourceIT {
 
     @Test
     @Transactional
+    public void checkShopifyApiUrlIsRequired() throws Exception {
+        int databaseSizeBeforeTest = storeRepository.findAll().size();
+        // set the field null
+        store.setShopifyApiUrl(null);
+
+        // Create the Store, which fails.
+        StoreDTO storeDTO = storeMapper.toDto(store);
+
+        restStoreMockMvc.perform(post("/api/stores")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(storeDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Store> storeList = storeRepository.findAll();
+        assertThat(storeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllStores() throws Exception {
         // Initialize the database
         storeRepository.saveAndFlush(store);
@@ -247,7 +293,8 @@ public class StoreResourceIT {
             .andExpect(jsonPath("$.[*].shopifyApiPassword").value(hasItem(DEFAULT_SHOPIFY_API_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].storeName").value(hasItem(DEFAULT_STORE_NAME.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].shopifyApiUrl").value(hasItem(DEFAULT_SHOPIFY_API_URL.toString())));
     }
     
     @Test
@@ -265,7 +312,8 @@ public class StoreResourceIT {
             .andExpect(jsonPath("$.shopifyApiPassword").value(DEFAULT_SHOPIFY_API_PASSWORD.toString()))
             .andExpect(jsonPath("$.storeName").value(DEFAULT_STORE_NAME.toString()))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.shopifyApiUrl").value(DEFAULT_SHOPIFY_API_URL.toString()));
     }
 
     @Test
@@ -293,7 +341,8 @@ public class StoreResourceIT {
             .shopifyApiPassword(UPDATED_SHOPIFY_API_PASSWORD)
             .storeName(UPDATED_STORE_NAME)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .shopifyApiUrl(UPDATED_SHOPIFY_API_URL);
         StoreDTO storeDTO = storeMapper.toDto(updatedStore);
 
         restStoreMockMvc.perform(put("/api/stores")
@@ -310,6 +359,7 @@ public class StoreResourceIT {
         assertThat(testStore.getStoreName()).isEqualTo(UPDATED_STORE_NAME);
         assertThat(testStore.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testStore.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testStore.getShopifyApiUrl()).isEqualTo(UPDATED_SHOPIFY_API_URL);
     }
 
     @Test

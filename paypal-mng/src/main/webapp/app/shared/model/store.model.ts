@@ -7,6 +7,7 @@ export interface IStore {
   storeName?: string;
   createdAt?: Moment;
   updatedAt?: Moment;
+  shopifyApiUrl?: string;
   paypalId?: number;
 }
 
@@ -18,6 +19,7 @@ export class Store implements IStore {
     public storeName?: string,
     public createdAt?: Moment,
     public updatedAt?: Moment,
+    public shopifyApiUrl?: string,
     public paypalId?: number
   ) {}
 }

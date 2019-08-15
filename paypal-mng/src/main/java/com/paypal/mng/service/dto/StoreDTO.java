@@ -24,6 +24,9 @@ public class StoreDTO implements Serializable {
 
     private Instant updatedAt;
 
+    @NotNull
+    private String shopifyApiUrl;
+
 
     private Long paypalId;
 
@@ -75,6 +78,14 @@ public class StoreDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public String getShopifyApiUrl() {
+        return shopifyApiUrl;
+    }
+
+    public void setShopifyApiUrl(String shopifyApiUrl) {
+        this.shopifyApiUrl = shopifyApiUrl;
+    }
+
     public Long getPaypalId() {
         return paypalId;
     }
@@ -113,6 +124,7 @@ public class StoreDTO implements Serializable {
             ", storeName='" + getStoreName() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", shopifyApiUrl='" + getShopifyApiUrl() + "'" +
             ", paypal=" + getPaypalId() +
             "}";
     }

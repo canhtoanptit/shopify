@@ -41,7 +41,12 @@ public class Store implements Serializable {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @ManyToOne
+    @NotNull
+    @Column(name = "shopify_api_url", nullable = false, unique = true)
+    private String shopifyApiUrl;
+
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("stores")
     private Paypal paypal;
 
@@ -119,6 +124,19 @@ public class Store implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public String getShopifyApiUrl() {
+        return shopifyApiUrl;
+    }
+
+    public Store shopifyApiUrl(String shopifyApiUrl) {
+        this.shopifyApiUrl = shopifyApiUrl;
+        return this;
+    }
+
+    public void setShopifyApiUrl(String shopifyApiUrl) {
+        this.shopifyApiUrl = shopifyApiUrl;
+    }
+
     public Paypal getPaypal() {
         return paypal;
     }
@@ -158,6 +176,7 @@ public class Store implements Serializable {
             ", storeName='" + getStoreName() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", shopifyApiUrl='" + getShopifyApiUrl() + "'" +
             "}";
     }
 }

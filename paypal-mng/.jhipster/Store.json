@@ -6,6 +6,9 @@
             "relationshipName": "paypal",
             "otherEntityName": "paypal",
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
             "otherEntityField": "id",
             "otherEntityRelationshipName": "store"
         }
@@ -39,6 +42,14 @@
         {
             "fieldName": "updatedAt",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "shopifyApiUrl",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "unique"
+            ]
         }
     ],
     "changelogDate": "20190813052556",
