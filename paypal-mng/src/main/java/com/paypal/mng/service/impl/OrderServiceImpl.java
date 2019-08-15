@@ -1,21 +1,18 @@
 package com.paypal.mng.service.impl;
 
-import com.paypal.mng.service.OrderService;
 import com.paypal.mng.domain.Order;
 import com.paypal.mng.repository.OrderRepository;
+import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.dto.OrderDTO;
 import com.paypal.mng.service.mapper.OrderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Order}.
@@ -90,8 +87,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findByOrderNumbers(List<Integer> orderNumbers) {
-        return orderRepository.findAllByOrderNumberIn(orderNumbers)
-            .stream().map(orderMapper::toDto).collect(Collectors.toList());
+    public Optional<Order> findByOrderNumber(Integer orderNumbers) {
+        return orderRepository.findByOrderNumber(orderNumbers);
     }
 }

@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Store}.
@@ -85,5 +87,10 @@ public class StoreServiceImpl implements StoreService {
     public void delete(Long id) {
         log.debug("Request to delete Store : {}", id);
         storeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<StoreDTO> findAllStore() {
+        return storeRepository.findAll().stream().map(storeMapper::toDto).collect(Collectors.toList());
     }
 }

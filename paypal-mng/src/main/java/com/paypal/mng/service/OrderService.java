@@ -1,11 +1,10 @@
 package com.paypal.mng.service;
 
+import com.paypal.mng.domain.Order;
 import com.paypal.mng.service.dto.OrderDTO;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,10 +46,10 @@ public interface OrderService {
 
 
     /**
-     * get list exist orders by order number
+     * get existed order by order number
      *
      * @param orderNumbers
      * @return
      */
-    List<OrderDTO> findByOrderNumbers(List<Integer> orderNumbers);
+    Optional<Order> findByOrderNumber(Integer orderNumbers);
 }

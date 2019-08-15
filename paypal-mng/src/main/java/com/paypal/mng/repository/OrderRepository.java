@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -14,5 +15,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findAllByOrderNumberIn(List<Integer> orderNumbers);
+    Optional<Order> findByOrderNumber(Integer orderNumbers);
 }
