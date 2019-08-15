@@ -44,7 +44,8 @@ public class Tracking implements Serializable {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("trackings")
     private Order order;
 

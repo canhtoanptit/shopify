@@ -26,7 +26,7 @@ export class TransactionUpdateComponent implements OnInit {
     authorization: [null, [Validators.required]],
     createdAt: [],
     updatedAt: [],
-    orderId: []
+    orderId: [null, Validators.required]
   });
 
   constructor(

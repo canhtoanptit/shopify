@@ -29,7 +29,7 @@ export class TrackingUpdateComponent implements OnInit {
     paypalTrackerId: [],
     createdAt: [],
     updatedAt: [],
-    orderId: []
+    orderId: [null, Validators.required]
   });
 
   constructor(

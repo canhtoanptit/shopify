@@ -33,7 +33,8 @@ public class Transaction implements Serializable {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("transactions")
     private Order order;
 

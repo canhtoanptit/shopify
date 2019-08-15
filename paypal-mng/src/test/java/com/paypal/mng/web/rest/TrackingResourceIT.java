@@ -2,6 +2,7 @@ package com.paypal.mng.web.rest;
 
 import com.paypal.mng.PaypalmngApp;
 import com.paypal.mng.domain.Tracking;
+import com.paypal.mng.domain.Order;
 import com.paypal.mng.repository.TrackingRepository;
 import com.paypal.mng.service.TrackingService;
 import com.paypal.mng.service.dto.TrackingDTO;
@@ -112,6 +113,16 @@ public class TrackingResourceIT {
             .paypalTrackerId(DEFAULT_PAYPAL_TRACKER_ID)
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT);
+        // Add required entity
+        Order order;
+        if (TestUtil.findAll(em, Order.class).isEmpty()) {
+            order = OrderResourceIT.createEntity(em);
+            em.persist(order);
+            em.flush();
+        } else {
+            order = TestUtil.findAll(em, Order.class).get(0);
+        }
+        tracking.setOrder(order);
         return tracking;
     }
     /**
@@ -128,6 +139,16 @@ public class TrackingResourceIT {
             .paypalTrackerId(UPDATED_PAYPAL_TRACKER_ID)
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT);
+        // Add required entity
+        Order order;
+        if (TestUtil.findAll(em, Order.class).isEmpty()) {
+            order = OrderResourceIT.createUpdatedEntity(em);
+            em.persist(order);
+            em.flush();
+        } else {
+            order = TestUtil.findAll(em, Order.class).get(0);
+        }
+        tracking.setOrder(order);
         return tracking;
     }
 
