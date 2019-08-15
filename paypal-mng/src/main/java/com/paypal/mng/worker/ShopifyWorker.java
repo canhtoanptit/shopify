@@ -1,8 +1,11 @@
 package com.paypal.mng.worker;
 
+import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.ShopifyService;
 import com.paypal.mng.service.TrackingService;
+import com.paypal.mng.service.dto.OrderDTO;
 import com.paypal.mng.service.dto.TrackingDTO;
+import com.paypal.mng.service.dto.shopify.Fulfillment;
 import com.paypal.mng.service.dto.shopify.OrderList;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,9 +19,12 @@ public class ShopifyWorker {
 
     private final TrackingService trackingService;
 
-    public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService) {
+    private final OrderService orderService;
+
+    public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService) {
         this.shopifyService = shopifyService;
         this.trackingService = trackingService;
+        this.orderService = orderService;
     }
 
     @Scheduled(cron = "0 */1 * * * ?")
@@ -36,11 +42,21 @@ public class ShopifyWorker {
                     "76ea1ffedf641d9a3dfa6f0e93928bdf");
                 if (transactions != null && !transactions.getTransactions().isEmpty()) {
                     transactions.getTransactions().forEach(System.out::println);
-                    TrackingDTO trackingDto = new TrackingDTO();
                     Instant now = Instant.now();
+                    OrderDTO orderDto = new OrderDTO();
+                    orderDto.setCreatedAt(now);
+                    orderDto.setUpdatedAt(now);
+                    orderDto.setOrderNumber(order.getOrderNumber());
+                    OrderDTO response = orderService.save(orderDto);
+                    TrackingDTO trackingDto = new TrackingDTO();
                     trackingDto.setCreatedAt(now);
                     trackingDto.setUpdatedAt(now);
                     trackingDto.setOrderId(order.getId());
+                    Fulfillment fulfillment = order.getFulfillments().get(0);
+                    trackingDto.setTrackingNumber(fulfillment.getTrackingNumber());
+                    trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
+                    trackingDto.setTrackingUrl(fulfillment.getTrackingUrl());
+                    trackingDto.setOrderId(response.getId());
                     trackingService.save(trackingDto);
                 }
             });

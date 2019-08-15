@@ -12,20 +12,20 @@
     ],
     "fields": [
         {
-            "fieldName": "orderNumber",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "unique"
-            ]
-        },
-        {
             "fieldName": "createdAt",
             "fieldType": "Instant"
         },
         {
             "fieldName": "updatedAt",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "orderNumber",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "unique"
+            ]
         }
     ],
     "changelogDate": "20190813054053",

@@ -23,9 +23,9 @@ export class OrderUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    orderNumber: [null, [Validators.required]],
     createdAt: [],
     updatedAt: [],
+    orderNumber: [null, [Validators.required]],
     storeId: []
   });
 
@@ -54,9 +54,9 @@ export class OrderUpdateComponent implements OnInit {
   updateForm(order: IOrder) {
     this.editForm.patchValue({
       id: order.id,
-      orderNumber: order.orderNumber,
       createdAt: order.createdAt != null ? order.createdAt.format(DATE_TIME_FORMAT) : null,
       updatedAt: order.updatedAt != null ? order.updatedAt.format(DATE_TIME_FORMAT) : null,
+      orderNumber: order.orderNumber,
       storeId: order.storeId
     });
   }
@@ -79,11 +79,11 @@ export class OrderUpdateComponent implements OnInit {
     return {
       ...new Order(),
       id: this.editForm.get(['id']).value,
-      orderNumber: this.editForm.get(['orderNumber']).value,
       createdAt:
         this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
       updatedAt:
         this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
+      orderNumber: this.editForm.get(['orderNumber']).value,
       storeId: this.editForm.get(['storeId']).value
     };
   }

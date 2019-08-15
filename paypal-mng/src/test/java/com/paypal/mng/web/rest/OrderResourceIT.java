@@ -38,9 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PaypalmngApp.class)
 public class OrderResourceIT {
 
-    private static final String DEFAULT_ORDER_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_ORDER_NUMBER = "BBBBBBBBBB";
-
     private static final Instant DEFAULT_CREATED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_CREATED_AT = Instant.ofEpochMilli(-1L);
@@ -48,6 +45,10 @@ public class OrderResourceIT {
     private static final Instant DEFAULT_UPDATED_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_UPDATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_UPDATED_AT = Instant.ofEpochMilli(-1L);
+
+    private static final Integer DEFAULT_ORDER_NUMBER = 1;
+    private static final Integer UPDATED_ORDER_NUMBER = 2;
+    private static final Integer SMALLER_ORDER_NUMBER = 1 - 1;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -97,9 +98,9 @@ public class OrderResourceIT {
      */
     public static Order createEntity(EntityManager em) {
         Order order = new Order()
-            .orderNumber(DEFAULT_ORDER_NUMBER)
             .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT);
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .orderNumber(DEFAULT_ORDER_NUMBER);
         return order;
     }
     /**
@@ -110,9 +111,9 @@ public class OrderResourceIT {
      */
     public static Order createUpdatedEntity(EntityManager em) {
         Order order = new Order()
-            .orderNumber(UPDATED_ORDER_NUMBER)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .orderNumber(UPDATED_ORDER_NUMBER);
         return order;
     }
 
@@ -137,9 +138,9 @@ public class OrderResourceIT {
         List<Order> orderList = orderRepository.findAll();
         assertThat(orderList).hasSize(databaseSizeBeforeCreate + 1);
         Order testOrder = orderList.get(orderList.size() - 1);
-        assertThat(testOrder.getOrderNumber()).isEqualTo(DEFAULT_ORDER_NUMBER);
         assertThat(testOrder.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testOrder.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testOrder.getOrderNumber()).isEqualTo(DEFAULT_ORDER_NUMBER);
     }
 
     @Test
@@ -193,9 +194,9 @@ public class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(order.getId().intValue())))
-            .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER)));
     }
     
     @Test
@@ -209,9 +210,9 @@ public class OrderResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(order.getId().intValue()))
-            .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER.toString()))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER));
     }
 
     @Test
@@ -235,9 +236,9 @@ public class OrderResourceIT {
         // Disconnect from session so that the updates on updatedOrder are not directly saved in db
         em.detach(updatedOrder);
         updatedOrder
-            .orderNumber(UPDATED_ORDER_NUMBER)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .orderNumber(UPDATED_ORDER_NUMBER);
         OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
         restOrderMockMvc.perform(put("/api/orders")
@@ -249,9 +250,9 @@ public class OrderResourceIT {
         List<Order> orderList = orderRepository.findAll();
         assertThat(orderList).hasSize(databaseSizeBeforeUpdate);
         Order testOrder = orderList.get(orderList.size() - 1);
-        assertThat(testOrder.getOrderNumber()).isEqualTo(UPDATED_ORDER_NUMBER);
         assertThat(testOrder.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testOrder.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testOrder.getOrderNumber()).isEqualTo(UPDATED_ORDER_NUMBER);
     }
 
     @Test

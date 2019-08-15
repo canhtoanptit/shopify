@@ -11,12 +11,12 @@ public class OrderDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String orderNumber;
-
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    @NotNull
+    private Integer orderNumber;
 
 
     private Long storeId;
@@ -27,14 +27,6 @@ public class OrderDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public Instant getCreatedAt() {
@@ -51,6 +43,14 @@ public class OrderDTO implements Serializable {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public Long getStoreId() {
@@ -86,9 +86,9 @@ public class OrderDTO implements Serializable {
     public String toString() {
         return "OrderDTO{" +
             "id=" + getId() +
-            ", orderNumber='" + getOrderNumber() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", orderNumber=" + getOrderNumber() +
             ", store=" + getStoreId() +
             "}";
     }

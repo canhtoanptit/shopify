@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Order(0, 'AAAAAAA', currentDate, currentDate);
+      elemDefault = new Order(0, currentDate, currentDate, 0);
     });
 
     describe('Service methods', () => {
@@ -77,9 +77,9 @@ describe('Service Tests', () => {
       it('should update a Order', async () => {
         const returnedFromService = Object.assign(
           {
-            orderNumber: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            orderNumber: 1
           },
           elemDefault
         );
@@ -103,9 +103,9 @@ describe('Service Tests', () => {
       it('should return a list of Order', async () => {
         const returnedFromService = Object.assign(
           {
-            orderNumber: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            orderNumber: 1
           },
           elemDefault
         );

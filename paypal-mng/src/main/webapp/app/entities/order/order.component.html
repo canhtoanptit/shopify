@@ -18,9 +18,9 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="orderNumber"><span>Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="orderNumber"><span>Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="storeId"><span>Store</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -28,9 +28,9 @@
             <tbody>
             <tr *ngFor="let order of orders ;trackBy: trackId">
                 <td><a [routerLink]="['/order', order.id, 'view' ]">{{order.id}}</a></td>
-                <td>{{order.orderNumber}}</td>
                 <td>{{order.createdAt | date:'medium'}}</td>
                 <td>{{order.updatedAt | date:'medium'}}</td>
+                <td>{{order.orderNumber}}</td>
                 <td>
                     <div *ngIf="order.storeId">
                         <a [routerLink]="['/store', order.storeId , 'view' ]" >{{order.storeId}}</a>

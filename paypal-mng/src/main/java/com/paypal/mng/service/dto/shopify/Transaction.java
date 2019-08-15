@@ -6,22 +6,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.paypal.mng.config.jackson.FlexDateDeserializer;
 import com.paypal.mng.config.jackson.FlexDateSerializer;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class Transaction
-{
+public class Transaction {
     @JsonProperty(value = JsonConstants.ID)
     private long id;
 
     @JsonProperty(value = JsonConstants.ORDER_ID)
     private long orderId;
 
-    @JsonProperty(value = JsonConstants.AMOUNT)
-    private BigDecimal amount;
-
-    @JsonProperty(value = JsonConstants.KIND)
-    private String kind;
+//    @JsonProperty(value = JsonConstants.AMOUNT)
+//    private BigDecimal amount;
+//
+//    @JsonProperty(value = JsonConstants.KIND)
+//    private String kind;
 
     @JsonProperty(value = JsonConstants.STATUS)
     private String status;
@@ -31,8 +29,8 @@ public class Transaction
     @JsonSerialize(using = FlexDateSerializer.class)
     private Date createdAt;
 
-    @JsonProperty(value = JsonConstants.CURRENCY)
-    private String currency;
+//    @JsonProperty(value = JsonConstants.CURRENCY)
+//    private String currency;
 
     @JsonProperty(value = JsonConstants.AUTHORIZATION)
     private String authorization;
@@ -53,22 +51,6 @@ public class Transaction
         this.orderId = orderId;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -85,14 +67,6 @@ public class Transaction
         this.createdAt = createdAt;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public String getAuthorization() {
         return authorization;
     }
@@ -106,11 +80,8 @@ public class Transaction
         return "Transaction{" +
             "id=" + id +
             ", orderId=" + orderId +
-            ", amount=" + amount +
-            ", kind='" + kind + '\'' +
             ", status='" + status + '\'' +
             ", createdAt=" + createdAt +
-            ", currency='" + currency + '\'' +
             ", authorization='" + authorization + '\'' +
             '}';
     }

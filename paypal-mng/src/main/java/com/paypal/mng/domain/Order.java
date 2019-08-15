@@ -23,15 +23,15 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "order_number", nullable = false, unique = true)
-    private String orderNumber;
-
     @Column(name = "created_at")
     private Instant createdAt;
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @NotNull
+    @Column(name = "order_number", nullable = false, unique = true)
+    private Integer orderNumber;
 
     @ManyToOne
     @JsonIgnoreProperties("orders")
@@ -44,19 +44,6 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public Order orderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-        return this;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public Instant getCreatedAt() {
@@ -83,6 +70,19 @@ public class Order implements Serializable {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public Order orderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+        return this;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public Store getStore() {
@@ -119,9 +119,9 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
             "id=" + getId() +
-            ", orderNumber='" + getOrderNumber() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", orderNumber=" + getOrderNumber() +
             "}";
     }
 }

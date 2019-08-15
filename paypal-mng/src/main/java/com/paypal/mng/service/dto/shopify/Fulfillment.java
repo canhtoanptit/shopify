@@ -2,6 +2,8 @@ package com.paypal.mng.service.dto.shopify;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Fulfillment {
     @JsonProperty(value = JsonConstants.ID)
     private long id;
@@ -15,8 +17,14 @@ public class Fulfillment {
     @JsonProperty(value = "tracking_number")
     private String trackingNumber;
 
+    @JsonProperty(value = "tracking_numbers")
+    private List<String> trackingNumbers;
+
     @JsonProperty(value = "tracking_url")
     private String trackingUrl;
+
+    @JsonProperty(value = "tracking_urls")
+    private List<String> trackingUrls;
 
     public long getId() {
         return id;
@@ -56,5 +64,21 @@ public class Fulfillment {
 
     public void setTrackingUrl(String trackingUrl) {
         this.trackingUrl = trackingUrl;
+    }
+
+    public List<String> getTrackingNumbers() {
+        return trackingNumbers;
+    }
+
+    public void setTrackingNumbers(List<String> trackingNumbers) {
+        this.trackingNumbers = trackingNumbers;
+    }
+
+    public List<String> getTrackingUrls() {
+        return trackingUrls;
+    }
+
+    public void setTrackingUrls(List<String> trackingUrls) {
+        this.trackingUrls = trackingUrls;
     }
 }
