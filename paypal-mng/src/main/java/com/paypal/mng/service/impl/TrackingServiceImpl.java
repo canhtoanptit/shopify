@@ -86,4 +86,10 @@ public class TrackingServiceImpl implements TrackingService {
         log.debug("Request to delete Tracking : {}", id);
         trackingRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<TrackingDTO> findByTrackingNumber(String trackingNumber) {
+        return trackingRepository.findByTrackingNumber(trackingNumber)
+            .map(trackingMapper::toDto);
+    }
 }

@@ -43,4 +43,12 @@ public interface TrackingService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * find tracking by tracking_number
+     *
+     * @param trackingNumber
+     * @return
+     */
+    Optional<TrackingDTO> findByTrackingNumber(String trackingNumber);
 }

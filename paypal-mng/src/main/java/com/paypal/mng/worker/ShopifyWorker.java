@@ -1,5 +1,6 @@
 package com.paypal.mng.worker;
 
+import com.paypal.mng.config.Constants;
 import com.paypal.mng.domain.Order;
 import com.paypal.mng.service.*;
 import com.paypal.mng.service.dto.*;
@@ -38,7 +39,7 @@ public class ShopifyWorker {
         this.paypalHistoryService = paypalHistoryService;
     }
 
-    @Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(fixedDelay = 2000)
     public void process() {
         // get shopify orders
         List<StoreDTO> storeDTOS = storeService.findAllStore();
@@ -59,7 +60,7 @@ public class ShopifyWorker {
         String baseUrl = storeDTO.getShopifyApiUrl() + "orders/" + shopifyOrder.getId() + "/transactions.json";
         TransactionList transactions = shopifyService.getTransactions(baseUrl, storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
         if (transactions != null && !transactions.getTransactions().isEmpty()) {
-            transactions.getTransactions().forEach(System.out::println);
+            log.info("Transaction with size: {}", transactions.getTransactions().size());
             Optional<Order> existedOrder = orderService.findByOrderNumber(shopifyOrder.getOrderNumber());
             Long orderId;
             if (!existedOrder.isPresent()) {
@@ -91,6 +92,7 @@ public class ShopifyWorker {
     private void createTransactions(TransactionList transactions, Long orderId, ShopifyOrder shopifyOrder) {
         Instant now = Instant.now();
         transactions.getTransactions().forEach(shopifyTransaction -> {
+            log.info("Process transaction {}", shopifyTransaction);
             Optional<TransactionDTO> transOps = transactionService.findByShopifyTransactionIdAndOrderId(shopifyTransaction.getId(), orderId);
             if (!transOps.isPresent()) {
                 TransactionDTO transDto = new TransactionDTO();
@@ -110,7 +112,7 @@ public class ShopifyWorker {
         });
     }
 
-    private void createTracking(List<Fulfillment> fulfillmentList, Long orderId, ShopifyTransaction shopifyTransaction, Long shopifyOrder) {
+    private void createTracking(List<Fulfillment> fulfillmentList, Long orderId, ShopifyTransaction shopifyTransaction, Long shopifyOrderId) {
         Instant now = Instant.now();
         fulfillmentList.forEach(fulfillment -> {
             List<String> trackingNumbers = fulfillment.getTrackingNumbers();
@@ -118,24 +120,27 @@ public class ShopifyWorker {
             if (trackingNumbers != null) {
                 log.info("Process fulfilment {}", fulfillment);
                 for (int i = 0; i < trackingNumbers.size(); i++) {
-                    TrackingDTO trackingDto = new TrackingDTO();
-                    trackingDto.setCreatedAt(now);
-                    trackingDto.setUpdatedAt(now);
                     String trackingNumber = trackingNumbers.get(i);
-                    log.info("Process with tracking number {}", trackingNumber);
-                    trackingDto.setTrackingNumber(trackingNumbers.get(i));
-                    trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
-                    if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
-                        trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
-                    } else if (trackingUrls != null) {
-                        log.info("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
-                    } else {
-                        log.info("Tracking url null");
+                    Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
+                    if (!trackOpt.isPresent()) {
+                        TrackingDTO trackingDto = new TrackingDTO();
+                        trackingDto.setCreatedAt(now);
+                        trackingDto.setUpdatedAt(now);
+                        log.info("Process with tracking number {}", trackingNumber);
+                        trackingDto.setTrackingNumber(trackingNumbers.get(i));
+                        trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
+                        if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
+                            trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
+                        } else if (trackingUrls != null) {
+                            log.info("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
+                        } else {
+                            log.info("Tracking url null");
+                        }
+                        trackingDto.setOrderId(orderId);
+                        trackingService.save(trackingDto);
+                        createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
+                            fulfillment.getTrackingCompany(), shopifyOrderId);
                     }
-                    trackingDto.setOrderId(orderId);
-                    trackingService.save(trackingDto);
-                    createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                        fulfillment.getTrackingCompany(), shopifyOrder);
                 }
             }
         });
@@ -150,7 +155,8 @@ public class ShopifyWorker {
         ppHistoryDto.setShopifyShippingStatus(shippingStatus);
         ppHistoryDto.setShopifyTrackingNumber(trackingNumber);
         ppHistoryDto.setUpdatedAt(now);
-        ppHistoryDto.setUpdatedAt(now);
+        ppHistoryDto.setCreatedAt(now);
+        ppHistoryDto.setStatus(Constants.CALLED);
         paypalHistoryService.save(ppHistoryDto);
     }
 }
