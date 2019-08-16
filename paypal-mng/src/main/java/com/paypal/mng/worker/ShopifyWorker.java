@@ -4,13 +4,19 @@ import com.paypal.mng.config.Constants;
 import com.paypal.mng.domain.Order;
 import com.paypal.mng.service.*;
 import com.paypal.mng.service.dto.*;
+import com.paypal.mng.service.dto.paypal.Tracker;
+import com.paypal.mng.service.dto.paypal.TrackerIdentifierListDTO;
+import com.paypal.mng.service.dto.paypal.TrackerList;
 import com.paypal.mng.service.dto.shopify.*;
+import com.paypal.mng.service.external.PaypalApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,51 +35,56 @@ public class ShopifyWorker {
 
     private final PaypalHistoryService paypalHistoryService;
 
+    private final PaypalApiClient paypalApiClient;
+
     public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService,
-                         StoreService storeService, TransactionService transactionService, PaypalHistoryService paypalHistoryService) {
+                         StoreService storeService, TransactionService transactionService,
+                         PaypalHistoryService paypalHistoryService, PaypalApiClient paypalApiClient) {
         this.shopifyService = shopifyService;
         this.trackingService = trackingService;
         this.orderService = orderService;
         this.storeService = storeService;
         this.transactionService = transactionService;
         this.paypalHistoryService = paypalHistoryService;
+        this.paypalApiClient = paypalApiClient;
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 120000)
     public void process() {
         // get shopify orders
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {
             storeDTOS.forEach(storeDTO -> {
-                OrderList orders = shopifyService.getOrdersBy(storeDTO.getShopifyApiUrl() + "orders.json",
-                    storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
-                if (orders != null && !orders.getOrders().isEmpty()) {
-                    log.info("Process order with size {}", orders.getOrders().size());
-                    // for each order find transaction and created
-                    orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
+                if (storeDTO.isAutomationStatus()) {
+                    OrderList orders = shopifyService.getOrdersBy(storeDTO.getShopifyApiUrl() + "orders.json",
+                        storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
+                    if (orders != null && !orders.getOrders().isEmpty()) {
+                        log.info("Process order with size {}", orders.getOrders().size());
+                        // for each order find transaction and created
+                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
+                    }
                 }
             });
         }
     }
 
     private void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) {
+        Optional<Order> existedOrder = orderService.findByOrderNumber(shopifyOrder.getOrderNumber());
+        Long orderId;
+        if (!existedOrder.isPresent()) {
+            orderId = this.createOrder(storeDTO, shopifyOrder);
+        } else {
+            orderId = existedOrder.get().getId();
+        }
         String baseUrl = storeDTO.getShopifyApiUrl() + "orders/" + shopifyOrder.getId() + "/transactions.json";
         TransactionList transactions = shopifyService.getTransactions(baseUrl, storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
-        if (transactions != null && !transactions.getTransactions().isEmpty()) {
+        if (transactions != null && transactions.getTransactions().size() == 1) {
             log.info("Transaction with size: {}", transactions.getTransactions().size());
-            Optional<Order> existedOrder = orderService.findByOrderNumber(shopifyOrder.getOrderNumber());
-            Long orderId;
-            if (!existedOrder.isPresent()) {
-                orderId = this.createOrder(storeDTO, shopifyOrder);
-            } else {
-                orderId = existedOrder.get().getId();
-            }
-
             // created transactions
             createTransactions(transactions, orderId, shopifyOrder);
 
         } else {
-            log.info("transaction is null or empty");
+            log.info("transaction is null or size is not 1");
         }
     }
 
@@ -120,6 +131,8 @@ public class ShopifyWorker {
             List<String> trackingUrls = fulfillment.getTrackingUrls();
             if (trackingNumbers != null) {
                 log.info("Process fulfilment {}", fulfillment);
+                TrackerList trackerList = new TrackerList();
+                ArrayList<Tracker> trackers = new ArrayList<>();
                 for (int i = 0; i < trackingNumbers.size(); i++) {
                     String trackingNumber = trackingNumbers.get(i);
                     Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
@@ -141,6 +154,20 @@ public class ShopifyWorker {
                         trackingService.save(trackingDto);
                         createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
                             fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber);
+                        Tracker tracker = new Tracker();
+                        tracker.setStatus("SHIPPED");
+                        tracker.setCarrier(fulfillment.getTrackingCompany());
+                        tracker.setTrackingNumber(trackingNumber);
+                        tracker.setTransactionId(shopifyTransaction.getAuthorization());
+                        trackers.add(tracker);
+                    }
+                }
+                if (!trackers.isEmpty()) {
+                    trackerList.setTrackerList(trackers);
+                    TrackerIdentifierListDTO res = paypalApiClient
+                        .addTrackersBatch("A21AAH8nGEpgKmURJy3knovttxy-uypWD5oN23IwwNvyeC1ntwjGideJurWjCPeXG-f-wOjx0tWb0pLOzruYOkxXa8iiEyLQQ", trackerList);
+                    if (res != null && res.getTrackerList() != null) {
+                        res.getTrackerList().forEach(System.out::println);
                     }
                 }
             }

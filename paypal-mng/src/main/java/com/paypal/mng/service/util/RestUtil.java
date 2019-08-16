@@ -23,4 +23,11 @@ public class RestUtil {
         uriParams.forEach(builder::queryParam);
         return builder;
     }
+
+    public static HttpHeaders createHeaders(String token) {
+        return new HttpHeaders() {{
+            String authHeader = "Bearer " + token;
+            set("Authorization", authHeader);
+        }};
+    }
 }

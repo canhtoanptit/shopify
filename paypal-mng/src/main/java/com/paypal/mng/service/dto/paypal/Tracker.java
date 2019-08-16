@@ -1,12 +1,18 @@
-package com.paypal.mng.service.dto;
+package com.paypal.mng.service.dto.paypal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Tracker {
+    @JsonProperty("transaction_id")
     private String transactionId;
 
-    private Integer trackingNumber;
+    @JsonProperty("tracking_number")
+    private String trackingNumber;
 
+    @JsonProperty("status")
     private String status;
 
+    @JsonProperty("carrier")
     private String carrier;
 
     public String getTransactionId() {
@@ -17,11 +23,11 @@ public class Tracker {
         this.transactionId = transactionId;
     }
 
-    public Integer getTrackingNumber() {
+    public String getTrackingNumber() {
         return trackingNumber;
     }
 
-    public void setTrackingNumber(Integer trackingNumber) {
+    public void setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;
     }
 
@@ -42,5 +48,15 @@ public class Tracker {
     }
 
     public Tracker() {
+    }
+
+    @Override
+    public String toString() {
+        return "Tracker{" +
+            "transactionId='" + transactionId + '\'' +
+            ", trackingNumber=" + trackingNumber +
+            ", status='" + status + '\'' +
+            ", carrier='" + carrier + '\'' +
+            '}';
     }
 }
