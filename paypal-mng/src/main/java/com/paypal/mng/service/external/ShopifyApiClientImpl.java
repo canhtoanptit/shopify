@@ -1,7 +1,6 @@
 package com.paypal.mng.service.external;
 
 import com.paypal.mng.service.dto.shopify.OrderList;
-import com.paypal.mng.service.dto.shopify.Transaction;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.util.RestUtil;
 import org.springframework.http.HttpEntity;

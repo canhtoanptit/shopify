@@ -81,4 +81,17 @@ public class Fulfillment {
     public void setTrackingUrls(List<String> trackingUrls) {
         this.trackingUrls = trackingUrls;
     }
+
+    @Override
+    public String toString() {
+        return "Fulfillment{" +
+            "id=" + id +
+            ", orderId=" + orderId +
+            ", trackingCompany='" + trackingCompany + '\'' +
+            ", trackingNumber='" + trackingNumber + '\'' +
+            ", trackingNumbers=" + trackingNumbers +
+            ", trackingUrl='" + trackingUrl + '\'' +
+            ", trackingUrls=" + trackingUrls +
+            '}';
+    }
 }

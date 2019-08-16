@@ -7,13 +7,13 @@ import java.util.List;
 public class OrderList
 {
     @JsonProperty(value = JsonConstants.ORDERS)
-    private List<Order> orders;
+    private List<ShopifyOrder> orders;
 
-    public List<Order> getOrders() {
+    public List<ShopifyOrder> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<ShopifyOrder> orders) {
         this.orders = orders;
     }
 }

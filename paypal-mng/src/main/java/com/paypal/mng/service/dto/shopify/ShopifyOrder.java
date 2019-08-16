@@ -9,7 +9,7 @@ import com.paypal.mng.config.jackson.FlexDateSerializer;
 import java.util.Date;
 import java.util.List;
 
-public class Order
+public class ShopifyOrder
 {
     @JsonProperty(value = JsonConstants.ID)
     private long id;

@@ -88,7 +88,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<TransactionDTO> findByShopTransactionIdAndOrderId(Long shopifyTransactionId, Long orderId) {
+    public Optional<TransactionDTO> findByShopifyTransactionIdAndOrderId(Long shopifyTransactionId, Long orderId) {
         Optional<Transaction> trans = transactionRepository.findByShopifyTransactionIdAndOrderId(shopifyTransactionId, orderId);
         return trans.map(transactionMapper::toDto);
     }

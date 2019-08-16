@@ -7,13 +7,13 @@ import java.util.List;
 public class TransactionList
 {
     @JsonProperty(value = JsonConstants.TRANSACTIONS)
-    private List<Transaction> transactions;
+    private List<ShopifyTransaction> transactions;
 
-    public List<Transaction> getTransactions() {
+    public List<ShopifyTransaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<ShopifyTransaction> transactions) {
         this.transactions = transactions;
     }
 }
