@@ -10,6 +10,7 @@ export interface IPaypalHistory {
   status?: number;
   createdAt?: Moment;
   updatedAt?: Moment;
+  shopifyOrderNumber?: number;
 }
 
 export class PaypalHistory implements IPaypalHistory {
@@ -22,6 +23,7 @@ export class PaypalHistory implements IPaypalHistory {
     public carrier?: string,
     public status?: number,
     public createdAt?: Moment,
-    public updatedAt?: Moment
+    public updatedAt?: Moment,
+    public shopifyOrderNumber?: number
   ) {}
 }

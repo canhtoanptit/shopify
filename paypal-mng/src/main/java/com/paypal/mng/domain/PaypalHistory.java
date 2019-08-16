@@ -52,6 +52,10 @@ public class PaypalHistory implements Serializable {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @NotNull
+    @Column(name = "shopify_order_number", nullable = false)
+    private Integer shopifyOrderNumber;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -164,6 +168,19 @@ public class PaypalHistory implements Serializable {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Integer getShopifyOrderNumber() {
+        return shopifyOrderNumber;
+    }
+
+    public PaypalHistory shopifyOrderNumber(Integer shopifyOrderNumber) {
+        this.shopifyOrderNumber = shopifyOrderNumber;
+        return this;
+    }
+
+    public void setShopifyOrderNumber(Integer shopifyOrderNumber) {
+        this.shopifyOrderNumber = shopifyOrderNumber;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -194,6 +211,7 @@ public class PaypalHistory implements Serializable {
             ", status=" + getStatus() +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", shopifyOrderNumber=" + getShopifyOrderNumber() +
             "}";
     }
 }

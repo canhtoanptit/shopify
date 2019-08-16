@@ -52,6 +52,13 @@
         {
             "fieldName": "updatedAt",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "shopifyOrderNumber",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20190816045747",

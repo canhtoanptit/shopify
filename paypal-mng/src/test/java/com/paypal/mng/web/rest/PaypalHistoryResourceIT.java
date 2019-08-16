@@ -66,6 +66,10 @@ public class PaypalHistoryResourceIT {
     private static final Instant UPDATED_UPDATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_UPDATED_AT = Instant.ofEpochMilli(-1L);
 
+    private static final Integer DEFAULT_SHOPIFY_ORDER_NUMBER = 1;
+    private static final Integer UPDATED_SHOPIFY_ORDER_NUMBER = 2;
+    private static final Integer SMALLER_SHOPIFY_ORDER_NUMBER = 1 - 1;
+
     @Autowired
     private PaypalHistoryRepository paypalHistoryRepository;
 
@@ -121,7 +125,8 @@ public class PaypalHistoryResourceIT {
             .carrier(DEFAULT_CARRIER)
             .status(DEFAULT_STATUS)
             .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT);
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .shopifyOrderNumber(DEFAULT_SHOPIFY_ORDER_NUMBER);
         return paypalHistory;
     }
     /**
@@ -139,7 +144,8 @@ public class PaypalHistoryResourceIT {
             .carrier(UPDATED_CARRIER)
             .status(UPDATED_STATUS)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER);
         return paypalHistory;
     }
 
@@ -172,6 +178,7 @@ public class PaypalHistoryResourceIT {
         assertThat(testPaypalHistory.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testPaypalHistory.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testPaypalHistory.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testPaypalHistory.getShopifyOrderNumber()).isEqualTo(DEFAULT_SHOPIFY_ORDER_NUMBER);
     }
 
     @Test
@@ -311,6 +318,25 @@ public class PaypalHistoryResourceIT {
 
     @Test
     @Transactional
+    public void checkShopifyOrderNumberIsRequired() throws Exception {
+        int databaseSizeBeforeTest = paypalHistoryRepository.findAll().size();
+        // set the field null
+        paypalHistory.setShopifyOrderNumber(null);
+
+        // Create the PaypalHistory, which fails.
+        PaypalHistoryDTO paypalHistoryDTO = paypalHistoryMapper.toDto(paypalHistory);
+
+        restPaypalHistoryMockMvc.perform(post("/api/paypal-histories")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(paypalHistoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PaypalHistory> paypalHistoryList = paypalHistoryRepository.findAll();
+        assertThat(paypalHistoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPaypalHistories() throws Exception {
         // Initialize the database
         paypalHistoryRepository.saveAndFlush(paypalHistory);
@@ -327,7 +353,8 @@ public class PaypalHistoryResourceIT {
             .andExpect(jsonPath("$.[*].carrier").value(hasItem(DEFAULT_CARRIER.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].shopifyOrderNumber").value(hasItem(DEFAULT_SHOPIFY_ORDER_NUMBER)));
     }
     
     @Test
@@ -348,7 +375,8 @@ public class PaypalHistoryResourceIT {
             .andExpect(jsonPath("$.carrier").value(DEFAULT_CARRIER.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.shopifyOrderNumber").value(DEFAULT_SHOPIFY_ORDER_NUMBER));
     }
 
     @Test
@@ -379,7 +407,8 @@ public class PaypalHistoryResourceIT {
             .carrier(UPDATED_CARRIER)
             .status(UPDATED_STATUS)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER);
         PaypalHistoryDTO paypalHistoryDTO = paypalHistoryMapper.toDto(updatedPaypalHistory);
 
         restPaypalHistoryMockMvc.perform(put("/api/paypal-histories")
@@ -399,6 +428,7 @@ public class PaypalHistoryResourceIT {
         assertThat(testPaypalHistory.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testPaypalHistory.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testPaypalHistory.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testPaypalHistory.getShopifyOrderNumber()).isEqualTo(UPDATED_SHOPIFY_ORDER_NUMBER);
     }
 
     @Test

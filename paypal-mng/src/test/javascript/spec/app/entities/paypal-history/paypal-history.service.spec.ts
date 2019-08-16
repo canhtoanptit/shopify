@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new PaypalHistory(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate);
+      elemDefault = new PaypalHistory(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate, 0);
     });
 
     describe('Service methods', () => {
@@ -84,7 +84,8 @@ describe('Service Tests', () => {
             carrier: 'BBBBBB',
             status: 1,
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            shopifyOrderNumber: 1
           },
           elemDefault
         );
@@ -115,7 +116,8 @@ describe('Service Tests', () => {
             carrier: 'BBBBBB',
             status: 1,
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            shopifyOrderNumber: 1
           },
           elemDefault
         );

@@ -26,6 +26,7 @@
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyOrderNumber"><span>Shopify Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -40,6 +41,7 @@
                 <td>{{paypalHistory.status}}</td>
                 <td>{{paypalHistory.createdAt | date:'medium'}}</td>
                 <td>{{paypalHistory.updatedAt | date:'medium'}}</td>
+                <td>{{paypalHistory.shopifyOrderNumber}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
