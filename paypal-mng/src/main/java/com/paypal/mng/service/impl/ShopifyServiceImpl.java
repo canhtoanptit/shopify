@@ -36,7 +36,7 @@ public class ShopifyServiceImpl implements ShopifyService {
 
     public TransactionList getTransactions(String baseUrl, String username, String password) {
         HashMap<String, String> uriParams = new HashMap<>();
-        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.AUTHORIZATION);
+        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.AUTHORIZATION + "," + JsonConstants.ORDER_ID);
         UriComponentsBuilder uri = RestUtil.buildQuery(baseUrl, uriParams);
         return shopifyApiClient.getTransactions(uri.toUriString(), username, password);
     }

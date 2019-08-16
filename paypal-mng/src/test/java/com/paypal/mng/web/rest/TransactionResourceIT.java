@@ -50,6 +50,10 @@ public class TransactionResourceIT {
     private static final Instant UPDATED_UPDATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_UPDATED_AT = Instant.ofEpochMilli(-1L);
 
+    private static final Long DEFAULT_TRANSACTION_ID = 1L;
+    private static final Long UPDATED_TRANSACTION_ID = 2L;
+    private static final Long SMALLER_TRANSACTION_ID = 1L - 1L;
+
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -100,7 +104,8 @@ public class TransactionResourceIT {
         Transaction transaction = new Transaction()
             .authorization(DEFAULT_AUTHORIZATION)
             .createdAt(DEFAULT_CREATED_AT)
-            .updatedAt(DEFAULT_UPDATED_AT);
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .transactionId(DEFAULT_TRANSACTION_ID);
         // Add required entity
         Order order;
         if (TestUtil.findAll(em, Order.class).isEmpty()) {
@@ -123,7 +128,8 @@ public class TransactionResourceIT {
         Transaction transaction = new Transaction()
             .authorization(UPDATED_AUTHORIZATION)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .transactionId(UPDATED_TRANSACTION_ID);
         // Add required entity
         Order order;
         if (TestUtil.findAll(em, Order.class).isEmpty()) {
@@ -161,6 +167,7 @@ public class TransactionResourceIT {
         assertThat(testTransaction.getAuthorization()).isEqualTo(DEFAULT_AUTHORIZATION);
         assertThat(testTransaction.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testTransaction.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testTransaction.getTransactionId()).isEqualTo(DEFAULT_TRANSACTION_ID);
     }
 
     @Test
@@ -205,6 +212,25 @@ public class TransactionResourceIT {
 
     @Test
     @Transactional
+    public void checkTransactionIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = transactionRepository.findAll().size();
+        // set the field null
+        transaction.setTransactionId(null);
+
+        // Create the Transaction, which fails.
+        TransactionDTO transactionDTO = transactionMapper.toDto(transaction);
+
+        restTransactionMockMvc.perform(post("/api/transactions")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(transactionDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Transaction> transactionList = transactionRepository.findAll();
+        assertThat(transactionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllTransactions() throws Exception {
         // Initialize the database
         transactionRepository.saveAndFlush(transaction);
@@ -216,7 +242,8 @@ public class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(transaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].authorization").value(hasItem(DEFAULT_AUTHORIZATION.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())));
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].transactionId").value(hasItem(DEFAULT_TRANSACTION_ID.intValue())));
     }
     
     @Test
@@ -232,7 +259,8 @@ public class TransactionResourceIT {
             .andExpect(jsonPath("$.id").value(transaction.getId().intValue()))
             .andExpect(jsonPath("$.authorization").value(DEFAULT_AUTHORIZATION.toString()))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
-            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()));
+            .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
+            .andExpect(jsonPath("$.transactionId").value(DEFAULT_TRANSACTION_ID.intValue()));
     }
 
     @Test
@@ -258,7 +286,8 @@ public class TransactionResourceIT {
         updatedTransaction
             .authorization(UPDATED_AUTHORIZATION)
             .createdAt(UPDATED_CREATED_AT)
-            .updatedAt(UPDATED_UPDATED_AT);
+            .updatedAt(UPDATED_UPDATED_AT)
+            .transactionId(UPDATED_TRANSACTION_ID);
         TransactionDTO transactionDTO = transactionMapper.toDto(updatedTransaction);
 
         restTransactionMockMvc.perform(put("/api/transactions")
@@ -273,6 +302,7 @@ public class TransactionResourceIT {
         assertThat(testTransaction.getAuthorization()).isEqualTo(UPDATED_AUTHORIZATION);
         assertThat(testTransaction.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testTransaction.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testTransaction.getTransactionId()).isEqualTo(UPDATED_TRANSACTION_ID);
     }
 
     @Test

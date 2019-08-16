@@ -1,12 +1,10 @@
 package com.paypal.mng.worker;
 
-import com.paypal.mng.service.OrderService;
-import com.paypal.mng.service.ShopifyService;
-import com.paypal.mng.service.StoreService;
-import com.paypal.mng.service.TrackingService;
+import com.paypal.mng.service.*;
 import com.paypal.mng.service.dto.OrderDTO;
 import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.TrackingDTO;
+import com.paypal.mng.service.dto.TransactionDTO;
 import com.paypal.mng.service.dto.shopify.Fulfillment;
 import com.paypal.mng.service.dto.shopify.Order;
 import com.paypal.mng.service.dto.shopify.OrderList;
@@ -15,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -32,11 +29,15 @@ public class ShopifyWorker {
 
     private final StoreService storeService;
 
-    public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService, StoreService storeService) {
+    private final TransactionService transactionService;
+
+    public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService,
+                         StoreService storeService, TransactionService transactionService) {
         this.shopifyService = shopifyService;
         this.trackingService = trackingService;
         this.orderService = orderService;
         this.storeService = storeService;
+        this.transactionService = transactionService;
     }
 
     @Scheduled(cron = "0 */1 * * * ?")
@@ -57,9 +58,8 @@ public class ShopifyWorker {
         // post to paypal
     }
 
-    @Transactional
     public void createOrder(StoreDTO storeDTO, Order order) {
-        String baseUrl = storeDTO.getShopifyApiUrl() + "orders/" +order.getId() + "/transactions.json";
+        String baseUrl = storeDTO.getShopifyApiUrl() + "orders/" + order.getId() + "/transactions.json";
         TransactionList transactions = shopifyService.getTransactions(baseUrl, storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
         if (transactions != null && !transactions.getTransactions().isEmpty()) {
             transactions.getTransactions().forEach(System.out::println);
@@ -77,6 +77,23 @@ public class ShopifyWorker {
             } else {
                 orderId = existedOrder.get().getId();
             }
+            transactions.getTransactions().forEach(transaction -> {
+                Optional<TransactionDTO> transOps = transactionService.findByTransactionIdAndOrderId(transaction.getId(), transaction.getOrderId());
+                if (!transOps.isPresent()) {
+                    TransactionDTO transDto = new TransactionDTO();
+                    transDto.setAuthorization(transaction.getAuthorization());
+                    if (transaction.getOrderId() == 0L) {
+                        transDto.setOrderId(orderId);
+                    } else {
+                        transDto.setOrderId(transaction.getOrderId());
+                    }
+                    transDto.setTransactionId(transaction.getId());
+                    transDto.setCreatedAt(now);
+                    transDto.setUpdatedAt(now);
+                    transactionService.save(transDto);
+                }
+            });
+
             List<Fulfillment> fulfillmentList = order.getFulfillments();
             if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
                 log.info("Size of fulfillment {} ", fulfillmentList.size());
@@ -104,6 +121,8 @@ public class ShopifyWorker {
                     }
                 });
             }
+        } else {
+            log.info("transaction is null or empty");
         }
     }
 }

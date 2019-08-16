@@ -26,6 +26,7 @@ export class TransactionUpdateComponent implements OnInit {
     authorization: [null, [Validators.required]],
     createdAt: [],
     updatedAt: [],
+    transactionId: [null, [Validators.required]],
     orderId: [null, Validators.required]
   });
 
@@ -57,6 +58,7 @@ export class TransactionUpdateComponent implements OnInit {
       authorization: transaction.authorization,
       createdAt: transaction.createdAt != null ? transaction.createdAt.format(DATE_TIME_FORMAT) : null,
       updatedAt: transaction.updatedAt != null ? transaction.updatedAt.format(DATE_TIME_FORMAT) : null,
+      transactionId: transaction.transactionId,
       orderId: transaction.orderId
     });
   }
@@ -84,6 +86,7 @@ export class TransactionUpdateComponent implements OnInit {
         this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
       updatedAt:
         this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
+      transactionId: this.editForm.get(['transactionId']).value,
       orderId: this.editForm.get(['orderId']).value
     };
   }

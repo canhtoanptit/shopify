@@ -28,6 +28,13 @@
         {
             "fieldName": "updatedAt",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "transactionId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20190813073624",

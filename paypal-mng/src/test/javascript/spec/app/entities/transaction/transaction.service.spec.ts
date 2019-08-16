@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Transaction(0, 'AAAAAAA', currentDate, currentDate);
+      elemDefault = new Transaction(0, 'AAAAAAA', currentDate, currentDate, 0);
     });
 
     describe('Service methods', () => {
@@ -79,7 +79,8 @@ describe('Service Tests', () => {
           {
             authorization: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            transactionId: 1
           },
           elemDefault
         );
@@ -105,7 +106,8 @@ describe('Service Tests', () => {
           {
             authorization: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
-            updatedAt: currentDate.format(DATE_TIME_FORMAT)
+            updatedAt: currentDate.format(DATE_TIME_FORMAT),
+            transactionId: 1
           },
           elemDefault
         );

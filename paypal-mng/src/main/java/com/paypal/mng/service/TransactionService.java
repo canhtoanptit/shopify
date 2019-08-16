@@ -43,4 +43,13 @@ public interface TransactionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * find transaction by order id and transaction id
+     *
+     * @param transactionId
+     * @param orderId
+     * @return
+     */
+    Optional<TransactionDTO> findByTransactionIdAndOrderId(Long transactionId, Long orderId);
 }

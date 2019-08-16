@@ -33,6 +33,10 @@ public class Transaction implements Serializable {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @NotNull
+    @Column(name = "transaction_id", nullable = false)
+    private Long transactionId;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("transactions")
@@ -86,6 +90,19 @@ public class Transaction implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public Transaction transactionId(Long transactionId) {
+        this.transactionId = transactionId;
+        return this;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
+    }
+
     public Order getOrder() {
         return order;
     }
@@ -123,6 +140,7 @@ public class Transaction implements Serializable {
             ", authorization='" + getAuthorization() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", transactionId=" + getTransactionId() +
             "}";
     }
 }

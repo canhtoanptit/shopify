@@ -18,6 +18,9 @@ public class TransactionDTO implements Serializable {
 
     private Instant updatedAt;
 
+    @NotNull
+    private Long transactionId;
+
 
     private Long orderId;
 
@@ -51,6 +54,14 @@ public class TransactionDTO implements Serializable {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Long getOrderId() {
@@ -89,6 +100,7 @@ public class TransactionDTO implements Serializable {
             ", authorization='" + getAuthorization() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", transactionId=" + getTransactionId() +
             ", order=" + getOrderId() +
             "}";
     }

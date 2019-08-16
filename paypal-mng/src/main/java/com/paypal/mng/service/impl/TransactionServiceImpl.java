@@ -86,4 +86,10 @@ public class TransactionServiceImpl implements TransactionService {
         log.debug("Request to delete Transaction : {}", id);
         transactionRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<TransactionDTO> findByTransactionIdAndOrderId(Long transactionId, Long orderId) {
+        Optional<Transaction> trans = transactionRepository.findByTransactionIdAndOrderId(transactionId, orderId);
+        return trans.map(transactionMapper::toDto);
+    }
 }
