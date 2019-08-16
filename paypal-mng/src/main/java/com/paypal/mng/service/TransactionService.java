@@ -47,9 +47,9 @@ public interface TransactionService {
     /**
      * find transaction by order id and transaction id
      *
-     * @param transactionId
-     * @param orderId
+     * @param shopifyTransactionId
+     * @param OrderId
      * @return
      */
-    Optional<TransactionDTO> findByTransactionIdAndOrderId(Long transactionId, Long orderId);
+    Optional<TransactionDTO> findByShopTransactionIdAndOrderId(Long shopifyTransactionId, Long OrderId);
 }

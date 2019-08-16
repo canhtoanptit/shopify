@@ -13,5 +13,5 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Optional<Transaction> findByTransactionIdAndOrderId(Long transactionId, Long orderId);
+    Optional<Transaction> findByShopifyTransactionIdAndOrderId(Long shopifyTransactionId, Long OrderId);
 }

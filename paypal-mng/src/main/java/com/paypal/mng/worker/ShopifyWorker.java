@@ -71,6 +71,7 @@ public class ShopifyWorker {
                 orderDto.setCreatedAt(now);
                 orderDto.setUpdatedAt(now);
                 orderDto.setStoreId(storeDTO.getId());
+                orderDto.setShopifyOrderId(order.getId());
                 orderDto.setOrderNumber(order.getOrderNumber());
                 OrderDTO response = orderService.save(orderDto);
                 orderId = response.getId();
@@ -78,15 +79,11 @@ public class ShopifyWorker {
                 orderId = existedOrder.get().getId();
             }
             transactions.getTransactions().forEach(transaction -> {
-                Optional<TransactionDTO> transOps = transactionService.findByTransactionIdAndOrderId(transaction.getId(), transaction.getOrderId());
+                Optional<TransactionDTO> transOps = transactionService.findByShopTransactionIdAndOrderId(transaction.getId(), orderId);
                 if (!transOps.isPresent()) {
                     TransactionDTO transDto = new TransactionDTO();
                     transDto.setAuthorization(transaction.getAuthorization());
-                    if (transaction.getOrderId() == 0L) {
-                        transDto.setOrderId(orderId);
-                    } else {
-                        transDto.setOrderId(transaction.getOrderId());
-                    }
+                    transDto.setOrderId(orderId);
                     transDto.setShopifyTransactionId(transaction.getId());
                     transDto.setCreatedAt(now);
                     transDto.setUpdatedAt(now);
