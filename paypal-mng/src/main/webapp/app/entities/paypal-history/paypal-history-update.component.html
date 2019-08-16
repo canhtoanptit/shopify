@@ -1,0 +1,110 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-paypal-history-heading">Create or edit a Paypal History</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyOrderId">Shopify Order Id</label>
+                    <input type="number" class="form-control" name="shopifyOrderId" id="field_shopifyOrderId"
+                           formControlName="shopifyOrderId"/>
+                    <div *ngIf="editForm.get('shopifyOrderId').invalid && (editForm.get('shopifyOrderId').dirty || editForm.get('shopifyOrderId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('shopifyOrderId').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('shopifyOrderId')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyTrackingNumber">Shopify Tracking Number</label>
+                    <input type="text" class="form-control" name="shopifyTrackingNumber" id="field_shopifyTrackingNumber"
+                           formControlName="shopifyTrackingNumber"/>
+                    <div *ngIf="editForm.get('shopifyTrackingNumber').invalid && (editForm.get('shopifyTrackingNumber').dirty || editForm.get('shopifyTrackingNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('shopifyTrackingNumber').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyAuthorizationKey">Shopify Authorization Key</label>
+                    <input type="text" class="form-control" name="shopifyAuthorizationKey" id="field_shopifyAuthorizationKey"
+                           formControlName="shopifyAuthorizationKey"/>
+                    <div *ngIf="editForm.get('shopifyAuthorizationKey').invalid && (editForm.get('shopifyAuthorizationKey').dirty || editForm.get('shopifyAuthorizationKey').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('shopifyAuthorizationKey').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyShippingStatus">Shopify Shipping Status</label>
+                    <input type="text" class="form-control" name="shopifyShippingStatus" id="field_shopifyShippingStatus"
+                           formControlName="shopifyShippingStatus"/>
+                    <div *ngIf="editForm.get('shopifyShippingStatus').invalid && (editForm.get('shopifyShippingStatus').dirty || editForm.get('shopifyShippingStatus').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('shopifyShippingStatus').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_carrier">Carrier</label>
+                    <input type="text" class="form-control" name="carrier" id="field_carrier"
+                           formControlName="carrier"/>
+                    <div *ngIf="editForm.get('carrier').invalid && (editForm.get('carrier').dirty || editForm.get('carrier').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('carrier').errors.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="number" class="form-control" name="status" id="field_status"
+                           formControlName="status"/>
+                    <div *ngIf="editForm.get('status').invalid && (editForm.get('status').dirty || editForm.get('status').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('status')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createdAt">Created At</label>
+                    <div class="d-flex">
+                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_updatedAt">Updated At</label>
+                    <div class="d-flex">
+                        <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" formControlName="updatedAt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

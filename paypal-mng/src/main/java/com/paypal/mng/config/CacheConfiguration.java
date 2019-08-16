@@ -49,6 +49,7 @@ public class CacheConfiguration {
             createCache(cm, com.paypal.mng.domain.Order.class.getName());
             createCache(cm, com.paypal.mng.domain.Tracking.class.getName());
             createCache(cm, com.paypal.mng.domain.Transaction.class.getName());
+            createCache(cm, com.paypal.mng.domain.PaypalHistory.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

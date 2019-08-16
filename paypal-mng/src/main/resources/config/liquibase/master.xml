@@ -19,6 +19,7 @@
     <include file="config/liquibase/changelog/20190813054053_added_entity_Order.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190813072622_added_entity_Tracking.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190813073624_added_entity_Transaction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190816045747_added_entity_PaypalHistory.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190813052556_added_entity_constraints_Store.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190813054053_added_entity_constraints_Order.xml" relativeToChangelogFile="false"/>

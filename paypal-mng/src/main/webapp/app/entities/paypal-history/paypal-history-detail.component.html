@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="paypalHistory">
+            <h2><span>Paypal History</span> {{paypalHistory.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Shopify Order Id</span></dt>
+                <dd>
+                    <span>{{paypalHistory.shopifyOrderId}}</span>
+                </dd>
+                <dt><span>Shopify Tracking Number</span></dt>
+                <dd>
+                    <span>{{paypalHistory.shopifyTrackingNumber}}</span>
+                </dd>
+                <dt><span>Shopify Authorization Key</span></dt>
+                <dd>
+                    <span>{{paypalHistory.shopifyAuthorizationKey}}</span>
+                </dd>
+                <dt><span>Shopify Shipping Status</span></dt>
+                <dd>
+                    <span>{{paypalHistory.shopifyShippingStatus}}</span>
+                </dd>
+                <dt><span>Carrier</span></dt>
+                <dd>
+                    <span>{{paypalHistory.carrier}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{paypalHistory.status}}</span>
+                </dd>
+                <dt><span>Created At</span></dt>
+                <dd>
+                    <span>{{paypalHistory.createdAt}}</span>
+                </dd>
+                <dt><span>Updated At</span></dt>
+                <dd>
+                    <span>{{paypalHistory.updatedAt}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/paypal-history', paypalHistory.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
