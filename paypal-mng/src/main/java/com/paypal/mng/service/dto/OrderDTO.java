@@ -18,6 +18,9 @@ public class OrderDTO implements Serializable {
     @NotNull
     private Integer orderNumber;
 
+    @NotNull
+    private Long shopifyOrderId;
+
 
     private Long storeId;
 
@@ -51,6 +54,14 @@ public class OrderDTO implements Serializable {
 
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public Long getShopifyOrderId() {
+        return shopifyOrderId;
+    }
+
+    public void setShopifyOrderId(Long shopifyOrderId) {
+        this.shopifyOrderId = shopifyOrderId;
     }
 
     public Long getStoreId() {
@@ -89,6 +100,7 @@ public class OrderDTO implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", orderNumber=" + getOrderNumber() +
+            ", shopifyOrderId=" + getShopifyOrderId() +
             ", store=" + getStoreId() +
             "}";
     }

@@ -30,10 +30,11 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "transactionId",
+            "fieldName": "shopifyTransactionId",
             "fieldType": "Long",
             "fieldValidateRules": [
-                "required"
+                "required",
+                "unique"
             ]
         }
     ],

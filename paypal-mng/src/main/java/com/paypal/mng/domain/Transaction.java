@@ -34,8 +34,8 @@ public class Transaction implements Serializable {
     private Instant updatedAt;
 
     @NotNull
-    @Column(name = "transaction_id", nullable = false)
-    private Long transactionId;
+    @Column(name = "shopify_transaction_id", nullable = false, unique = true)
+    private Long shopifyTransactionId;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -90,17 +90,17 @@ public class Transaction implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getShopifyTransactionId() {
+        return shopifyTransactionId;
     }
 
-    public Transaction transactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public Transaction shopifyTransactionId(Long shopifyTransactionId) {
+        this.shopifyTransactionId = shopifyTransactionId;
         return this;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setShopifyTransactionId(Long shopifyTransactionId) {
+        this.shopifyTransactionId = shopifyTransactionId;
     }
 
     public Order getOrder() {
@@ -140,7 +140,7 @@ public class Transaction implements Serializable {
             ", authorization='" + getAuthorization() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
-            ", transactionId=" + getTransactionId() +
+            ", shopifyTransactionId=" + getShopifyTransactionId() +
             "}";
     }
 }

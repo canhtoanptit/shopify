@@ -1,2 +1,2 @@
-id;created_at;updated_at;order_number;store_id
-1;2019-08-14T23:12:56;2019-08-14T13:05:15;95071;1
+id;created_at;updated_at;order_number;shopify_order_id;store_id
+1;2019-08-15T18:35:42;2019-08-15T08:28:01;95071;18343;1

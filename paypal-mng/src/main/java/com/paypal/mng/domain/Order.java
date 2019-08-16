@@ -33,6 +33,10 @@ public class Order implements Serializable {
     @Column(name = "order_number", nullable = false, unique = true)
     private Integer orderNumber;
 
+    @NotNull
+    @Column(name = "shopify_order_id", nullable = false, unique = true)
+    private Long shopifyOrderId;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("orders")
@@ -86,6 +90,19 @@ public class Order implements Serializable {
         this.orderNumber = orderNumber;
     }
 
+    public Long getShopifyOrderId() {
+        return shopifyOrderId;
+    }
+
+    public Order shopifyOrderId(Long shopifyOrderId) {
+        this.shopifyOrderId = shopifyOrderId;
+        return this;
+    }
+
+    public void setShopifyOrderId(Long shopifyOrderId) {
+        this.shopifyOrderId = shopifyOrderId;
+    }
+
     public Store getStore() {
         return store;
     }
@@ -123,6 +140,7 @@ public class Order implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", orderNumber=" + getOrderNumber() +
+            ", shopifyOrderId=" + getShopifyOrderId() +
             "}";
     }
 }

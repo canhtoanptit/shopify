@@ -33,16 +33,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_transactionId">Transaction Id</label>
-                    <input type="number" class="form-control" name="transactionId" id="field_transactionId"
-                           formControlName="transactionId"/>
-                    <div *ngIf="editForm.get('transactionId').invalid && (editForm.get('transactionId').dirty || editForm.get('transactionId').touched)">
+                    <label class="form-control-label" for="field_shopifyTransactionId">Shopify Transaction Id</label>
+                    <input type="number" class="form-control" name="shopifyTransactionId" id="field_shopifyTransactionId"
+                           formControlName="shopifyTransactionId"/>
+                    <div *ngIf="editForm.get('shopifyTransactionId').invalid && (editForm.get('shopifyTransactionId').dirty || editForm.get('shopifyTransactionId').touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('transactionId').errors.required">
+                               *ngIf="editForm.get('shopifyTransactionId').errors.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.get('transactionId')?.errors?.number">
+                            [hidden]="!editForm.get('shopifyTransactionId')?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>

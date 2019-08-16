@@ -5,7 +5,7 @@ export interface ITransaction {
   authorization?: string;
   createdAt?: Moment;
   updatedAt?: Moment;
-  transactionId?: number;
+  shopifyTransactionId?: number;
   orderId?: number;
 }
 
@@ -15,7 +15,7 @@ export class Transaction implements ITransaction {
     public authorization?: string,
     public createdAt?: Moment,
     public updatedAt?: Moment,
-    public transactionId?: number,
+    public shopifyTransactionId?: number,
     public orderId?: number
   ) {}
 }

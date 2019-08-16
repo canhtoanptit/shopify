@@ -19,7 +19,7 @@ public class TransactionDTO implements Serializable {
     private Instant updatedAt;
 
     @NotNull
-    private Long transactionId;
+    private Long shopifyTransactionId;
 
 
     private Long orderId;
@@ -56,12 +56,12 @@ public class TransactionDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getShopifyTransactionId() {
+        return shopifyTransactionId;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setShopifyTransactionId(Long shopifyTransactionId) {
+        this.shopifyTransactionId = shopifyTransactionId;
     }
 
     public Long getOrderId() {
@@ -100,7 +100,7 @@ public class TransactionDTO implements Serializable {
             ", authorization='" + getAuthorization() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
-            ", transactionId=" + getTransactionId() +
+            ", shopifyTransactionId=" + getShopifyTransactionId() +
             ", order=" + getOrderId() +
             "}";
     }

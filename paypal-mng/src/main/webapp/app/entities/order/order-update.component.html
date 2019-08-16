@@ -36,6 +36,21 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyOrderId">Shopify Order Id</label>
+                    <input type="number" class="form-control" name="shopifyOrderId" id="field_shopifyOrderId"
+                           formControlName="shopifyOrderId"/>
+                    <div *ngIf="editForm.get('shopifyOrderId').invalid && (editForm.get('shopifyOrderId').dirty || editForm.get('shopifyOrderId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('shopifyOrderId').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('shopifyOrderId')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_store">Store</label>

@@ -51,6 +51,10 @@ public class OrderResourceIT {
     private static final Integer UPDATED_ORDER_NUMBER = 2;
     private static final Integer SMALLER_ORDER_NUMBER = 1 - 1;
 
+    private static final Long DEFAULT_SHOPIFY_ORDER_ID = 1L;
+    private static final Long UPDATED_SHOPIFY_ORDER_ID = 2L;
+    private static final Long SMALLER_SHOPIFY_ORDER_ID = 1L - 1L;
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -101,7 +105,8 @@ public class OrderResourceIT {
         Order order = new Order()
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT)
-            .orderNumber(DEFAULT_ORDER_NUMBER);
+            .orderNumber(DEFAULT_ORDER_NUMBER)
+            .shopifyOrderId(DEFAULT_SHOPIFY_ORDER_ID);
         // Add required entity
         Store store;
         if (TestUtil.findAll(em, Store.class).isEmpty()) {
@@ -124,7 +129,8 @@ public class OrderResourceIT {
         Order order = new Order()
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
-            .orderNumber(UPDATED_ORDER_NUMBER);
+            .orderNumber(UPDATED_ORDER_NUMBER)
+            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID);
         // Add required entity
         Store store;
         if (TestUtil.findAll(em, Store.class).isEmpty()) {
@@ -162,6 +168,7 @@ public class OrderResourceIT {
         assertThat(testOrder.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testOrder.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testOrder.getOrderNumber()).isEqualTo(DEFAULT_ORDER_NUMBER);
+        assertThat(testOrder.getShopifyOrderId()).isEqualTo(DEFAULT_SHOPIFY_ORDER_ID);
     }
 
     @Test
@@ -206,6 +213,25 @@ public class OrderResourceIT {
 
     @Test
     @Transactional
+    public void checkShopifyOrderIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = orderRepository.findAll().size();
+        // set the field null
+        order.setShopifyOrderId(null);
+
+        // Create the Order, which fails.
+        OrderDTO orderDTO = orderMapper.toDto(order);
+
+        restOrderMockMvc.perform(post("/api/orders")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(orderDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Order> orderList = orderRepository.findAll();
+        assertThat(orderList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllOrders() throws Exception {
         // Initialize the database
         orderRepository.saveAndFlush(order);
@@ -217,7 +243,8 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(order.getId().intValue())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER)));
+            .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER)))
+            .andExpect(jsonPath("$.[*].shopifyOrderId").value(hasItem(DEFAULT_SHOPIFY_ORDER_ID.intValue())));
     }
     
     @Test
@@ -233,7 +260,8 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.id").value(order.getId().intValue()))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
-            .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER));
+            .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER))
+            .andExpect(jsonPath("$.shopifyOrderId").value(DEFAULT_SHOPIFY_ORDER_ID.intValue()));
     }
 
     @Test
@@ -259,7 +287,8 @@ public class OrderResourceIT {
         updatedOrder
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
-            .orderNumber(UPDATED_ORDER_NUMBER);
+            .orderNumber(UPDATED_ORDER_NUMBER)
+            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID);
         OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
         restOrderMockMvc.perform(put("/api/orders")
@@ -274,6 +303,7 @@ public class OrderResourceIT {
         assertThat(testOrder.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testOrder.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testOrder.getOrderNumber()).isEqualTo(UPDATED_ORDER_NUMBER);
+        assertThat(testOrder.getShopifyOrderId()).isEqualTo(UPDATED_SHOPIFY_ORDER_ID);
     }
 
     @Test

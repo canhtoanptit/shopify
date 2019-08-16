@@ -29,6 +29,14 @@
                 "required",
                 "unique"
             ]
+        },
+        {
+            "fieldName": "shopifyOrderId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required",
+                "unique"
+            ]
         }
     ],
     "changelogDate": "20190813054053",

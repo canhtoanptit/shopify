@@ -87,7 +87,7 @@ public class ShopifyWorker {
                     } else {
                         transDto.setOrderId(transaction.getOrderId());
                     }
-                    transDto.setTransactionId(transaction.getId());
+                    transDto.setShopifyTransactionId(transaction.getId());
                     transDto.setCreatedAt(now);
                     transDto.setUpdatedAt(now);
                     transactionService.save(transDto);

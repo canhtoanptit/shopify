@@ -21,7 +21,7 @@
             <th jhiSortBy="authorization"><span>Authorization</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="transactionId"><span>Transaction Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyTransactionId"><span>Shopify Transaction Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orderId"><span>Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -32,7 +32,7 @@
                 <td>{{transaction.authorization}}</td>
                 <td>{{transaction.createdAt | date:'medium'}}</td>
                 <td>{{transaction.updatedAt | date:'medium'}}</td>
-                <td>{{transaction.transactionId}}</td>
+                <td>{{transaction.shopifyTransactionId}}</td>
                 <td>
                     <div *ngIf="transaction.orderId">
                         <a [routerLink]="['/order', transaction.orderId , 'view' ]" >{{transaction.orderId}}</a>

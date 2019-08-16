@@ -80,7 +80,7 @@ describe('Service Tests', () => {
             authorization: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
-            transactionId: 1
+            shopifyTransactionId: 1
           },
           elemDefault
         );
@@ -107,7 +107,7 @@ describe('Service Tests', () => {
             authorization: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
-            transactionId: 1
+            shopifyTransactionId: 1
           },
           elemDefault
         );

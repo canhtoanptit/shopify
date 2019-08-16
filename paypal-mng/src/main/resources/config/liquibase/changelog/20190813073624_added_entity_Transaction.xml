@@ -28,8 +28,8 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="transaction_id" type="bigint">
-                <constraints nullable="false" />
+            <column name="shopify_transaction_id" type="bigint">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_transaction_shopify_transaction_id" />
             </column>
 
             <column name="order_id" type="bigint">
@@ -65,7 +65,7 @@
             <column name="authorization" type="string"/>
             <column name="created_at" type="datetime"/>
             <column name="updated_at" type="datetime"/>
-            <column name="transaction_id" type="numeric"/>
+            <column name="shopify_transaction_id" type="numeric"/>
             <column name="order_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
