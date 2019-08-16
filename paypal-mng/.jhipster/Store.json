@@ -50,6 +50,10 @@
                 "required",
                 "unique"
             ]
+        },
+        {
+            "fieldName": "automationStatus",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20190813052556",

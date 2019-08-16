@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Store(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 'AAAAAAA');
+      elemDefault = new Store(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 'AAAAAAA', false);
     });
 
     describe('Service methods', () => {
@@ -82,7 +82,8 @@ describe('Service Tests', () => {
             storeName: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
-            shopifyApiUrl: 'BBBBBB'
+            shopifyApiUrl: 'BBBBBB',
+            automationStatus: true
           },
           elemDefault
         );
@@ -111,7 +112,8 @@ describe('Service Tests', () => {
             storeName: 'BBBBBB',
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
-            shopifyApiUrl: 'BBBBBB'
+            shopifyApiUrl: 'BBBBBB',
+            automationStatus: true
           },
           elemDefault
         );

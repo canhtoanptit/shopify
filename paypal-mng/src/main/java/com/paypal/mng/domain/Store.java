@@ -45,6 +45,9 @@ public class Store implements Serializable {
     @Column(name = "shopify_api_url", nullable = false, unique = true)
     private String shopifyApiUrl;
 
+    @Column(name = "automation_status")
+    private Boolean automationStatus;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("stores")
@@ -137,6 +140,19 @@ public class Store implements Serializable {
         this.shopifyApiUrl = shopifyApiUrl;
     }
 
+    public Boolean isAutomationStatus() {
+        return automationStatus;
+    }
+
+    public Store automationStatus(Boolean automationStatus) {
+        this.automationStatus = automationStatus;
+        return this;
+    }
+
+    public void setAutomationStatus(Boolean automationStatus) {
+        this.automationStatus = automationStatus;
+    }
+
     public Paypal getPaypal() {
         return paypal;
     }
@@ -177,6 +193,7 @@ public class Store implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", shopifyApiUrl='" + getShopifyApiUrl() + "'" +
+            ", automationStatus='" + isAutomationStatus() + "'" +
             "}";
     }
 }

@@ -29,6 +29,7 @@ export class StoreUpdateComponent implements OnInit {
     createdAt: [],
     updatedAt: [],
     shopifyApiUrl: [null, [Validators.required]],
+    automationStatus: [],
     paypalId: [null, Validators.required]
   });
 
@@ -63,6 +64,7 @@ export class StoreUpdateComponent implements OnInit {
       createdAt: store.createdAt != null ? store.createdAt.format(DATE_TIME_FORMAT) : null,
       updatedAt: store.updatedAt != null ? store.updatedAt.format(DATE_TIME_FORMAT) : null,
       shopifyApiUrl: store.shopifyApiUrl,
+      automationStatus: store.automationStatus,
       paypalId: store.paypalId
     });
   }
@@ -93,6 +95,7 @@ export class StoreUpdateComponent implements OnInit {
       updatedAt:
         this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       shopifyApiUrl: this.editForm.get(['shopifyApiUrl']).value,
+      automationStatus: this.editForm.get(['automationStatus']).value,
       paypalId: this.editForm.get(['paypalId']).value
     };
   }
