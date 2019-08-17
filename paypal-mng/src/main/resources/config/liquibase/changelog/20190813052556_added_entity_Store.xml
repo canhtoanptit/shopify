@@ -44,6 +44,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="since_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="paypal_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -81,6 +85,7 @@
             <column name="updated_at" type="datetime"/>
             <column name="shopify_api_url" type="string"/>
             <column name="automation_status" type="boolean"/>
+            <column name="since_id" type="numeric"/>
             <column name="paypal_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

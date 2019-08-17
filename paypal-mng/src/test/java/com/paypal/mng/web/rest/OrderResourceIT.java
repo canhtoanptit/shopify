@@ -55,6 +55,9 @@ public class OrderResourceIT {
     private static final Long UPDATED_SHOPIFY_ORDER_ID = 2L;
     private static final Long SMALLER_SHOPIFY_ORDER_ID = 1L - 1L;
 
+    private static final String DEFAULT_ORDER_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_ORDER_NAME = "BBBBBBBBBB";
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -106,7 +109,8 @@ public class OrderResourceIT {
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT)
             .orderNumber(DEFAULT_ORDER_NUMBER)
-            .shopifyOrderId(DEFAULT_SHOPIFY_ORDER_ID);
+            .shopifyOrderId(DEFAULT_SHOPIFY_ORDER_ID)
+            .orderName(DEFAULT_ORDER_NAME);
         // Add required entity
         Store store;
         if (TestUtil.findAll(em, Store.class).isEmpty()) {
@@ -130,7 +134,8 @@ public class OrderResourceIT {
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
             .orderNumber(UPDATED_ORDER_NUMBER)
-            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID);
+            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID)
+            .orderName(UPDATED_ORDER_NAME);
         // Add required entity
         Store store;
         if (TestUtil.findAll(em, Store.class).isEmpty()) {
@@ -169,6 +174,7 @@ public class OrderResourceIT {
         assertThat(testOrder.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testOrder.getOrderNumber()).isEqualTo(DEFAULT_ORDER_NUMBER);
         assertThat(testOrder.getShopifyOrderId()).isEqualTo(DEFAULT_SHOPIFY_ORDER_ID);
+        assertThat(testOrder.getOrderName()).isEqualTo(DEFAULT_ORDER_NAME);
     }
 
     @Test
@@ -244,7 +250,8 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].orderNumber").value(hasItem(DEFAULT_ORDER_NUMBER)))
-            .andExpect(jsonPath("$.[*].shopifyOrderId").value(hasItem(DEFAULT_SHOPIFY_ORDER_ID.intValue())));
+            .andExpect(jsonPath("$.[*].shopifyOrderId").value(hasItem(DEFAULT_SHOPIFY_ORDER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].orderName").value(hasItem(DEFAULT_ORDER_NAME.toString())));
     }
     
     @Test
@@ -261,7 +268,8 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
             .andExpect(jsonPath("$.orderNumber").value(DEFAULT_ORDER_NUMBER))
-            .andExpect(jsonPath("$.shopifyOrderId").value(DEFAULT_SHOPIFY_ORDER_ID.intValue()));
+            .andExpect(jsonPath("$.shopifyOrderId").value(DEFAULT_SHOPIFY_ORDER_ID.intValue()))
+            .andExpect(jsonPath("$.orderName").value(DEFAULT_ORDER_NAME.toString()));
     }
 
     @Test
@@ -288,7 +296,8 @@ public class OrderResourceIT {
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
             .orderNumber(UPDATED_ORDER_NUMBER)
-            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID);
+            .shopifyOrderId(UPDATED_SHOPIFY_ORDER_ID)
+            .orderName(UPDATED_ORDER_NAME);
         OrderDTO orderDTO = orderMapper.toDto(updatedOrder);
 
         restOrderMockMvc.perform(put("/api/orders")
@@ -304,6 +313,7 @@ public class OrderResourceIT {
         assertThat(testOrder.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testOrder.getOrderNumber()).isEqualTo(UPDATED_ORDER_NUMBER);
         assertThat(testOrder.getShopifyOrderId()).isEqualTo(UPDATED_SHOPIFY_ORDER_ID);
+        assertThat(testOrder.getOrderName()).isEqualTo(UPDATED_ORDER_NAME);
     }
 
     @Test

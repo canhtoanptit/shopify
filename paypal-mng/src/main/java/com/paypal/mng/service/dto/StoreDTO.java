@@ -29,6 +29,8 @@ public class StoreDTO implements Serializable {
 
     private Boolean automationStatus;
 
+    private Long sinceId;
+
 
     private Long paypalId;
 
@@ -96,6 +98,14 @@ public class StoreDTO implements Serializable {
         this.automationStatus = automationStatus;
     }
 
+    public Long getSinceId() {
+        return sinceId;
+    }
+
+    public void setSinceId(Long sinceId) {
+        this.sinceId = sinceId;
+    }
+
     public Long getPaypalId() {
         return paypalId;
     }
@@ -136,6 +146,7 @@ public class StoreDTO implements Serializable {
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", shopifyApiUrl='" + getShopifyApiUrl() + "'" +
             ", automationStatus='" + isAutomationStatus() + "'" +
+            ", sinceId=" + getSinceId() +
             ", paypal=" + getPaypalId() +
             "}";
     }

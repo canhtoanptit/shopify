@@ -62,6 +62,10 @@ public class StoreResourceIT {
     private static final Boolean DEFAULT_AUTOMATION_STATUS = false;
     private static final Boolean UPDATED_AUTOMATION_STATUS = true;
 
+    private static final Long DEFAULT_SINCE_ID = 1L;
+    private static final Long UPDATED_SINCE_ID = 2L;
+    private static final Long SMALLER_SINCE_ID = 1L - 1L;
+
     @Autowired
     private StoreRepository storeRepository;
 
@@ -116,7 +120,8 @@ public class StoreResourceIT {
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT)
             .shopifyApiUrl(DEFAULT_SHOPIFY_API_URL)
-            .automationStatus(DEFAULT_AUTOMATION_STATUS);
+            .automationStatus(DEFAULT_AUTOMATION_STATUS)
+            .sinceId(DEFAULT_SINCE_ID);
         // Add required entity
         Paypal paypal;
         if (TestUtil.findAll(em, Paypal.class).isEmpty()) {
@@ -143,7 +148,8 @@ public class StoreResourceIT {
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
             .shopifyApiUrl(UPDATED_SHOPIFY_API_URL)
-            .automationStatus(UPDATED_AUTOMATION_STATUS);
+            .automationStatus(UPDATED_AUTOMATION_STATUS)
+            .sinceId(UPDATED_SINCE_ID);
         // Add required entity
         Paypal paypal;
         if (TestUtil.findAll(em, Paypal.class).isEmpty()) {
@@ -185,6 +191,7 @@ public class StoreResourceIT {
         assertThat(testStore.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testStore.getShopifyApiUrl()).isEqualTo(DEFAULT_SHOPIFY_API_URL);
         assertThat(testStore.isAutomationStatus()).isEqualTo(DEFAULT_AUTOMATION_STATUS);
+        assertThat(testStore.getSinceId()).isEqualTo(DEFAULT_SINCE_ID);
     }
 
     @Test
@@ -301,7 +308,8 @@ public class StoreResourceIT {
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
             .andExpect(jsonPath("$.[*].shopifyApiUrl").value(hasItem(DEFAULT_SHOPIFY_API_URL.toString())))
-            .andExpect(jsonPath("$.[*].automationStatus").value(hasItem(DEFAULT_AUTOMATION_STATUS.booleanValue())));
+            .andExpect(jsonPath("$.[*].automationStatus").value(hasItem(DEFAULT_AUTOMATION_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].sinceId").value(hasItem(DEFAULT_SINCE_ID.intValue())));
     }
     
     @Test
@@ -321,7 +329,8 @@ public class StoreResourceIT {
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
             .andExpect(jsonPath("$.shopifyApiUrl").value(DEFAULT_SHOPIFY_API_URL.toString()))
-            .andExpect(jsonPath("$.automationStatus").value(DEFAULT_AUTOMATION_STATUS.booleanValue()));
+            .andExpect(jsonPath("$.automationStatus").value(DEFAULT_AUTOMATION_STATUS.booleanValue()))
+            .andExpect(jsonPath("$.sinceId").value(DEFAULT_SINCE_ID.intValue()));
     }
 
     @Test
@@ -351,7 +360,8 @@ public class StoreResourceIT {
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
             .shopifyApiUrl(UPDATED_SHOPIFY_API_URL)
-            .automationStatus(UPDATED_AUTOMATION_STATUS);
+            .automationStatus(UPDATED_AUTOMATION_STATUS)
+            .sinceId(UPDATED_SINCE_ID);
         StoreDTO storeDTO = storeMapper.toDto(updatedStore);
 
         restStoreMockMvc.perform(put("/api/stores")
@@ -370,6 +380,7 @@ public class StoreResourceIT {
         assertThat(testStore.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testStore.getShopifyApiUrl()).isEqualTo(UPDATED_SHOPIFY_API_URL);
         assertThat(testStore.isAutomationStatus()).isEqualTo(UPDATED_AUTOMATION_STATUS);
+        assertThat(testStore.getSinceId()).isEqualTo(UPDATED_SINCE_ID);
     }
 
     @Test

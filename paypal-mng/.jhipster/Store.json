@@ -54,6 +54,10 @@
         {
             "fieldName": "automationStatus",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "sinceId",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20190813052556",

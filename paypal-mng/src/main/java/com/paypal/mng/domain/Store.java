@@ -48,6 +48,9 @@ public class Store implements Serializable {
     @Column(name = "automation_status")
     private Boolean automationStatus;
 
+    @Column(name = "since_id")
+    private Long sinceId;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("stores")
@@ -153,6 +156,19 @@ public class Store implements Serializable {
         this.automationStatus = automationStatus;
     }
 
+    public Long getSinceId() {
+        return sinceId;
+    }
+
+    public Store sinceId(Long sinceId) {
+        this.sinceId = sinceId;
+        return this;
+    }
+
+    public void setSinceId(Long sinceId) {
+        this.sinceId = sinceId;
+    }
+
     public Paypal getPaypal() {
         return paypal;
     }
@@ -194,6 +210,7 @@ public class Store implements Serializable {
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", shopifyApiUrl='" + getShopifyApiUrl() + "'" +
             ", automationStatus='" + isAutomationStatus() + "'" +
+            ", sinceId=" + getSinceId() +
             "}";
     }
 }

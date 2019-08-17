@@ -22,6 +22,7 @@
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="orderNumber"><span>Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shopifyOrderId"><span>Shopify Order Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="orderName"><span>Order Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="storeId"><span>Store</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -33,6 +34,7 @@
                 <td>{{order.updatedAt | date:'medium'}}</td>
                 <td>{{order.orderNumber}}</td>
                 <td>{{order.shopifyOrderId}}</td>
+                <td>{{order.orderName}}</td>
                 <td>
                     <div *ngIf="order.storeId">
                         <a [routerLink]="['/store', order.storeId , 'view' ]" >{{order.storeId}}</a>

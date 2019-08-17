@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Order(0, currentDate, currentDate, 0, 0);
+      elemDefault = new Order(0, currentDate, currentDate, 0, 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -80,7 +80,8 @@ describe('Service Tests', () => {
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
             orderNumber: 1,
-            shopifyOrderId: 1
+            shopifyOrderId: 1,
+            orderName: 'BBBBBB'
           },
           elemDefault
         );
@@ -107,7 +108,8 @@ describe('Service Tests', () => {
             createdAt: currentDate.format(DATE_TIME_FORMAT),
             updatedAt: currentDate.format(DATE_TIME_FORMAT),
             orderNumber: 1,
-            shopifyOrderId: 1
+            shopifyOrderId: 1,
+            orderName: 'BBBBBB'
           },
           elemDefault
         );

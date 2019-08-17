@@ -6,6 +6,7 @@ export interface IOrder {
   updatedAt?: Moment;
   orderNumber?: number;
   shopifyOrderId?: number;
+  orderName?: string;
   storeId?: number;
 }
 
@@ -16,6 +17,7 @@ export class Order implements IOrder {
     public updatedAt?: Moment,
     public orderNumber?: number,
     public shopifyOrderId?: number,
+    public orderName?: string,
     public storeId?: number
   ) {}
 }

@@ -29,7 +29,7 @@ public class ShopifyServiceImpl implements ShopifyService {
         uriParams.put("fulfillment_status", "shipped");
 //        uriParams.put("updated_at_min", DateTimeUtil.atStartOfDay(new Date()));
         uriParams.put("updated_at_max", DateTimeUtil.atEndOfDay(new Date()));
-        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.FULFILLMENTS + "," + JsonConstants.ORDER_NUMBER);
+        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.FULFILLMENTS + "," + JsonConstants.ORDER_NUMBER + "," + JsonConstants.NAME);
         UriComponentsBuilder uri = RestUtil.buildQuery(baseUrl, uriParams);
         return shopifyApiClient.getOrders(uri.toUriString(), username, password);
     }

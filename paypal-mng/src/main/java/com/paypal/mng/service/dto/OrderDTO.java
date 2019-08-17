@@ -21,6 +21,8 @@ public class OrderDTO implements Serializable {
     @NotNull
     private Long shopifyOrderId;
 
+    private String orderName;
+
 
     private Long storeId;
 
@@ -64,6 +66,14 @@ public class OrderDTO implements Serializable {
         this.shopifyOrderId = shopifyOrderId;
     }
 
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
     public Long getStoreId() {
         return storeId;
     }
@@ -101,6 +111,7 @@ public class OrderDTO implements Serializable {
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", orderNumber=" + getOrderNumber() +
             ", shopifyOrderId=" + getShopifyOrderId() +
+            ", orderName='" + getOrderName() + "'" +
             ", store=" + getStoreId() +
             "}";
     }

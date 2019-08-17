@@ -27,6 +27,7 @@ export class OrderUpdateComponent implements OnInit {
     updatedAt: [],
     orderNumber: [null, [Validators.required]],
     shopifyOrderId: [null, [Validators.required]],
+    orderName: [],
     storeId: [null, Validators.required]
   });
 
@@ -59,6 +60,7 @@ export class OrderUpdateComponent implements OnInit {
       updatedAt: order.updatedAt != null ? order.updatedAt.format(DATE_TIME_FORMAT) : null,
       orderNumber: order.orderNumber,
       shopifyOrderId: order.shopifyOrderId,
+      orderName: order.orderName,
       storeId: order.storeId
     });
   }
@@ -87,6 +89,7 @@ export class OrderUpdateComponent implements OnInit {
         this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
       orderNumber: this.editForm.get(['orderNumber']).value,
       shopifyOrderId: this.editForm.get(['shopifyOrderId']).value,
+      orderName: this.editForm.get(['orderName']).value,
       storeId: this.editForm.get(['storeId']).value
     };
   }

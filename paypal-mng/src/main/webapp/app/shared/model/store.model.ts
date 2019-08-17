@@ -9,6 +9,7 @@ export interface IStore {
   updatedAt?: Moment;
   shopifyApiUrl?: string;
   automationStatus?: boolean;
+  sinceId?: number;
   paypalId?: number;
 }
 
@@ -22,6 +23,7 @@ export class Store implements IStore {
     public updatedAt?: Moment,
     public shopifyApiUrl?: string,
     public automationStatus?: boolean,
+    public sinceId?: number,
     public paypalId?: number
   ) {
     this.automationStatus = this.automationStatus || false;

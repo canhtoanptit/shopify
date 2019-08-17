@@ -37,6 +37,10 @@
                 "required",
                 "unique"
             ]
+        },
+        {
+            "fieldName": "orderName",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20190813054053",
