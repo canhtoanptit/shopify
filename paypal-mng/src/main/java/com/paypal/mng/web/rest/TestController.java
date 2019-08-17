@@ -19,8 +19,9 @@ public class TestController {
 
     @GetMapping("/order")
     public OrderList getOrder() {
-        return shopifyService.getOrdersBy("https://actimazo.myshopify.com/admin/api/2019-07/orders.json",
-            "29e15279ee8564d0c333cba572a090d1", "76ea1ffedf641d9a3dfa6f0e93928bdf");
+        return null;
+//        return shopifyService.getOrdersBy("https://actimazo.myshopify.com/admin/api/2019-07/orders.json",
+//            "29e15279ee8564d0c333cba572a090d1", "76ea1ffedf641d9a3dfa6f0e93928bdf");
     }
 
     @GetMapping("/transaction")

@@ -22,11 +22,14 @@ public class ShopifyServiceImpl implements ShopifyService {
         this.shopifyApiClient = shopifyApiClient;
     }
 
-    public OrderList getOrdersBy(String baseUrl, String username, String password) {
+    public OrderList getOrdersBy(String baseUrl, String username, String password, Long sinceId) {
         HashMap<String, String> uriParams = new HashMap<>();
-        uriParams.put("limit", "10");
+        uriParams.put("limit", "250");
         uriParams.put("status", "any");
         uriParams.put("fulfillment_status", "shipped");
+        if (sinceId != null) {
+            uriParams.put("since_id", String.valueOf(sinceId));
+        }
 //        uriParams.put("updated_at_min", DateTimeUtil.atStartOfDay(new Date()));
         uriParams.put("updated_at_max", DateTimeUtil.atEndOfDay(new Date()));
         uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.FULFILLMENTS + "," + JsonConstants.ORDER_NUMBER + "," + JsonConstants.NAME);

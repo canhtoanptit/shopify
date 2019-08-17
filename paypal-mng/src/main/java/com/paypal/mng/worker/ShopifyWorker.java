@@ -5,7 +5,6 @@ import com.paypal.mng.domain.Order;
 import com.paypal.mng.service.*;
 import com.paypal.mng.service.dto.*;
 import com.paypal.mng.service.dto.paypal.Tracker;
-import com.paypal.mng.service.dto.paypal.TrackerIdentifierListDTO;
 import com.paypal.mng.service.dto.paypal.TrackerList;
 import com.paypal.mng.service.dto.shopify.*;
 import com.paypal.mng.service.external.PaypalApiClient;
@@ -48,7 +47,7 @@ public class ShopifyWorker {
         this.paypalApiClient = paypalApiClient;
     }
 
-    @Scheduled(fixedDelay = 120000)
+    @Scheduled(fixedDelay = 240000)
     public void process() {
         // get shopify orders
         List<StoreDTO> storeDTOS = storeService.findAllStore();
@@ -56,7 +55,7 @@ public class ShopifyWorker {
             storeDTOS.forEach(storeDTO -> {
                 if (storeDTO.isAutomationStatus()) {
                     OrderList orders = shopifyService.getOrdersBy(storeDTO.getShopifyApiUrl() + "orders.json",
-                        storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
+                        storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword(), storeDTO.getSinceId());
                     if (orders != null && !orders.getOrders().isEmpty()) {
                         log.info("Process order with size {}", orders.getOrders().size());
                         // for each order find transaction and created
@@ -95,6 +94,7 @@ public class ShopifyWorker {
         orderDto.setStoreId(storeDTO.getId());
         orderDto.setShopifyOrderId(order.getId());
         orderDto.setOrderNumber(order.getOrderNumber());
+        orderDto.setOrderName(order.getName());
         OrderDTO response = orderService.save(orderDto);
         return response.getId();
     }
@@ -163,11 +163,11 @@ public class ShopifyWorker {
                 }
                 if (!trackers.isEmpty()) {
                     trackerList.setTrackerList(trackers);
-                    TrackerIdentifierListDTO res = paypalApiClient
-                        .addTrackersBatch("A21AAH8nGEpgKmURJy3knovttxy-uypWD5oN23IwwNvyeC1ntwjGideJurWjCPeXG-f-wOjx0tWb0pLOzruYOkxXa8iiEyLQQ", trackerList);
-                    if (res != null && res.getTrackerList() != null) {
-                        res.getTrackerList().forEach(System.out::println);
-                    }
+//                    TrackerIdentifierListDTO res = paypalApiClient
+//                        .addTrackersBatch("A21AAH8nGEpgKmURJy3knovttxy-uypWD5oN23IwwNvyeC1ntwjGideJurWjCPeXG-f-wOjx0tWb0pLOzruYOkxXa8iiEyLQQ", trackerList);
+//                    if (res != null && res.getTrackerList() != null) {
+//                        res.getTrackerList().forEach(System.out::println);
+//                    }
                 }
             }
         });
