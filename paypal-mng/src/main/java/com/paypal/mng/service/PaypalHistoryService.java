@@ -43,4 +43,6 @@ public interface PaypalHistoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber);
 }

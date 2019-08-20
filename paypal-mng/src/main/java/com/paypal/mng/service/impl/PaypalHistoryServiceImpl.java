@@ -86,4 +86,10 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
         log.debug("Request to delete PaypalHistory : {}", id);
         paypalHistoryRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber) {
+        return paypalHistoryRepository.findByShopifyAuthorizationKeyAndShopifyTrackingNumber(shopifyAuthorizationKey, shopifyTrackingNumber)
+            .map(paypalHistoryMapper::toDto);
+    }
 }

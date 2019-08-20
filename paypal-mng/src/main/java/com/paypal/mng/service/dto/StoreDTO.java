@@ -1,4 +1,7 @@
 package com.paypal.mng.service.dto;
+import com.paypal.mng.domain.Paypal;
+import com.paypal.mng.domain.Store;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -31,8 +34,9 @@ public class StoreDTO implements Serializable {
 
     private Long sinceId;
 
-
     private Long paypalId;
+
+    private Paypal paypal;
 
     public Long getId() {
         return id;
@@ -114,6 +118,14 @@ public class StoreDTO implements Serializable {
         this.paypalId = paypalId;
     }
 
+    public Paypal getPaypal() {
+        return paypal;
+    }
+
+    public void setPaypal(Paypal paypal) {
+        this.paypal = paypal;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -149,5 +161,42 @@ public class StoreDTO implements Serializable {
             ", sinceId=" + getSinceId() +
             ", paypal=" + getPaypalId() +
             "}";
+    }
+
+    public static StoreDTO toDto(Store store) {
+        if ( store == null ) {
+            return null;
+        }
+
+        StoreDTO storeDTO = new StoreDTO();
+
+        storeDTO.setPaypalId( storePaypalId( store ) );
+        storeDTO.setId( store.getId() );
+        storeDTO.setShopifyApiKey( store.getShopifyApiKey() );
+        storeDTO.setShopifyApiPassword( store.getShopifyApiPassword() );
+        storeDTO.setStoreName( store.getStoreName() );
+        storeDTO.setCreatedAt( store.getCreatedAt() );
+        storeDTO.setUpdatedAt( store.getUpdatedAt() );
+        storeDTO.setShopifyApiUrl( store.getShopifyApiUrl() );
+        storeDTO.setAutomationStatus( store.isAutomationStatus() );
+        storeDTO.setSinceId( store.getSinceId() );
+        storeDTO.setPaypal(store.getPaypal());
+
+        return storeDTO;
+    }
+
+    private static Long storePaypalId(Store store) {
+        if ( store == null ) {
+            return null;
+        }
+        Paypal paypal = store.getPaypal();
+        if ( paypal == null ) {
+            return null;
+        }
+        Long id = paypal.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 }

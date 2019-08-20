@@ -2,9 +2,12 @@ package com.paypal.mng.worker;
 
 import com.paypal.mng.config.Constants;
 import com.paypal.mng.domain.Order;
+import com.paypal.mng.repository.RedisCacheRepo;
 import com.paypal.mng.service.*;
 import com.paypal.mng.service.dto.*;
+import com.paypal.mng.service.dto.paypal.TokenDTO;
 import com.paypal.mng.service.dto.paypal.Tracker;
+import com.paypal.mng.service.dto.paypal.TrackerIdentifierListDTO;
 import com.paypal.mng.service.dto.paypal.TrackerList;
 import com.paypal.mng.service.dto.shopify.*;
 import com.paypal.mng.service.external.PaypalApiClient;
@@ -13,10 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class ShopifyWorker {
@@ -35,9 +40,11 @@ public class ShopifyWorker {
 
     private final PaypalApiClient paypalApiClient;
 
+    private final RedisCacheRepo redisCacheRepo;
+
     public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService,
                          StoreService storeService, TransactionService transactionService,
-                         PaypalHistoryService paypalHistoryService, PaypalApiClient paypalApiClient) {
+                         PaypalHistoryService paypalHistoryService, PaypalApiClient paypalApiClient, RedisCacheRepo redisCacheRepo) {
         this.shopifyService = shopifyService;
         this.trackingService = trackingService;
         this.orderService = orderService;
@@ -45,9 +52,10 @@ public class ShopifyWorker {
         this.transactionService = transactionService;
         this.paypalHistoryService = paypalHistoryService;
         this.paypalApiClient = paypalApiClient;
+        this.redisCacheRepo = redisCacheRepo;
     }
 
-    @Scheduled(fixedDelay = 20000)
+    @Scheduled(fixedDelay = 5000)
     public void process() {
         // get shopify orders
         List<StoreDTO> storeDTOS = storeService.findAllStore();
@@ -78,7 +86,7 @@ public class ShopifyWorker {
         if (transactions != null && transactions.getTransactions().size() == 1) {
             log.info("Transaction with size: {}", transactions.getTransactions().size());
             // created transactions
-            createTransactions(transactions, orderId, shopifyOrder);
+            createTransactions(transactions, orderId, shopifyOrder, storeDTO);
 
         } else {
             log.info("transaction is null or size is not 1");
@@ -98,7 +106,7 @@ public class ShopifyWorker {
         return response.getId();
     }
 
-    private void createTransactions(TransactionList transactions, Long orderId, ShopifyOrder shopifyOrder) {
+    private void createTransactions(TransactionList transactions, Long orderId, ShopifyOrder shopifyOrder, StoreDTO storeDTO) {
         Instant now = Instant.now();
         transactions.getTransactions().forEach(shopifyTransaction -> {
             log.info("Process transaction {}", shopifyTransaction);
@@ -116,21 +124,44 @@ public class ShopifyWorker {
             List<Fulfillment> fulfillmentList = shopifyOrder.getFulfillments();
             if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
                 log.info("Size of fulfillment {} ", fulfillmentList.size());
-                createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(), shopifyOrder.getOrderNumber());
+                List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(), shopifyOrder.getOrderNumber());
+                if (!trackers.isEmpty()) {
+                    TrackerList trackerList = new TrackerList();
+                    trackerList.setTrackerList(trackers);
+                    String token = redisCacheRepo.getValue(storeDTO.getPaypalId().toString());
+                    if (token == null || token.isEmpty()) {
+                        TokenDTO tokenDto = paypalApiClient.getToken(storeDTO.getPaypal().getClientId(), storeDTO.getPaypal().getSecret());
+                        if (tokenDto.getAccessToken() != null && tokenDto.getExpriresIn() > 0) {
+                            redisCacheRepo.setValue(storeDTO.getPaypalId().toString(), tokenDto.getAccessToken(), Duration.ofSeconds(tokenDto.getExpriresIn()));
+                            token = tokenDto.getAccessToken();
+                        }
+                    }
+                    TrackerIdentifierListDTO res = paypalApiClient
+                        .addTrackersBatch(token, trackerList);
+                    if (res != null && res.getTrackerList() != null) {
+                        res.getTrackerList().forEach(tracker -> {
+                            Optional<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
+                                tracker.getTrackingNumber());
+                            if (history.isPresent()) {
+                                history.get().setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
+                                paypalHistoryService.save(history.get());
+                            }
+                        });
+                    }
+                }
             }
         });
     }
 
-    private void createTracking(List<Fulfillment> fulfillmentList, Long orderId,
+    private List<Tracker> createTracking(List<Fulfillment> fulfillmentList, Long orderId,
                                 ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber) {
         Instant now = Instant.now();
+        ArrayList<Tracker> trackers = new ArrayList<>();
         fulfillmentList.forEach(fulfillment -> {
             List<String> trackingNumbers = fulfillment.getTrackingNumbers();
             List<String> trackingUrls = fulfillment.getTrackingUrls();
             if (trackingNumbers != null) {
                 log.info("Process fulfilment {}", fulfillment);
-                TrackerList trackerList = new TrackerList();
-                ArrayList<Tracker> trackers = new ArrayList<>();
                 for (int i = 0; i < trackingNumbers.size(); i++) {
                     String trackingNumber = trackingNumbers.get(i);
                     Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
@@ -160,16 +191,9 @@ public class ShopifyWorker {
                         trackers.add(tracker);
                     }
                 }
-                if (!trackers.isEmpty()) {
-                    trackerList.setTrackerList(trackers);
-//                    TrackerIdentifierListDTO res = paypalApiClient
-//                        .addTrackersBatch("A21AAH8nGEpgKmURJy3knovttxy-uypWD5oN23IwwNvyeC1ntwjGideJurWjCPeXG-f-wOjx0tWb0pLOzruYOkxXa8iiEyLQQ", trackerList);
-//                    if (res != null && res.getTrackerList() != null) {
-//                        res.getTrackerList().forEach(System.out::println);
-//                    }
-                }
             }
         });
+        return trackers;
     }
 
     private void createPaypalHistory(String trackingNumber, String authorizationKey, String shippingStatus,

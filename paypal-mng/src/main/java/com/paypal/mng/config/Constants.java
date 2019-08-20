@@ -15,6 +15,7 @@ public final class Constants {
 
     // Paypal api call history
     public static final int CALLED = 0;
+    public static final int PAYPAL_ADD_TRACKING_SUCCESS = 1;
     private Constants() {
     }
 }
