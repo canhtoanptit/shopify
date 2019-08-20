@@ -58,7 +58,7 @@ public class TrackingServiceImpl implements TrackingService {
     public Page<TrackingDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Trackings");
         return trackingRepository.findAll(pageable)
-            .map(trackingMapper::toDto);
+            .map(TrackingDTO::toDto);
     }
 
 

@@ -1,7 +1,11 @@
 package com.paypal.mng.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import com.paypal.mng.domain.Order;
+import com.paypal.mng.domain.Store;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -23,6 +27,7 @@ public class OrderDTO implements Serializable {
 
     private String orderName;
 
+    private String storeName;
 
     private Long storeId;
 
@@ -80,6 +85,63 @@ public class OrderDTO implements Serializable {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public static OrderDTO toDto(Order order) {
+        if (order == null) {
+            return null;
+        }
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setStoreId(orderStoreId(order));
+        orderDTO.setId(order.getId());
+        orderDTO.setCreatedAt(order.getCreatedAt());
+        orderDTO.setUpdatedAt(order.getUpdatedAt());
+        orderDTO.setOrderNumber(order.getOrderNumber());
+        orderDTO.setShopifyOrderId(order.getShopifyOrderId());
+        orderDTO.setOrderName(order.getOrderName());
+        orderDTO.setStoreName(orderStoreName(order));
+
+        return orderDTO;
+    }
+
+    private static Long orderStoreId(Order order) {
+        if (order == null) {
+            return null;
+        }
+        Store store = order.getStore();
+        if (store == null) {
+            return null;
+        }
+        Long id = store.getId();
+        if (id == null) {
+            return null;
+        }
+        return id;
+    }
+
+    private static String orderStoreName(Order order) {
+        if (order == null) {
+            return null;
+        }
+        Store store = order.getStore();
+        if (store == null) {
+            return null;
+        }
+        String storeName = store.getStoreName();
+        if (storeName == null) {
+            return null;
+        }
+        return storeName;
     }
 
     @Override

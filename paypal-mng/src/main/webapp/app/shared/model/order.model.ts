@@ -8,6 +8,7 @@ export interface IOrder {
   shopifyOrderId?: number;
   orderName?: string;
   storeId?: number;
+  storeName?: string;
 }
 
 export class Order implements IOrder {
@@ -18,6 +19,7 @@ export class Order implements IOrder {
     public orderNumber?: number,
     public shopifyOrderId?: number,
     public orderName?: string,
-    public storeId?: number
+    public storeId?: number,
+    public storeName?: string,
   ) {}
 }

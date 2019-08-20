@@ -1,2 +1,2 @@
 id;shopify_api_key;shopify_api_password;store_name;created_at;updated_at;shopify_api_url;automation_status;since_id;paypal_id
-1;29e15279ee8564d0c333cba572a090d1;76ea1ffedf641d9a3dfa6f0e93928bdf;actimazo;2019-08-15T00:06:45;2019-08-14T17:41:41;https://actimazo.myshopify.com/admin/api/2019-07/;true;1325773717598;1
+1;29e15279ee8564d0c333cba572a090d1;76ea1ffedf641d9a3dfa6f0e93928bdf;actimazo;2019-08-15T00:06:45;2019-08-14T17:41:41;https://actimazo.myshopify.com/admin/api/2019-07/;false;;1

@@ -1,7 +1,11 @@
 package com.paypal.mng.service.dto;
-import java.time.Instant;
-import javax.validation.constraints.*;
+
+import com.paypal.mng.domain.Order;
+import com.paypal.mng.domain.Tracking;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -26,6 +30,7 @@ public class TrackingDTO implements Serializable {
 
     private Instant updatedAt;
 
+    private Integer orderNumber;
 
     private Long orderId;
 
@@ -93,6 +98,14 @@ public class TrackingDTO implements Serializable {
         this.orderId = orderId;
     }
 
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -126,5 +139,51 @@ public class TrackingDTO implements Serializable {
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", order=" + getOrderId() +
             "}";
+    }
+
+    public static TrackingDTO toDto(Tracking tracking) {
+        if (tracking == null) {
+            return null;
+        }
+
+        TrackingDTO trackingDTO = new TrackingDTO();
+
+        trackingDTO.setOrderId(trackingOrderId(tracking));
+        trackingDTO.setId(tracking.getId());
+        trackingDTO.setTrackingNumber(tracking.getTrackingNumber());
+        trackingDTO.setTrackingCompany(tracking.getTrackingCompany());
+        trackingDTO.setTrackingUrl(tracking.getTrackingUrl());
+        trackingDTO.setPaypalTrackerId(tracking.getPaypalTrackerId());
+        trackingDTO.setCreatedAt(tracking.getCreatedAt());
+        trackingDTO.setUpdatedAt(tracking.getUpdatedAt());
+        trackingDTO.setOrderNumber(trackingOrderNumber(tracking));
+
+        return trackingDTO;
+    }
+
+    private static Long trackingOrderId(Tracking tracking) {
+        if (tracking == null) {
+            return null;
+        }
+        Order order = tracking.getOrder();
+        if (order == null) {
+            return null;
+        }
+        Long id = order.getId();
+        if (id == null) {
+            return null;
+        }
+        return id;
+    }
+
+    private static Integer trackingOrderNumber(Tracking tracking) {
+        if (tracking == null) {
+            return null;
+        }
+        Order order = tracking.getOrder();
+        if (order == null) {
+            return null;
+        }
+        return order.getOrderNumber();
     }
 }

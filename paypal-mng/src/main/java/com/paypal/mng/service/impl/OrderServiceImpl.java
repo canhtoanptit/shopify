@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
     public Page<OrderDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Orders");
         return orderRepository.findAll(pageable)
-            .map(orderMapper::toDto);
+            .map(OrderDTO::toDto);
     }
 
 

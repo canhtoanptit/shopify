@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
         <span>Trackings</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-tracking" [routerLink]="['/tracking/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create a new Tracking
-            </span>
-        </button>
+<!--        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-tracking" [routerLink]="['/tracking/new']">-->
+<!--            <fa-icon [icon]="'plus'"></fa-icon>-->
+<!--            <span >-->
+<!--            Create a new Tracking-->
+<!--            </span>-->
+<!--        </button>-->
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
@@ -18,30 +18,30 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="orderId"><span>Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="trackingNumber"><span>Tracking Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="trackingCompany"><span>Tracking Company</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="trackingUrl"><span>Tracking Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="paypalTrackerId"><span>Paypal Tracker Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="orderId"><span>Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let tracking of trackings ;trackBy: trackId">
                 <td><a [routerLink]="['/tracking', tracking.id, 'view' ]">{{tracking.id}}</a></td>
+                <td>
+                    <div *ngIf="tracking.orderId">
+                        <a [routerLink]="['/order', tracking.orderId , 'view' ]" >{{tracking.orderNumber}}</a>
+                    </div>
+                </td>
                 <td>{{tracking.trackingNumber}}</td>
                 <td>{{tracking.trackingCompany}}</td>
                 <td>{{tracking.trackingUrl}}</td>
                 <td>{{tracking.paypalTrackerId}}</td>
                 <td>{{tracking.createdAt | date:'medium'}}</td>
                 <td>{{tracking.updatedAt | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="tracking.orderId">
-                        <a [routerLink]="['/order', tracking.orderId , 'view' ]" >{{tracking.orderId}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
@@ -50,20 +50,20 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/tracking', tracking.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/tracking', { outlets: { popup: tracking.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/tracking', tracking.id, 'edit']"-->
+<!--                                class="btn btn-primary btn-sm">-->
+<!--                            <fa-icon [icon]="'pencil-alt'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Edit</span>-->
+<!--                        </button>-->
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/tracking', { outlets: { popup: tracking.id + '/delete'} }]"-->
+<!--                                replaceUrl="true"-->
+<!--                                queryParamsHandling="merge"-->
+<!--                                class="btn btn-danger btn-sm">-->
+<!--                            <fa-icon [icon]="'times'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Delete</span>-->
+<!--                        </button>-->
                     </div>
                 </td>
             </tr>

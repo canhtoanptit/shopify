@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
         <span>Orders</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-order" [routerLink]="['/order/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create a new Order
-            </span>
-        </button>
+<!--        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-order" [routerLink]="['/order/new']">-->
+<!--            <fa-icon [icon]="'plus'"></fa-icon>-->
+<!--            <span >-->
+<!--            Create a new Order-->
+<!--            </span>-->
+<!--        </button>-->
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
@@ -37,7 +37,7 @@
                 <td>{{order.orderName}}</td>
                 <td>
                     <div *ngIf="order.storeId">
-                        <a [routerLink]="['/store', order.storeId , 'view' ]" >{{order.storeId}}</a>
+                        <a [routerLink]="['/store', order.storeId , 'view' ]" >{{order.storeName}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -48,20 +48,20 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/order', order.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/order', { outlets: { popup: order.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/order', order.id, 'edit']"-->
+<!--                                class="btn btn-primary btn-sm">-->
+<!--                            <fa-icon [icon]="'pencil-alt'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Edit</span>-->
+<!--                        </button>-->
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/order', { outlets: { popup: order.id + '/delete'} }]"-->
+<!--                                replaceUrl="true"-->
+<!--                                queryParamsHandling="merge"-->
+<!--                                class="btn btn-danger btn-sm">-->
+<!--                            <fa-icon [icon]="'times'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Delete</span>-->
+<!--                        </button>-->
                     </div>
                 </td>
             </tr>

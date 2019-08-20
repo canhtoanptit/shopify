@@ -1,12 +1,12 @@
 <div>
     <h2 id="page-heading">
         <span>Paypal Histories</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-paypal-history" [routerLink]="['/paypal-history/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create a new Paypal History
-            </span>
-        </button>
+<!--        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-paypal-history" [routerLink]="['/paypal-history/new']">-->
+<!--            <fa-icon [icon]="'plus'"></fa-icon>-->
+<!--            <span >-->
+<!--            Create a new Paypal History-->
+<!--            </span>-->
+<!--        </button>-->
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
@@ -19,6 +19,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shopifyOrderId"><span>Shopify Order Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shopifyOrderNumber"><span>Shopify Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shopifyTrackingNumber"><span>Shopify Tracking Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shopifyAuthorizationKey"><span>Shopify Authorization Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="shopifyShippingStatus"><span>Shopify Shipping Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -26,7 +27,6 @@
             <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="createdAt"><span>Created At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="updatedAt"><span>Updated At</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="shopifyOrderNumber"><span>Shopify Order Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -34,6 +34,7 @@
             <tr *ngFor="let paypalHistory of paypalHistories ;trackBy: trackId">
                 <td><a [routerLink]="['/paypal-history', paypalHistory.id, 'view' ]">{{paypalHistory.id}}</a></td>
                 <td>{{paypalHistory.shopifyOrderId}}</td>
+                <td>{{paypalHistory.shopifyOrderNumber}}</td>
                 <td>{{paypalHistory.shopifyTrackingNumber}}</td>
                 <td>{{paypalHistory.shopifyAuthorizationKey}}</td>
                 <td>{{paypalHistory.shopifyShippingStatus}}</td>
@@ -41,7 +42,6 @@
                 <td>{{paypalHistory.status}}</td>
                 <td>{{paypalHistory.createdAt | date:'medium'}}</td>
                 <td>{{paypalHistory.updatedAt | date:'medium'}}</td>
-                <td>{{paypalHistory.shopifyOrderNumber}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
@@ -50,20 +50,20 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/paypal-history', paypalHistory.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/paypal-history', { outlets: { popup: paypalHistory.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/paypal-history', paypalHistory.id, 'edit']"-->
+<!--                                class="btn btn-primary btn-sm">-->
+<!--                            <fa-icon [icon]="'pencil-alt'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Edit</span>-->
+<!--                        </button>-->
+<!--                        <button type="submit"-->
+<!--                                [routerLink]="['/paypal-history', { outlets: { popup: paypalHistory.id + '/delete'} }]"-->
+<!--                                replaceUrl="true"-->
+<!--                                queryParamsHandling="merge"-->
+<!--                                class="btn btn-danger btn-sm">-->
+<!--                            <fa-icon [icon]="'times'"></fa-icon>-->
+<!--                            <span class="d-none d-md-inline">Delete</span>-->
+<!--                        </button>-->
                     </div>
                 </td>
             </tr>

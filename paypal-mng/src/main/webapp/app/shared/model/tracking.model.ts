@@ -9,6 +9,7 @@ export interface ITracking {
   createdAt?: Moment;
   updatedAt?: Moment;
   orderId?: number;
+  orderNumber?: number;
 }
 
 export class Tracking implements ITracking {
@@ -20,6 +21,7 @@ export class Tracking implements ITracking {
     public paypalTrackerId?: string,
     public createdAt?: Moment,
     public updatedAt?: Moment,
-    public orderId?: number
+    public orderId?: number,
+    public orderNumber?: number,
   ) {}
 }
