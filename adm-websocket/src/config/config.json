@@ -22,5 +22,8 @@
       "client_id": "",
       "secret": ""
     }
+  },
+  "redis": {
+    "host": "localhost"
   }
 }

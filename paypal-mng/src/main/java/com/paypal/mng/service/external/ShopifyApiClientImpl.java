@@ -1,5 +1,6 @@
 package com.paypal.mng.service.external;
 
+import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.OrderList;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.util.RestUtil;
@@ -29,5 +30,11 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
         ResponseEntity<TransactionList> rs = restTemplate.exchange(url, HttpMethod.GET,
             new HttpEntity<TransactionList>(RestUtil.createHeaders(username, password)), TransactionList.class);
         return rs.getBody();
+    }
+
+    @Override
+    public OrderList getListOrder(StoreDTO storeDTO) {
+        OrderList rs = restTemplate.postForObject("http://localhost:3000/api/order/internal", storeDTO, OrderList.class);
+        return rs;
     }
 }

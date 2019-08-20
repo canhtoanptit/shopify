@@ -1,8 +1,10 @@
 package com.paypal.mng.service.impl;
 
 import com.paypal.mng.service.ShopifyService;
+import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.JsonConstants;
 import com.paypal.mng.service.dto.shopify.OrderList;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.external.ShopifyApiClient;
 import com.paypal.mng.service.util.DateTimeUtil;
@@ -12,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ShopifyServiceImpl implements ShopifyService {
@@ -42,5 +45,10 @@ public class ShopifyServiceImpl implements ShopifyService {
         uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.AUTHORIZATION + "," + JsonConstants.ORDER_ID);
         UriComponentsBuilder uri = RestUtil.buildQuery(baseUrl, uriParams);
         return shopifyApiClient.getTransactions(uri.toUriString(), username, password);
+    }
+
+    @Override
+    public OrderList getOrderExternal(StoreDTO storeDTO) {
+        return shopifyApiClient.getListOrder(storeDTO);
     }
 }

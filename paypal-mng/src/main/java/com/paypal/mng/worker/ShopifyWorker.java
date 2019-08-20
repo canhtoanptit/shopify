@@ -47,15 +47,14 @@ public class ShopifyWorker {
         this.paypalApiClient = paypalApiClient;
     }
 
-    @Scheduled(fixedDelay = 240000)
+    @Scheduled(fixedDelay = 20000)
     public void process() {
         // get shopify orders
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {
             storeDTOS.forEach(storeDTO -> {
                 if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrdersBy(storeDTO.getShopifyApiUrl() + "orders.json",
-                        storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword(), storeDTO.getSinceId());
+                    OrderList orders = shopifyService.getOrderExternal(storeDTO);
                     if (orders != null && !orders.getOrders().isEmpty()) {
                         log.info("Process order with size {}", orders.getOrders().size());
                         // for each order find transaction and created

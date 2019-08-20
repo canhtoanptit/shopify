@@ -1,7 +1,8 @@
 const {promisify} = require('util');
+const Config = require('../config/config.json')
 const redis = require("redis"),
   client = redis.createClient({
-    host:  '192.168.56.102'
+    host:  Config.redis.host
   });
 const getAsync = promisify(client.get).bind(client);
 
@@ -23,9 +24,20 @@ const getTrackerIdentifier = async (tracking_number ) => {
   return getAsync(tracking_number)
 };
 
+const setCache = async (key, value) => {
+  console.log('set key %s and value %s ', key, value);
+  client.set(key, value)
+};
+
+const getCacheAsync = async (key) => {
+  return getAsync(key)
+};
+
 module.exports = {
   setPaypalToken,
   getPaypalToken,
   setTrackerIdentifier,
-  getTrackerIdentifier
+  getTrackerIdentifier,
+  getCacheAsync,
+  setCache
 };
