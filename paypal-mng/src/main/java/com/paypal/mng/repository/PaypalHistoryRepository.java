@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-
 /**
  * Spring Data  repository for the PaypalHistory entity.
  */
@@ -14,4 +13,6 @@ import java.util.Optional;
 @Repository
 public interface PaypalHistoryRepository extends JpaRepository<PaypalHistory, Long> {
     Optional<PaypalHistory> findByShopifyAuthorizationKeyAndShopifyTrackingNumber(String transactionId, String trackingNumber);
+
+    Optional<PaypalHistory> findByShopifyOrderIdAndShopifyTrackingNumber(Long shopifyOrderId, String trackingNumber);
 }

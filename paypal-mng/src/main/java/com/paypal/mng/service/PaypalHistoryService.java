@@ -44,5 +44,21 @@ public interface PaypalHistoryService {
      */
     void delete(Long id);
 
+    /**
+     * find by transaction id and tracking number
+     *
+     * @param shopifyAuthorizationKey
+     * @param shopifyTrackingNumber
+     * @return
+     */
     Optional<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber);
+
+    /**
+     * findByOrderIdAndTrackingNumber
+     *
+     * @param shopifyOrderId
+     * @param shopifyTrackingNumber
+     * @return
+     */
+    Optional<PaypalHistoryDTO> findByOrderIdAndTrackingNumber(Long shopifyOrderId, String shopifyTrackingNumber);
 }

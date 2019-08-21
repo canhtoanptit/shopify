@@ -92,4 +92,17 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
         return paypalHistoryRepository.findByShopifyAuthorizationKeyAndShopifyTrackingNumber(shopifyAuthorizationKey, shopifyTrackingNumber)
             .map(paypalHistoryMapper::toDto);
     }
+
+    /**
+     * findByOrderIdAndTrackingNumber
+     *
+     * @param shopifyOrderId
+     * @param shopifyTrackingNumber
+     * @return
+     */
+    @Override
+    public Optional<PaypalHistoryDTO> findByOrderIdAndTrackingNumber(Long shopifyOrderId, String shopifyTrackingNumber) {
+        return paypalHistoryRepository.findByShopifyOrderIdAndShopifyTrackingNumber(shopifyOrderId, shopifyTrackingNumber)
+            .map(paypalHistoryMapper::toDto);
+    }
 }
