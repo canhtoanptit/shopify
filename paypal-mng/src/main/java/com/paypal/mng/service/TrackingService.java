@@ -1,5 +1,6 @@
 package com.paypal.mng.service;
 
+import com.paypal.mng.domain.Tracking;
 import com.paypal.mng.service.dto.TrackingDTO;
 
 import org.springframework.data.domain.Page;
@@ -51,4 +52,6 @@ public interface TrackingService {
      * @return
      */
     Optional<TrackingDTO> findByTrackingNumber(String trackingNumber);
+
+    Optional<Tracking> findByOrderNameAndTrackingNumber(String orderName,String trackingNumber);
 }

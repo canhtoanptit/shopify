@@ -92,4 +92,9 @@ public class TrackingServiceImpl implements TrackingService {
         return trackingRepository.findByTrackingNumber(trackingNumber)
             .map(trackingMapper::toDto);
     }
+
+    @Override
+    public Optional<Tracking> findByOrderNameAndTrackingNumber(String orderName, String trackingNumber) {
+        return trackingRepository.findByOrderNameAndTrackingNumber(orderName, trackingNumber);
+    }
 }
