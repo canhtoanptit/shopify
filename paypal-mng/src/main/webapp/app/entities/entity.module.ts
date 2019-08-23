@@ -27,6 +27,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'paypal-history',
         loadChildren: () => import('./paypal-history/paypal-history.module').then(m => m.PaypalmngPaypalHistoryModule)
+      },
+      {
+        path: 'report',
+        loadChildren: () => import('./report/report.module').then(m => m.PaypalmngReportModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

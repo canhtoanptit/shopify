@@ -11,7 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collections;
 
@@ -42,11 +42,11 @@ public class PaypalApiClientImpl implements PaypalApiClient {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         String auth = paypalClientId + ":" + paypalSecret;
         byte[] encodedAuth = Base64.getEncoder().encode(
-            auth.getBytes(Charset.forName("US-ASCII")));
+            auth.getBytes(StandardCharsets.US_ASCII));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
         MultiValueMap<String, String> map =
-            new LinkedMultiValueMap<String, String>();
+            new LinkedMultiValueMap<>();
         map.add("grant_type", "client_credentials");
         ResponseEntity<TokenDTO> rs = restTemplate.exchange(url, HttpMethod.POST,
             new HttpEntity<>(map, headers), TokenDTO.class);

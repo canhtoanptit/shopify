@@ -6,12 +6,10 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.paypal.mng.config.Constants;
 import com.paypal.mng.domain.Tracking;
 import com.paypal.mng.service.FileService;
-import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.PaypalHistoryService;
 import com.paypal.mng.service.TrackingService;
 import com.paypal.mng.service.dto.PaypalHistoryDTO;
 import com.paypal.mng.service.dto.csv.TrackingReport;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +45,7 @@ public class FileController {
                 Optional<Tracking> trackingOptional = trackingService.findByOrderNameAndTrackingNumber(trackingDTO.getOrderName(),
                     trackingDTO.getTrackingNumber());
                 trackingOptional.ifPresent(tracking -> {
-                    Optional<PaypalHistoryDTO> data = paypalHistoryService.findByOrderIdAndTrackingNumber(tracking.getOrder().getId(),
+                    Optional<PaypalHistoryDTO> data = paypalHistoryService.findByOrderIdAndTrackingNumber(tracking.getOrder().getShopifyOrderId(),
                         trackingDTO.getTrackingNumber());
                     data.ifPresent(paypalHistoryDTO -> {
                         trackingDTO.setStatus(Constants.ORDER_PROCESSED);
@@ -60,16 +57,12 @@ public class FileController {
                     });
                 });
             }).collect(Collectors.toList());
-            String fileName = "Result_" + Instant.now().toString() + "_" +file.getOriginalFilename();
             response.setContentType("text/csv");
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=" + fileName + "");
 
             //create a csv writer
             StatefulBeanToCsv<TrackingReport> writer = new StatefulBeanToCsvBuilder<TrackingReport>(response.getWriter())
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .withOrderedResults(false)
                 .build();
 
             //write all users to csv file

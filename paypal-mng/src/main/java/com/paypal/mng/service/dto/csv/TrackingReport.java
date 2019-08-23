@@ -20,7 +20,7 @@ public class TrackingReport {
     @CsvBindByName(column = "STATUS")
     private String status = Constants.ORDER_NOT_PROCESS;
 
-    @CsvBindByName(column = "PAYPAL_STATUS")
+    @CsvBindByName(column = "STATUS_PAYPAL_API_CALL")
     private String uploadPaypalStatus;
 
     public String getOrderName() {

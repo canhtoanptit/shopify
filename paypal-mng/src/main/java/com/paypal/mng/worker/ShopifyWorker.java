@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class ShopifyWorker {
@@ -125,36 +124,40 @@ public class ShopifyWorker {
             if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
                 log.info("Size of fulfillment {} ", fulfillmentList.size());
                 List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(), shopifyOrder.getOrderNumber());
-                if (!trackers.isEmpty()) {
-                    TrackerList trackerList = new TrackerList();
-                    trackerList.setTrackerList(trackers);
-                    String token = redisCacheRepo.getValue(storeDTO.getPaypalId().toString());
-                    if (token == null || token.isEmpty()) {
-                        TokenDTO tokenDto = paypalApiClient.getToken(storeDTO.getPaypal().getClientId(), storeDTO.getPaypal().getSecret());
-                        if (tokenDto.getAccessToken() != null && tokenDto.getExpriresIn() > 0) {
-                            redisCacheRepo.setValue(storeDTO.getPaypalId().toString(), tokenDto.getAccessToken(), Duration.ofSeconds(tokenDto.getExpriresIn()));
-                            token = tokenDto.getAccessToken();
-                        }
-                    }
-                    TrackerIdentifierListDTO res = paypalApiClient
-                        .addTrackersBatch(token, trackerList);
-                    if (res != null && res.getTrackerList() != null) {
-                        res.getTrackerList().forEach(tracker -> {
-                            Optional<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
-                                tracker.getTrackingNumber());
-                            if (history.isPresent()) {
-                                history.get().setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
-                                paypalHistoryService.save(history.get());
-                            }
-                        });
-                    }
-                }
+                addTrackingToPaypal(trackers, storeDTO);
             }
         });
     }
 
+    private void addTrackingToPaypal(List<Tracker> trackers, StoreDTO storeDTO) {
+        if (trackers != null && !trackers.isEmpty()) {
+            TrackerList trackerList = new TrackerList();
+            trackerList.setTrackerList(trackers);
+            String token = redisCacheRepo.getValue(storeDTO.getPaypalId().toString());
+            if (token == null || token.isEmpty()) {
+                TokenDTO tokenDto = paypalApiClient.getToken(storeDTO.getPaypal().getClientId(), storeDTO.getPaypal().getSecret());
+                if (tokenDto.getAccessToken() != null && tokenDto.getExpriresIn() > 0) {
+                    redisCacheRepo.setValue(storeDTO.getPaypalId().toString(), tokenDto.getAccessToken(), Duration.ofSeconds(tokenDto.getExpriresIn()));
+                    token = tokenDto.getAccessToken();
+                }
+            }
+            TrackerIdentifierListDTO res = paypalApiClient
+                .addTrackersBatch(token, trackerList);
+            if (res != null && res.getTrackerList() != null) {
+                res.getTrackerList().forEach(tracker -> {
+                    Optional<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
+                        tracker.getTrackingNumber());
+                    if (history.isPresent()) {
+                        history.get().setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
+                        paypalHistoryService.save(history.get());
+                    }
+                });
+            }
+        }
+    }
+
     private List<Tracker> createTracking(List<Fulfillment> fulfillmentList, Long orderId,
-                                ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber) {
+                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber) {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
         fulfillmentList.forEach(fulfillment -> {
