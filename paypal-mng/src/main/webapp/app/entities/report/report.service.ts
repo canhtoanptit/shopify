@@ -44,13 +44,13 @@ export class ReportService {
       let headers = new HttpHeaders();
       headers = headers.append('Accept', 'text/csv; charset=utf-8');
       this.http.post(this.uploadUrl, formData, {
-        headers: headers,
+        headers,
         responseType: 'text'
       })
         .subscribe(response => {
             console.log('data ', response);
-            let newBlob = new Blob([response], { type: "text/csv" });
-            saveAs(newBlob, 'result_' + new Date().toISOString() + '_' + file.name)
+            const newBlob = new Blob([response], { type: 'text/csv' });
+            saveAs(newBlob, 'result_' + new Date().toISOString() + '_' + file.name);
           },
           (error => console.log('error', error))
         );

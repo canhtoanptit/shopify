@@ -1,12 +1,12 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Subscription} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 
-import { IReport } from 'app/shared/model/report.model';
-import { AccountService } from 'app/core';
-import { ReportService } from './report.service';
+import {IReport} from 'app/shared/model/report.model';
+import {AccountService} from 'app/core';
+import {ReportService} from './report.service';
 
 @Component({
   selector: 'jhi-report',
@@ -16,7 +16,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   reports: IReport[];
   currentAccount: any;
   eventSubscriber: Subscription;
-  @ViewChild('file', { static: false }) file;
+  @ViewChild('file', {static: false}) file;
   public files: Set<File> = new Set();
 
   constructor(
@@ -24,7 +24,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService
-  ) {}
+  ) {
+  }
 
   loadAll() {
     this.reportService
@@ -43,13 +44,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   upload() {
     console.log('upload ', this.files);
-    this.reportService.uploadTracking(this.files)
+    this.reportService.uploadTracking(this.files);
   }
 
   onFilesAdded() {
     const files: { [key: string]: File } = this.file.nativeElement.files;
-    for (let key in files) {
-      if (!isNaN(parseInt(key))) {
+    for (const key in files) {
+      if (!isNaN(parseInt(key,10))) {
         this.files.add(files[key]);
       }
     }
