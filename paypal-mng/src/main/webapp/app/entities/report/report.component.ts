@@ -50,7 +50,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   onFilesAdded() {
     const files: { [key: string]: File } = this.file.nativeElement.files;
     for (const key in files) {
-      if (!isNaN(parseInt(key,10))) {
+      if (!isNaN(parseInt(key, 10))) {
         this.files.add(files[key]);
       }
     }

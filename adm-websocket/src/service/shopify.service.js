@@ -70,7 +70,10 @@ const getOrderFulfilled = async (req, res) => {
       params.since_id = since_id
     }
     let resp = await shopify.order.list(params);
-    cacher.setCache(shopName, resp[0].id);
+    console.log('res ', resp);
+    if (resp.length > 0) {
+      cacher.setCache(shopName, resp[0].id);
+    }
     res.set('Content-Type', 'application/json');
     res.send(JSON.stringify({orders: resp}))
   } catch (e) {
