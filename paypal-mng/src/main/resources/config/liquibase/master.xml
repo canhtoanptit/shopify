@@ -26,4 +26,5 @@
     <include file="config/liquibase/changelog/20190813072622_added_entity_constraints_Tracking.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190813073624_added_entity_constraints_Transaction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <include file="config/liquibase/changelog/20190825045747_added_field_PaypalHistory.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
