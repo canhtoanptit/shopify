@@ -30,14 +30,14 @@ public class Order implements Serializable {
     private Instant updatedAt;
 
     @NotNull
-    @Column(name = "order_number", nullable = false, unique = true)
+    @Column(name = "order_number", nullable = false)
     private Integer orderNumber;
 
     @NotNull
     @Column(name = "shopify_order_id", nullable = false, unique = true)
     private Long shopifyOrderId;
 
-    @Column(name = "order_name")
+    @Column(name = "order_name", unique = true)
     private String orderName;
 
     @ManyToOne(optional = false)

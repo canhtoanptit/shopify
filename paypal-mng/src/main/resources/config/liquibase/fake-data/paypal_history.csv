@@ -1,2 +1,2 @@
-id;shopify_order_id;shopify_tracking_number;shopify_authorization_key;shopify_shipping_status;carrier;status;created_at;updated_at;shopify_order_number
-1;37454;Directives application Home Loan Account;Dam;Practical Fresh Pants;Metal deposit;5641;2019-08-15T10:53:34;2019-08-15T16:50:34;83244
+id;shopify_order_id;shopify_tracking_number;shopify_authorization_key;shopify_shipping_status;carrier;status;created_at;updated_at;shopify_order_number;shopify_order_name
+1;37454;Directives application Home Loan Account;Dam;Practical Fresh Pants;Metal deposit;5641;2019-08-23T18:17:53;2019-08-24T00:14:52;83244;red Chips Soap

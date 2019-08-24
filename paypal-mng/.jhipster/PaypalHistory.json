@@ -59,6 +59,13 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "shopifyOrderName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "unique"
+            ]
         }
     ],
     "changelogDate": "20190816045747",

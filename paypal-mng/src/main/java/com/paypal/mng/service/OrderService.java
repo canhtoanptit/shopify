@@ -52,4 +52,12 @@ public interface OrderService {
      * @return
      */
     Optional<Order> findByOrderNumber(Integer orderNumbers);
+
+    /**
+     * get existed order by order name
+     *
+     * @param orderName
+     * @return
+     */
+    Optional<Order> findByOrderName(String orderName);
 }

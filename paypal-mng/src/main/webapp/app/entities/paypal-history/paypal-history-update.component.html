@@ -110,6 +110,13 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shopifyOrderName">Shopify Order Name</label>
+                    <input type="text" class="form-control" name="shopifyOrderName" id="field_shopifyOrderName"
+                           formControlName="shopifyOrderName"/>
+                    <div *ngIf="editForm.get('shopifyOrderName').invalid && (editForm.get('shopifyOrderName').dirty || editForm.get('shopifyOrderName').touched)">
+                    </div>
+                </div>
 
             </div>
             <div>

@@ -56,6 +56,10 @@ public class PaypalHistory implements Serializable {
     @Column(name = "shopify_order_number", nullable = false)
     private Integer shopifyOrderNumber;
 
+    
+    @Column(name = "shopify_order_name", unique = true)
+    private String shopifyOrderName;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -181,6 +185,19 @@ public class PaypalHistory implements Serializable {
     public void setShopifyOrderNumber(Integer shopifyOrderNumber) {
         this.shopifyOrderNumber = shopifyOrderNumber;
     }
+
+    public String getShopifyOrderName() {
+        return shopifyOrderName;
+    }
+
+    public PaypalHistory shopifyOrderName(String shopifyOrderName) {
+        this.shopifyOrderName = shopifyOrderName;
+        return this;
+    }
+
+    public void setShopifyOrderName(String shopifyOrderName) {
+        this.shopifyOrderName = shopifyOrderName;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -212,6 +229,7 @@ public class PaypalHistory implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", shopifyOrderNumber=" + getShopifyOrderNumber() +
+            ", shopifyOrderName='" + getShopifyOrderName() + "'" +
             "}";
     }
 }

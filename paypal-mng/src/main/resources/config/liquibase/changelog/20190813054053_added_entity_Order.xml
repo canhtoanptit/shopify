@@ -76,4 +76,12 @@
         </loadData>
     </changeSet>
 
+    <changeSet id="20190824054053-1" author="jhipster">
+        <dropIndex tableName="jhi_order" indexName="ux_jhi_order_order_number"/>
+        <addUniqueConstraint columnNames="order_name"
+                             constraintName="ux_jhi_order_order_name"
+                             tableName="jhi_order"
+                             tablespace="A String"/>
+    </changeSet>
+
 </databaseChangeLog>

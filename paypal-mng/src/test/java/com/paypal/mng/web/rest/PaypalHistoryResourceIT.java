@@ -70,6 +70,9 @@ public class PaypalHistoryResourceIT {
     private static final Integer UPDATED_SHOPIFY_ORDER_NUMBER = 2;
     private static final Integer SMALLER_SHOPIFY_ORDER_NUMBER = 1 - 1;
 
+    private static final String DEFAULT_SHOPIFY_ORDER_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_SHOPIFY_ORDER_NAME = "BBBBBBBBBB";
+
     @Autowired
     private PaypalHistoryRepository paypalHistoryRepository;
 
@@ -126,7 +129,8 @@ public class PaypalHistoryResourceIT {
             .status(DEFAULT_STATUS)
             .createdAt(DEFAULT_CREATED_AT)
             .updatedAt(DEFAULT_UPDATED_AT)
-            .shopifyOrderNumber(DEFAULT_SHOPIFY_ORDER_NUMBER);
+            .shopifyOrderNumber(DEFAULT_SHOPIFY_ORDER_NUMBER)
+            .shopifyOrderName(DEFAULT_SHOPIFY_ORDER_NAME);
         return paypalHistory;
     }
     /**
@@ -145,7 +149,8 @@ public class PaypalHistoryResourceIT {
             .status(UPDATED_STATUS)
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
-            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER);
+            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER)
+            .shopifyOrderName(UPDATED_SHOPIFY_ORDER_NAME);
         return paypalHistory;
     }
 
@@ -179,6 +184,7 @@ public class PaypalHistoryResourceIT {
         assertThat(testPaypalHistory.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testPaypalHistory.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testPaypalHistory.getShopifyOrderNumber()).isEqualTo(DEFAULT_SHOPIFY_ORDER_NUMBER);
+        assertThat(testPaypalHistory.getShopifyOrderName()).isEqualTo(DEFAULT_SHOPIFY_ORDER_NAME);
     }
 
     @Test
@@ -354,7 +360,8 @@ public class PaypalHistoryResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
             .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(DEFAULT_UPDATED_AT.toString())))
-            .andExpect(jsonPath("$.[*].shopifyOrderNumber").value(hasItem(DEFAULT_SHOPIFY_ORDER_NUMBER)));
+            .andExpect(jsonPath("$.[*].shopifyOrderNumber").value(hasItem(DEFAULT_SHOPIFY_ORDER_NUMBER)))
+            .andExpect(jsonPath("$.[*].shopifyOrderName").value(hasItem(DEFAULT_SHOPIFY_ORDER_NAME.toString())));
     }
     
     @Test
@@ -376,7 +383,8 @@ public class PaypalHistoryResourceIT {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
             .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
             .andExpect(jsonPath("$.updatedAt").value(DEFAULT_UPDATED_AT.toString()))
-            .andExpect(jsonPath("$.shopifyOrderNumber").value(DEFAULT_SHOPIFY_ORDER_NUMBER));
+            .andExpect(jsonPath("$.shopifyOrderNumber").value(DEFAULT_SHOPIFY_ORDER_NUMBER))
+            .andExpect(jsonPath("$.shopifyOrderName").value(DEFAULT_SHOPIFY_ORDER_NAME.toString()));
     }
 
     @Test
@@ -408,7 +416,8 @@ public class PaypalHistoryResourceIT {
             .status(UPDATED_STATUS)
             .createdAt(UPDATED_CREATED_AT)
             .updatedAt(UPDATED_UPDATED_AT)
-            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER);
+            .shopifyOrderNumber(UPDATED_SHOPIFY_ORDER_NUMBER)
+            .shopifyOrderName(UPDATED_SHOPIFY_ORDER_NAME);
         PaypalHistoryDTO paypalHistoryDTO = paypalHistoryMapper.toDto(updatedPaypalHistory);
 
         restPaypalHistoryMockMvc.perform(put("/api/paypal-histories")
@@ -429,6 +438,7 @@ public class PaypalHistoryResourceIT {
         assertThat(testPaypalHistory.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testPaypalHistory.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testPaypalHistory.getShopifyOrderNumber()).isEqualTo(UPDATED_SHOPIFY_ORDER_NUMBER);
+        assertThat(testPaypalHistory.getShopifyOrderName()).isEqualTo(UPDATED_SHOPIFY_ORDER_NAME);
     }
 
     @Test

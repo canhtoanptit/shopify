@@ -36,6 +36,9 @@ public class PaypalHistoryDTO implements Serializable {
     @NotNull
     private Integer shopifyOrderNumber;
 
+    
+    private String shopifyOrderName;
+
 
     public Long getId() {
         return id;
@@ -117,6 +120,14 @@ public class PaypalHistoryDTO implements Serializable {
         this.shopifyOrderNumber = shopifyOrderNumber;
     }
 
+    public String getShopifyOrderName() {
+        return shopifyOrderName;
+    }
+
+    public void setShopifyOrderName(String shopifyOrderName) {
+        this.shopifyOrderName = shopifyOrderName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -151,6 +162,7 @@ public class PaypalHistoryDTO implements Serializable {
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", shopifyOrderNumber=" + getShopifyOrderNumber() +
+            ", shopifyOrderName='" + getShopifyOrderName() + "'" +
             "}";
     }
 }

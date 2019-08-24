@@ -91,4 +91,15 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> findByOrderNumber(Integer orderNumbers) {
         return orderRepository.findByOrderNumber(orderNumbers);
     }
+
+    /**
+     * get existed order by order name
+     *
+     * @param orderName
+     * @return
+     */
+    @Override
+    public Optional<Order> findByOrderName(String orderName) {
+        return orderRepository.findByOrderName(orderName);
+    }
 }

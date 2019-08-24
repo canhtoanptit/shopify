@@ -25,7 +25,8 @@ export class PaypalHistoryUpdateComponent implements OnInit {
     status: [null, [Validators.required]],
     createdAt: [],
     updatedAt: [],
-    shopifyOrderNumber: [null, [Validators.required]]
+    shopifyOrderNumber: [null, [Validators.required]],
+    shopifyOrderName: [null, []]
   });
 
   constructor(protected paypalHistoryService: PaypalHistoryService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -48,7 +49,8 @@ export class PaypalHistoryUpdateComponent implements OnInit {
       status: paypalHistory.status,
       createdAt: paypalHistory.createdAt != null ? paypalHistory.createdAt.format(DATE_TIME_FORMAT) : null,
       updatedAt: paypalHistory.updatedAt != null ? paypalHistory.updatedAt.format(DATE_TIME_FORMAT) : null,
-      shopifyOrderNumber: paypalHistory.shopifyOrderNumber
+      shopifyOrderNumber: paypalHistory.shopifyOrderNumber,
+      shopifyOrderName: paypalHistory.shopifyOrderName
     });
   }
 
@@ -80,7 +82,8 @@ export class PaypalHistoryUpdateComponent implements OnInit {
         this.editForm.get(['createdAt']).value != null ? moment(this.editForm.get(['createdAt']).value, DATE_TIME_FORMAT) : undefined,
       updatedAt:
         this.editForm.get(['updatedAt']).value != null ? moment(this.editForm.get(['updatedAt']).value, DATE_TIME_FORMAT) : undefined,
-      shopifyOrderNumber: this.editForm.get(['shopifyOrderNumber']).value
+      shopifyOrderNumber: this.editForm.get(['shopifyOrderNumber']).value,
+      shopifyOrderName: this.editForm.get(['shopifyOrderName']).value
     };
   }
 
