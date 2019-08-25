@@ -1,5 +1,6 @@
 package com.paypal.mng.web.rest;
 
+import com.paypal.mng.security.AuthoritiesConstants;
 import com.paypal.mng.service.PaypalService;
 import com.paypal.mng.web.rest.errors.BadRequestAlertException;
 import com.paypal.mng.service.dto.PaypalDTO;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +55,7 @@ public class PaypalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/paypals")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<PaypalDTO> createPaypal(@Valid @RequestBody PaypalDTO paypalDTO) throws URISyntaxException {
         log.debug("REST request to save Paypal : {}", paypalDTO);
         if (paypalDTO.getId() != null) {
@@ -74,6 +77,7 @@ public class PaypalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/paypals")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<PaypalDTO> updatePaypal(@Valid @RequestBody PaypalDTO paypalDTO) throws URISyntaxException {
         log.debug("REST request to update Paypal : {}", paypalDTO);
         if (paypalDTO.getId() == null) {
@@ -94,6 +98,7 @@ public class PaypalResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of paypals in body.
      */
     @GetMapping("/paypals")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<PaypalDTO>> getAllPaypals(Pageable pageable) {
         log.debug("REST request to get a page of Paypals");
         Page<PaypalDTO> page = paypalService.findAll(pageable);
@@ -108,6 +113,7 @@ public class PaypalResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the paypalDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/paypals/{id}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<PaypalDTO> getPaypal(@PathVariable Long id) {
         log.debug("REST request to get Paypal : {}", id);
         Optional<PaypalDTO> paypalDTO = paypalService.findOne(id);
@@ -121,6 +127,7 @@ public class PaypalResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/paypals/{id}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deletePaypal(@PathVariable Long id) {
         log.debug("REST request to delete Paypal : {}", id);
         paypalService.delete(id);

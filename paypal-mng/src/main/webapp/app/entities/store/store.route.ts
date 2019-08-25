@@ -37,7 +37,7 @@ export const storeRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       defaultSort: 'id,asc',
       pageTitle: 'Stores'
     },
@@ -50,7 +50,7 @@ export const storeRoute: Routes = [
       store: StoreResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Stores'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const storeRoute: Routes = [
       store: StoreResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Stores'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const storeRoute: Routes = [
       store: StoreResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Stores'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const storePopupRoute: Routes = [
       store: StoreResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Stores'
     },
     canActivate: [UserRouteAccessService],

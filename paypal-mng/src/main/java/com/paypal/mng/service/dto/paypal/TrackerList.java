@@ -15,4 +15,11 @@ public class TrackerList {
     public void setTrackerList(List<Tracker> trackerList) {
         this.trackerList = trackerList;
     }
+
+    @Override
+    public String toString() {
+        return "TrackerList{" +
+            "trackerList=" + trackerList +
+            '}';
+    }
 }

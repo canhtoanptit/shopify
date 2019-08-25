@@ -37,7 +37,7 @@ export const paypalRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       defaultSort: 'id,asc',
       pageTitle: 'Paypals'
     },
@@ -50,7 +50,7 @@ export const paypalRoute: Routes = [
       paypal: PaypalResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Paypals'
     },
     canActivate: [UserRouteAccessService]
@@ -62,7 +62,7 @@ export const paypalRoute: Routes = [
       paypal: PaypalResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Paypals'
     },
     canActivate: [UserRouteAccessService]
@@ -74,7 +74,7 @@ export const paypalRoute: Routes = [
       paypal: PaypalResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Paypals'
     },
     canActivate: [UserRouteAccessService]
@@ -89,7 +89,7 @@ export const paypalPopupRoute: Routes = [
       paypal: PaypalResolve
     },
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_ADMIN'],
       pageTitle: 'Paypals'
     },
     canActivate: [UserRouteAccessService],

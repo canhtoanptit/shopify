@@ -18,6 +18,7 @@ logging:
     ROOT: INFO
     com.paypal.mng: INFO
     io.github.jhipster: INFO
+  file: paypalmng.log
 
 management:
   metrics:

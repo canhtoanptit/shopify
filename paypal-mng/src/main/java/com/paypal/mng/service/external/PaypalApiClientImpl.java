@@ -5,6 +5,8 @@ import com.paypal.mng.service.dto.paypal.TokenDTO;
 import com.paypal.mng.service.dto.paypal.TrackerIdentifierListDTO;
 import com.paypal.mng.service.dto.paypal.TrackerList;
 import com.paypal.mng.service.util.RestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -18,6 +20,8 @@ import java.util.Collections;
 @Service
 public class PaypalApiClientImpl implements PaypalApiClient {
 
+    private final Logger log = LoggerFactory.getLogger(PaypalApiClientImpl.class);
+
     private final RestTemplate restTemplate;
 
     private final ApplicationProperties applicationProperties;
@@ -29,9 +33,11 @@ public class PaypalApiClientImpl implements PaypalApiClient {
 
     @Override
     public TrackerIdentifierListDTO addTrackersBatch(String token, TrackerList trackerList) {
+        log.info("add tracker list {}", trackerList);
         String url = applicationProperties.getPaypal().getHost() + "/v1/shipping/trackers-batch";
         ResponseEntity<TrackerIdentifierListDTO> rs = restTemplate.exchange(url, HttpMethod.POST,
             new HttpEntity<>(trackerList, RestUtil.createHeaders(token)), TrackerIdentifierListDTO.class);
+        log.info("Status code of api call {}", rs.getStatusCode());
         return rs.getBody();
     }
 

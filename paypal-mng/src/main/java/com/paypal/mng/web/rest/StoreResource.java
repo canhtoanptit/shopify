@@ -1,5 +1,6 @@
 package com.paypal.mng.web.rest;
 
+import com.paypal.mng.security.AuthoritiesConstants;
 import com.paypal.mng.service.StoreService;
 import com.paypal.mng.web.rest.errors.BadRequestAlertException;
 import com.paypal.mng.service.dto.StoreDTO;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +55,7 @@ public class StoreResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/stores")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<StoreDTO> createStore(@Valid @RequestBody StoreDTO storeDTO) throws URISyntaxException {
         log.debug("REST request to save Store : {}", storeDTO);
         if (storeDTO.getId() != null) {
@@ -74,6 +77,7 @@ public class StoreResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/stores")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<StoreDTO> updateStore(@Valid @RequestBody StoreDTO storeDTO) throws URISyntaxException {
         log.debug("REST request to update Store : {}", storeDTO);
         if (storeDTO.getId() == null) {
@@ -94,6 +98,7 @@ public class StoreResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stores in body.
      */
     @GetMapping("/stores")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<StoreDTO>> getAllStores(Pageable pageable) {
         log.debug("REST request to get a page of Stores");
         Page<StoreDTO> page = storeService.findAll(pageable);
@@ -108,6 +113,7 @@ public class StoreResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the storeDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/stores/{id}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<StoreDTO> getStore(@PathVariable Long id) {
         log.debug("REST request to get Store : {}", id);
         Optional<StoreDTO> storeDTO = storeService.findOne(id);
@@ -121,6 +127,7 @@ public class StoreResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/stores/{id}")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
         log.debug("REST request to delete Store : {}", id);
         storeService.delete(id);
