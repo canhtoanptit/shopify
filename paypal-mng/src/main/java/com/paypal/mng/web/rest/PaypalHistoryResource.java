@@ -108,7 +108,7 @@ public class PaypalHistoryResource {
             page = paypalHistoryService.findAll(pageable);
         }
         for (PaypalHistoryDTO paypalHistoryDTO : page) {
-            orderService.findOne(paypalHistoryDTO.getShopifyOrderId())
+            orderService.findByShopifyOrderId(paypalHistoryDTO.getShopifyOrderId())
                 .ifPresent(orderDTO -> {
                     paypalHistoryDTO.setShopifyOrderName(orderDTO.getOrderName());
                 });

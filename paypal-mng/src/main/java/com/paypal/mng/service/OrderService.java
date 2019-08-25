@@ -60,4 +60,12 @@ public interface OrderService {
      * @return
      */
     Optional<Order> findByOrderName(String orderName);
+
+    /**
+     * get existed order by order name
+     *
+     * @param shopifyOrderId
+     * @return
+     */
+    Optional<Order> findByShopifyOrderId(Long shopifyOrderId);
 }

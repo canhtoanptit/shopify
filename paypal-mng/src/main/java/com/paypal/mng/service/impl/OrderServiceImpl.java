@@ -100,6 +100,17 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Optional<Order> findByOrderName(String orderName) {
-        return orderRepository.findByOrderName(orderName);
+        return orderRepository.findByOrderNameContaining(orderName);
+    }
+
+    /**
+     * get existed order by order name
+     *
+     * @param shopifyOrderId
+     * @return
+     */
+    @Override
+    public Optional<Order> findByShopifyOrderId(Long shopifyOrderId) {
+        return orderRepository.findByShopifyOrderId(shopifyOrderId);
     }
 }

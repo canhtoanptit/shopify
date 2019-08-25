@@ -36,9 +36,7 @@ public class PaypalHistoryDTO implements Serializable {
     @NotNull
     private Integer shopifyOrderNumber;
 
-    
     private String shopifyOrderName;
-
 
     public Long getId() {
         return id;
