@@ -1,9 +1,10 @@
 package com.paypal.mng.web.rest;
 
+import com.paypal.mng.domain.Order;
+import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.PaypalHistoryService;
-import com.paypal.mng.web.rest.errors.BadRequestAlertException;
 import com.paypal.mng.service.dto.PaypalHistoryDTO;
-
+import com.paypal.mng.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -13,15 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +40,11 @@ public class PaypalHistoryResource {
 
     private final PaypalHistoryService paypalHistoryService;
 
-    public PaypalHistoryResource(PaypalHistoryService paypalHistoryService) {
+    private final OrderService orderService;
+
+    public PaypalHistoryResource(PaypalHistoryService paypalHistoryService, OrderService orderService) {
         this.paypalHistoryService = paypalHistoryService;
+        this.orderService = orderService;
     }
 
     /**
@@ -88,15 +90,29 @@ public class PaypalHistoryResource {
     /**
      * {@code GET  /paypal-histories} : get all the paypalHistories.
      *
-
      * @param pageable the pagination information.
-
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of paypalHistories in body.
      */
     @GetMapping("/paypal-histories")
-    public ResponseEntity<List<PaypalHistoryDTO>> getAllPaypalHistories(Pageable pageable) {
+    public ResponseEntity<List<PaypalHistoryDTO>> getAllPaypalHistories(@RequestParam("searchParam") String searchParam, Pageable pageable) {
         log.debug("REST request to get a page of PaypalHistories");
-        Page<PaypalHistoryDTO> page = paypalHistoryService.findAll(pageable);
+        Page<PaypalHistoryDTO> page;
+        if (searchParam != null && !searchParam.trim().isEmpty()) {
+            Optional<Order> optionalOrder = orderService.findByOrderName(searchParam);
+            if (optionalOrder.isPresent()) {
+                page = paypalHistoryService.findAllByShopifyOrderId(optionalOrder.get().getShopifyOrderId(), pageable);
+            } else {
+                page = paypalHistoryService.findAllByAuthorizationKey(searchParam, pageable);
+            }
+        } else {
+            page = paypalHistoryService.findAll(pageable);
+        }
+        for (PaypalHistoryDTO paypalHistoryDTO : page) {
+            orderService.findOne(paypalHistoryDTO.getShopifyOrderId())
+                .ifPresent(orderDTO -> {
+                    paypalHistoryDTO.setShopifyOrderName(orderDTO.getOrderName());
+                });
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

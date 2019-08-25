@@ -1,5 +1,6 @@
 package com.paypal.mng.service.impl;
 
+import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.PaypalHistoryService;
 import com.paypal.mng.domain.PaypalHistory;
 import com.paypal.mng.repository.PaypalHistoryRepository;
@@ -28,9 +29,12 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
 
     private final PaypalHistoryMapper paypalHistoryMapper;
 
-    public PaypalHistoryServiceImpl(PaypalHistoryRepository paypalHistoryRepository, PaypalHistoryMapper paypalHistoryMapper) {
+    private final OrderService orderService;
+
+    public PaypalHistoryServiceImpl(PaypalHistoryRepository paypalHistoryRepository, PaypalHistoryMapper paypalHistoryMapper, OrderService orderService) {
         this.paypalHistoryRepository = paypalHistoryRepository;
         this.paypalHistoryMapper = paypalHistoryMapper;
+        this.orderService = orderService;
     }
 
     /**
@@ -103,6 +107,18 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
     @Override
     public Optional<PaypalHistoryDTO> findByOrderIdAndTrackingNumber(Long shopifyOrderId, String shopifyTrackingNumber) {
         return paypalHistoryRepository.findByShopifyOrderIdAndShopifyTrackingNumber(shopifyOrderId, shopifyTrackingNumber)
+            .map(paypalHistoryMapper::toDto);
+    }
+
+    @Override
+    public Page<PaypalHistoryDTO> findAllByShopifyOrderId(Long shopifyOrderId, Pageable pageable) {
+        return paypalHistoryRepository.findAllByShopifyOrderId(shopifyOrderId, pageable)
+            .map(paypalHistoryMapper::toDto);
+    }
+
+    @Override
+    public Page<PaypalHistoryDTO> findAllByAuthorizationKey(String authorizationKey, Pageable pageable) {
+        return paypalHistoryRepository.findAllByShopifyAuthorizationKey(authorizationKey, pageable)
             .map(paypalHistoryMapper::toDto);
     }
 }

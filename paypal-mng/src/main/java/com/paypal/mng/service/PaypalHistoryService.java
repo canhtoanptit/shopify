@@ -61,4 +61,8 @@ public interface PaypalHistoryService {
      * @return
      */
     Optional<PaypalHistoryDTO> findByOrderIdAndTrackingNumber(Long shopifyOrderId, String shopifyTrackingNumber);
+
+    Page<PaypalHistoryDTO> findAllByShopifyOrderId(Long shopifyOrderId, Pageable pageable);
+
+    Page<PaypalHistoryDTO> findAllByAuthorizationKey(String authorizationKey, Pageable pageable);
 }

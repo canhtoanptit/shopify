@@ -3,6 +3,7 @@ package com.paypal.mng.web.rest;
 import com.paypal.mng.PaypalmngApp;
 import com.paypal.mng.domain.PaypalHistory;
 import com.paypal.mng.repository.PaypalHistoryRepository;
+import com.paypal.mng.service.OrderService;
 import com.paypal.mng.service.PaypalHistoryService;
 import com.paypal.mng.service.dto.PaypalHistoryDTO;
 import com.paypal.mng.service.mapper.PaypalHistoryMapper;
@@ -92,6 +93,9 @@ public class PaypalHistoryResourceIT {
     private ExceptionTranslator exceptionTranslator;
 
     @Autowired
+    private  OrderService orderService;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -104,7 +108,7 @@ public class PaypalHistoryResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PaypalHistoryResource paypalHistoryResource = new PaypalHistoryResource(paypalHistoryService);
+        final PaypalHistoryResource paypalHistoryResource = new PaypalHistoryResource(paypalHistoryService, orderService);
         this.restPaypalHistoryMockMvc = MockMvcBuilders.standaloneSetup(paypalHistoryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -363,7 +367,7 @@ public class PaypalHistoryResourceIT {
             .andExpect(jsonPath("$.[*].shopifyOrderNumber").value(hasItem(DEFAULT_SHOPIFY_ORDER_NUMBER)))
             .andExpect(jsonPath("$.[*].shopifyOrderName").value(hasItem(DEFAULT_SHOPIFY_ORDER_NAME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getPaypalHistory() throws Exception {
