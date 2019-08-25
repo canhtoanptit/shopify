@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.paypal.mng.domain.PaypalHistory}.
@@ -98,9 +99,9 @@ public class PaypalHistoryResource {
         log.debug("REST request to get a page of PaypalHistories");
         Page<PaypalHistoryDTO> page;
         if (searchParam != null && !searchParam.trim().isEmpty()) {
-            Optional<Order> optionalOrder = orderService.findByOrderName(searchParam);
-            if (optionalOrder.isPresent()) {
-                page = paypalHistoryService.findAllByShopifyOrderId(optionalOrder.get().getShopifyOrderId(), pageable);
+            Page<Order> optionalOrder = orderService.findByOrderNameContain(searchParam);
+            if (!optionalOrder.isEmpty()) {
+                page = paypalHistoryService.findAllByShopifyOrderIds(optionalOrder.get().map(Order::getShopifyOrderId).collect(Collectors.toList()), pageable);
             } else {
                 page = paypalHistoryService.findAllByAuthorizationKey(searchParam, pageable);
             }

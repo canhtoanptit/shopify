@@ -5,6 +5,7 @@ import com.paypal.mng.service.dto.PaypalHistoryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,7 +63,7 @@ public interface PaypalHistoryService {
      */
     Optional<PaypalHistoryDTO> findByOrderIdAndTrackingNumber(Long shopifyOrderId, String shopifyTrackingNumber);
 
-    Page<PaypalHistoryDTO> findAllByShopifyOrderId(Long shopifyOrderId, Pageable pageable);
+    Page<PaypalHistoryDTO> findAllByShopifyOrderIds(List<Long> shopifyOrderIds, Pageable pageable);
 
     Page<PaypalHistoryDTO> findAllByAuthorizationKey(String authorizationKey, Pageable pageable);
 }

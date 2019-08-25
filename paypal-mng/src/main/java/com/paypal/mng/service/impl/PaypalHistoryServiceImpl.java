@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -111,8 +112,8 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
     }
 
     @Override
-    public Page<PaypalHistoryDTO> findAllByShopifyOrderId(Long shopifyOrderId, Pageable pageable) {
-        return paypalHistoryRepository.findAllByShopifyOrderId(shopifyOrderId, pageable)
+    public Page<PaypalHistoryDTO> findAllByShopifyOrderIds(List<Long> shopifyOrderIds, Pageable pageable) {
+        return paypalHistoryRepository.findAllByShopifyOrderIdIn(shopifyOrderIds, pageable)
             .map(paypalHistoryMapper::toDto);
     }
 

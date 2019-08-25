@@ -99,8 +99,19 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public Optional<Order> findByOrderName(String orderName) {
+    public Page<Order> findByOrderNameContain(String orderName) {
         return orderRepository.findByOrderNameContaining(orderName);
+    }
+
+    /**
+     * get existed order by order name
+     *
+     * @param orderName
+     * @return
+     */
+    @Override
+    public Optional<Order> findByOrderName(String orderName) {
+        return orderRepository.findByOrderName(orderName);
     }
 
     /**

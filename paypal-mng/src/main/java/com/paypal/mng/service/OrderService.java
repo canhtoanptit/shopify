@@ -59,6 +59,14 @@ public interface OrderService {
      * @param orderName
      * @return
      */
+    Page<Order> findByOrderNameContain(String orderName);
+
+    /**
+     * get existed order by order name
+     *
+     * @param orderName
+     * @return
+     */
     Optional<Order> findByOrderName(String orderName);
 
     /**
