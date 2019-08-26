@@ -36,4 +36,11 @@ router.post('/internal', async function (req, res) {
     })
 });
 
+router.post('/internal/batch', async function (req, res) {
+  shopifyService.getOrderFulfilledInDays(req, res)
+    .catch(e => {
+      console.log('error ', e)
+    })
+});
+
 module.exports = router;

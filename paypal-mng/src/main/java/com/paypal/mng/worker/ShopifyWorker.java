@@ -124,7 +124,8 @@ public class ShopifyWorker {
             List<Fulfillment> fulfillmentList = shopifyOrder.getFulfillments();
             if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
                 log.info("Size of fulfillment {} ", fulfillmentList.size());
-                List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(), shopifyOrder.getName());
+                List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(),
+                    shopifyOrder.getOrderNumber(), shopifyOrder.getName());
                 addTrackingToPaypal(trackers, storeDTO);
             }
         });
@@ -158,7 +159,7 @@ public class ShopifyWorker {
     }
 
     private List<Tracker> createTracking(List<Fulfillment> fulfillmentList, Long orderId,
-                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, String orderName) {
+                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
         fulfillmentList.forEach(fulfillment -> {
@@ -187,7 +188,7 @@ public class ShopifyWorker {
                         trackingService.save(trackingDto);
                     }
                     createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                        fulfillment.getTrackingCompany(), shopifyOrderId, orderName);
+                        fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
                     Tracker tracker = new Tracker();
                     tracker.setStatus("SHIPPED");
                     tracker.setCarrier(fulfillment.getTrackingCompany());
@@ -201,7 +202,7 @@ public class ShopifyWorker {
     }
 
     private void createPaypalHistory(String trackingNumber, String authorizationKey, String shippingStatus,
-                                     String carrier, Long shopifyOrder, String orderName) {
+                                     String carrier, Long shopifyOrder, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         PaypalHistoryDTO ppHistoryDto = new PaypalHistoryDTO();
         ppHistoryDto.setShopifyOrderId(shopifyOrder);
@@ -212,6 +213,7 @@ public class ShopifyWorker {
         ppHistoryDto.setUpdatedAt(now);
         ppHistoryDto.setCreatedAt(now);
         ppHistoryDto.setStatus(Constants.CALLED);
+        ppHistoryDto.setShopifyOrderNumber(orderNumber);
         ppHistoryDto.setShopifyOrderName(orderName);
         paypalHistoryService.save(ppHistoryDto);
     }

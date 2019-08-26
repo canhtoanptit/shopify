@@ -1,3 +1,4 @@
+const moment = require('moment-timezone');
 const Shopify = require('shopify-api-node');
 // const Config = require('../config/config.json');
 const cacher = require('../cache/redis.cache');
@@ -83,6 +84,42 @@ const getOrderFulfilled = async (req, res) => {
   }
 };
 
+const getOrderFulfilledInDays = async (req, res) => {
+  const shopName = req.body.storeName;
+  const apiKey = req.body.shopifyApiKey;
+  const password = req.body.shopifyApiPassword;
+  if (!shopName || !apiKey || !password) {
+    res.status(400);
+    res.send(JSON.stringify({data: 'bad request'}))
+  }
+  const shopify = new Shopify({
+    shopName: shopName,
+    apiKey: apiKey,
+    password: password
+  });
+  try {
+    const endOfDay = moment.tz('America/Juneau').endOf('day').format();
+    let params = {
+      limit: 60,
+      fields: 'id,name,order_number,fulfillments,updated_at',
+      fulfillment_status: 'shipped',
+      status: 'any',
+      updated_at_max: endOfDay,
+      order: 'updated_at desc'
+    };
+    let resp = await shopify.order.list(params);
+    console.log('res ', resp);
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({orders: resp}))
+  } catch (e) {
+    console.log('err', e);
+    res.status(500);
+    res.send(e)
+  }
+};
+
+
 module.exports = {
-  getOrderFulfilled
+  getOrderFulfilled,
+  getOrderFulfilledInDays
 };
