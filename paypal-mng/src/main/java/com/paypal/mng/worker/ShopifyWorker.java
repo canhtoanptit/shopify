@@ -54,6 +54,23 @@ public class ShopifyWorker {
         this.redisCacheRepo = redisCacheRepo;
     }
 
+    @Scheduled(fixedDelay = 3600000)
+    public void processBatch() {
+        List<StoreDTO> storeDTOS = storeService.findAllStore();
+        if (!storeDTOS.isEmpty()) {
+            storeDTOS.forEach(storeDTO -> {
+                if (storeDTO.isAutomationStatus()) {
+                    OrderList orders = shopifyService.getOrderExternalBatch(storeDTO);
+                    if (orders != null && !orders.getOrders().isEmpty()) {
+                        log.info("Process order with size {}", orders.getOrders().size());
+                        // for each order find transaction and created
+                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
+                    }
+                }
+            });
+        }
+    }
+
     @Scheduled(fixedDelay = 60000)
     public void process() {
         // get shopify orders

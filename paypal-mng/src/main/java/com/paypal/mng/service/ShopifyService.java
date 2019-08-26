@@ -11,4 +11,6 @@ public interface ShopifyService {
     TransactionList getTransactions(String baseUrl, String username, String password);
 
     OrderList getOrderExternal(StoreDTO storeDTO);
+
+    OrderList getOrderExternalBatch(StoreDTO storeDTO);
 }

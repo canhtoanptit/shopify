@@ -12,5 +12,7 @@ public interface ShopifyApiClient {
     TransactionList getTransactions(String url, String username, String password);
 
     OrderList getListOrder(StoreDTO storeDTO);
+
+    OrderList getListOrderBatch(StoreDTO storeDTO);
 }
 
