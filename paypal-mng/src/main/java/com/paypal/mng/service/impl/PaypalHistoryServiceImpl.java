@@ -48,6 +48,7 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
     public PaypalHistoryDTO save(PaypalHistoryDTO paypalHistoryDTO) {
         log.debug("Request to save PaypalHistory : {}", paypalHistoryDTO);
         PaypalHistory paypalHistory = paypalHistoryMapper.toEntity(paypalHistoryDTO);
+        paypalHistory.setShopifyOrderName(paypalHistoryDTO.getShopifyOrderName());
         paypalHistory = paypalHistoryRepository.save(paypalHistory);
         return paypalHistoryMapper.toDto(paypalHistory);
     }
