@@ -107,6 +107,16 @@ public class ShopifyWorker {
 
         } else {
             log.info("transaction is null or size is not 1");
+            if (transactions != null && transactions.getTransactions() != null) {
+                List<ShopifyTransaction> rs = new ArrayList<>();
+                for (ShopifyTransaction shopifyTransaction : transactions.getTransactions()) {
+                    if (shopifyTransaction.getStatus().equals(Constants.TRANSACTION_STATUS_SUCCESS)) {
+                        rs.add(shopifyTransaction);
+                    }
+                }
+                transactions.setTransactions(rs);
+                createTransactions(transactions, orderId, shopifyOrder, storeDTO);
+            }
         }
     }
 

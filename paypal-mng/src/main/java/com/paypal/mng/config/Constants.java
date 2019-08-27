@@ -21,6 +21,10 @@ public final class Constants {
     public static String ORDER_PROCESSED = "PROCESSED";
 
     public static String ORDER_NOT_PROCESS = "NOT PROCESS";
+
+    // Transaction status
+    public static String TRANSACTION_STATUS_SUCCESS = "success";
+
     private Constants() {
     }
 }

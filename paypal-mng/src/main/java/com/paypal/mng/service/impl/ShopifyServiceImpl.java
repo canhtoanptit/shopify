@@ -33,14 +33,16 @@ public class ShopifyServiceImpl implements ShopifyService {
         }
 //        uriParams.put("updated_at_min", DateTimeUtil.atStartOfDay(new Date()));
         uriParams.put("updated_at_max", DateTimeUtil.atEndOfDay(new Date()));
-        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.FULFILLMENTS + "," + JsonConstants.ORDER_NUMBER + "," + JsonConstants.NAME);
+        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.FULFILLMENTS + "," + JsonConstants.ORDER_NUMBER
+            + "," + JsonConstants.NAME);
         UriComponentsBuilder uri = RestUtil.buildQuery(baseUrl, uriParams);
         return shopifyApiClient.getOrders(uri.toUriString(), username, password);
     }
 
     public TransactionList getTransactions(String baseUrl, String username, String password) {
         HashMap<String, String> uriParams = new HashMap<>();
-        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.AUTHORIZATION + "," + JsonConstants.ORDER_ID);
+        uriParams.put("fields", JsonConstants.ID + "," + JsonConstants.AUTHORIZATION + "," + JsonConstants.ORDER_ID
+            + "," + JsonConstants.STATUS);
         UriComponentsBuilder uri = RestUtil.buildQuery(baseUrl, uriParams);
         return shopifyApiClient.getTransactions(uri.toUriString(), username, password);
     }
