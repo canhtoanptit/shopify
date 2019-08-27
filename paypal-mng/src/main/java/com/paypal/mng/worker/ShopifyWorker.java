@@ -186,32 +186,32 @@ public class ShopifyWorker {
                 log.info("Process fulfilment {}", fulfillment);
                 for (int i = 0; i < trackingNumbers.size(); i++) {
                     String trackingNumber = trackingNumbers.get(i);
-                    TrackingDTO trackingDto = new TrackingDTO();
-                    trackingDto.setCreatedAt(now);
-                    trackingDto.setUpdatedAt(now);
-                    log.info("Process with tracking number {}", trackingNumber);
-                    trackingDto.setTrackingNumber(trackingNumbers.get(i));
-                    trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
-                    if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
-                        trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
-                    } else if (trackingUrls != null) {
-                        log.info("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
-                    } else {
-                        log.info("Tracking url null");
-                    }
-                    trackingDto.setOrderId(orderId);
                     Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
                     if (!trackOpt.isPresent()) {
+                        TrackingDTO trackingDto = new TrackingDTO();
+                        trackingDto.setCreatedAt(now);
+                        trackingDto.setUpdatedAt(now);
+                        log.info("Process with tracking number {}", trackingNumber);
+                        trackingDto.setTrackingNumber(trackingNumbers.get(i));
+                        trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
+                        if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
+                            trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
+                        } else if (trackingUrls != null) {
+                            log.info("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
+                        } else {
+                            log.info("Tracking url null");
+                        }
+                        trackingDto.setOrderId(orderId);
                         trackingService.save(trackingDto);
+                        createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
+                            fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
+                        Tracker tracker = new Tracker();
+                        tracker.setStatus("SHIPPED");
+                        tracker.setCarrier(fulfillment.getTrackingCompany());
+                        tracker.setTrackingNumber(trackingNumber);
+                        tracker.setTransactionId(shopifyTransaction.getAuthorization());
+                        trackers.add(tracker);
                     }
-                    createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                        fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
-                    Tracker tracker = new Tracker();
-                    tracker.setStatus("SHIPPED");
-                    tracker.setCarrier(fulfillment.getTrackingCompany());
-                    tracker.setTrackingNumber(trackingNumber);
-                    tracker.setTransactionId(shopifyTransaction.getAuthorization());
-                    trackers.add(tracker);
                 }
             }
         });
