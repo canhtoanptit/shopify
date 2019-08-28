@@ -43,4 +43,11 @@ router.post('/internal/batch', async function (req, res) {
     })
 });
 
+router.post('/internal/partial', async function (req, res) {
+  shopifyService.getOrderPartial(req, res)
+    .catch(e => {
+      console.log('error ', e)
+    })
+});
+
 module.exports = router;

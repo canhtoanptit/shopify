@@ -14,5 +14,7 @@ public interface ShopifyApiClient {
     OrderList getListOrder(StoreDTO storeDTO);
 
     OrderList getListOrderBatch(StoreDTO storeDTO);
+
+    OrderList getListOrderPartial(StoreDTO storeDTO);
 }
 

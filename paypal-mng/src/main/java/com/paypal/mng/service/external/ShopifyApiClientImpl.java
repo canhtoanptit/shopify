@@ -42,4 +42,9 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
     public OrderList getListOrderBatch(StoreDTO storeDTO) {
         return restTemplate.postForObject("http://localhost:3000/api/order/internal/batch", storeDTO, OrderList.class);
     }
+
+    @Override
+    public OrderList getListOrderPartial(StoreDTO storeDTO) {
+        return restTemplate.postForObject("http://localhost:3000/api/order/internal/partial", storeDTO, OrderList.class);
+    }
 }

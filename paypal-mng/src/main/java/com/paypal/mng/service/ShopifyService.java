@@ -13,4 +13,6 @@ public interface ShopifyService {
     OrderList getOrderExternal(StoreDTO storeDTO);
 
     OrderList getOrderExternalBatch(StoreDTO storeDTO);
+
+    OrderList getOrderPartialExternal(StoreDTO storeDTO);
 }

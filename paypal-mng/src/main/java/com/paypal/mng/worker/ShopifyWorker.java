@@ -71,6 +71,23 @@ public class ShopifyWorker {
         }
     }
 
+    @Scheduled(fixedDelay = 7200000)
+    public void processPartial() {
+        List<StoreDTO> storeDTOS = storeService.findAllStore();
+        if (!storeDTOS.isEmpty()) {
+            storeDTOS.forEach(storeDTO -> {
+                if (storeDTO.isAutomationStatus()) {
+                    OrderList orders = shopifyService.getOrderPartialExternal(storeDTO);
+                    if (orders != null && !orders.getOrders().isEmpty()) {
+                        log.info("Process order with size {}", orders.getOrders().size());
+                        // for each order find transaction and created
+                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
+                    }
+                }
+            });
+        }
+    }
+
     @Scheduled(fixedDelay = 60000)
     public void process() {
         // get shopify orders

@@ -118,8 +118,41 @@ const getOrderFulfilledInDays = async (req, res) => {
   }
 };
 
+const getOrderPartial = async (req, res) => {
+  const shopName = req.body.storeName;
+  const apiKey = req.body.shopifyApiKey;
+  const password = req.body.shopifyApiPassword;
+  if (!shopName || !apiKey || !password) {
+    res.status(400);
+    res.send(JSON.stringify({data: 'bad request'}))
+  }
+  const shopify = new Shopify({
+    shopName: shopName,
+    apiKey: apiKey,
+    password: password
+  });
+  try {
+    let params = {
+      limit: 20,
+      fields: 'id,name,order_number,fulfillments,updated_at',
+      fulfillment_status: 'partial',
+      status: 'any',
+      order: 'updated_at desc'
+    };
+    let resp = await shopify.order.list(params);
+    console.log('res ', resp);
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({orders: resp}))
+  } catch (e) {
+    console.log('err', e);
+    res.status(500);
+    res.send(e)
+  }
+};
+
 
 module.exports = {
   getOrderFulfilled,
-  getOrderFulfilledInDays
+  getOrderFulfilledInDays,
+  getOrderPartial
 };

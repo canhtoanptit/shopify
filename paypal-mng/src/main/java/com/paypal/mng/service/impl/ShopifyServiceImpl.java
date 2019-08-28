@@ -56,4 +56,9 @@ public class ShopifyServiceImpl implements ShopifyService {
     public OrderList getOrderExternalBatch(StoreDTO storeDTO) {
         return shopifyApiClient.getListOrderBatch(storeDTO);
     }
+
+    @Override
+    public OrderList getOrderPartialExternal(StoreDTO storeDTO) {
+        return shopifyApiClient.getListOrderPartial(storeDTO);
+    }
 }
