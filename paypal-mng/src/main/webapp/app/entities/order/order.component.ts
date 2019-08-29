@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -30,6 +30,14 @@ export class OrderComponent implements OnInit, OnDestroy {
   previousPage: any;
   reverse: any;
 
+  searchText = '';
+
+  @ViewChild('searchCondition', {static: false})
+  searchConditionElement: ElementRef;
+
+  @Output()
+  search: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(
     protected orderService: OrderService,
     protected parseLinks: JhiParseLinks,
@@ -53,12 +61,27 @@ export class OrderComponent implements OnInit, OnDestroy {
       .query({
         page: this.page - 1,
         size: this.itemsPerPage,
+        searchParam: this.searchText,
         sort: this.sort()
       })
       .subscribe(
         (res: HttpResponse<IOrder[]>) => this.paginateOrders(res.body, res.headers),
         (res: HttpErrorResponse) => this.onError(res.message)
       );
+  }
+
+  removeSearchText() {
+    this.searchText = '';
+  }
+
+  setFocus() {
+    this.searchConditionElement.nativeElement.focus();
+  }
+
+  querySearch() {
+    this.searchText = this.searchText.trim();
+    this.search.emit(this.searchText);
+    this.loadAll();
   }
 
   loadPage(page: number) {

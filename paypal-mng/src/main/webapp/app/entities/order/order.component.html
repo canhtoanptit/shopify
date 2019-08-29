@@ -13,6 +13,32 @@
     <div class="alert alert-warning" *ngIf="orders?.length === 0">
         <span>No orders found</span>
     </div>
+    <div class="search-zone">
+        <div class="search-input-zone" (click)="setFocus()">
+            <i class="fa fa-search blend-icon"></i>
+            <input #searchCondition
+                   type="text"
+                   class="blend-search-input"
+                   [ngClass]="{
+                'blend-search-null': searchText == '',
+                'blend-search-not-null': searchText != ''
+            }"
+                   name="item"
+                   placeholder="Search"
+                   maxlength="50"
+                   [(ngModel)]="searchText"
+                   (keyup.enter)="querySearch()">
+            <i class="fa fa-times-circle blend-icon"
+               *ngIf="searchText != ''"
+               (click)="removeSearchText()">
+            </i>
+        </div>
+        <button type="button"
+                class="blend-btn search-btn-style"
+                (click)="querySearch()">
+            SEARCH
+        </button>
+    </div>
     <div class="table-responsive" *ngIf="orders?.length > 0">
         <table class="table table-striped">
             <thead>

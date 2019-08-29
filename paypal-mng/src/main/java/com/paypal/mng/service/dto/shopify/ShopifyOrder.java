@@ -101,4 +101,13 @@ public class ShopifyOrder
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
+
+    @Override
+    public String toString() {
+        return "ShopifyOrder{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", orderNumber=" + orderNumber +
+            '}';
+    }
 }

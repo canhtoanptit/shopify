@@ -94,9 +94,14 @@ public class OrderResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orders in body.
      */
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderDTO>> getAllOrders(Pageable pageable) {
+    public ResponseEntity<List<OrderDTO>> getAllOrders(@RequestParam("searchParam") String searchParam, Pageable pageable) {
         log.debug("REST request to get a page of Orders");
-        Page<OrderDTO> page = orderService.findAll(pageable);
+        Page<OrderDTO> page;
+        if (searchParam != null && !searchParam.trim().isEmpty()) {
+            page = orderService.findAllByOrderName(searchParam, pageable);
+        } else {
+            page = orderService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

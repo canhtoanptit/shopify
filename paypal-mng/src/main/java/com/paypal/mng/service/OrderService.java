@@ -76,4 +76,6 @@ public interface OrderService {
      * @return
      */
     Optional<Order> findByShopifyOrderId(Long shopifyOrderId);
+
+    Page<OrderDTO> findAllByOrderName(String orderName, Pageable pageable);
 }

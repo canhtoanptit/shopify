@@ -125,4 +125,10 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> findByShopifyOrderId(Long shopifyOrderId) {
         return orderRepository.findByShopifyOrderId(shopifyOrderId);
     }
+
+    @Override
+    public Page<OrderDTO> findAllByOrderName(String orderName, Pageable pageable) {
+        return orderRepository.findByOrderNameContaining(orderName, pageable)
+            .map(orderMapper::toDto);
+    }
 }
