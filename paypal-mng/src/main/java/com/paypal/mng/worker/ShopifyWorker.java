@@ -54,7 +54,7 @@ public class ShopifyWorker {
         this.redisCacheRepo = redisCacheRepo;
     }
 
-    @Scheduled(fixedDelay = 3600000)
+    @Scheduled(fixedDelay = 600000)
     public void processBatch() {
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {

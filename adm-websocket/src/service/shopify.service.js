@@ -100,7 +100,7 @@ const getOrderFulfilledInDays = async (req, res) => {
   try {
     const endOfDay = moment.tz('America/Juneau').endOf('day').format();
     let params = {
-      limit: 60,
+      limit: 160,
       fields: 'id,name,order_number,fulfillments,updated_at',
       fulfillment_status: 'shipped',
       status: 'any',
