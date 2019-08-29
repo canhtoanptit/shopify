@@ -8,6 +8,8 @@ import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.external.ShopifyApiClient;
 import com.paypal.mng.service.util.DateTimeUtil;
 import com.paypal.mng.service.util.RestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -16,6 +18,7 @@ import java.util.HashMap;
 
 @Service
 public class ShopifyServiceImpl implements ShopifyService {
+    private final Logger log = LoggerFactory.getLogger(ShopifyServiceImpl.class);
 
     private final ShopifyApiClient shopifyApiClient;
 
@@ -49,16 +52,19 @@ public class ShopifyServiceImpl implements ShopifyService {
 
     @Override
     public OrderList getOrderExternal(StoreDTO storeDTO) {
+        log.info("Process getOrderExternal");
         return shopifyApiClient.getListOrder(storeDTO);
     }
 
     @Override
     public OrderList getOrderExternalBatch(StoreDTO storeDTO) {
+        log.info("Process getOrderExternalBatch");
         return shopifyApiClient.getListOrderBatch(storeDTO);
     }
 
     @Override
     public OrderList getOrderPartialExternal(StoreDTO storeDTO) {
+        log.info("Process getOrderPartialExternal");
         return shopifyApiClient.getListOrderPartial(storeDTO);
     }
 }

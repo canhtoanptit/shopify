@@ -4,6 +4,8 @@ import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.OrderList;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.util.RestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ShopifyApiClientImpl implements ShopifyApiClient {
-
+    private final Logger log = LoggerFactory.getLogger(ShopifyApiClientImpl.class);
     private final RestTemplate restTemplate;
 
     public ShopifyApiClientImpl(RestTemplate restTemplate) {
@@ -34,17 +36,18 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
 
     @Override
     public OrderList getListOrder(StoreDTO storeDTO) {
-        OrderList rs = restTemplate.postForObject("http://localhost:3000/api/order/internal", storeDTO, OrderList.class);
-        return rs;
+        return restTemplate.postForObject("http://localhost:3000/api/order/internal", storeDTO, OrderList.class);
     }
 
     @Override
     public OrderList getListOrderBatch(StoreDTO storeDTO) {
+        log.info("process getListOrderBatch");
         return restTemplate.postForObject("http://localhost:3000/api/order/internal/batch", storeDTO, OrderList.class);
     }
 
     @Override
     public OrderList getListOrderPartial(StoreDTO storeDTO) {
+        log.info("Process getListOrderPartial");
         return restTemplate.postForObject("http://localhost:3000/api/order/internal/partial", storeDTO, OrderList.class);
     }
 }
