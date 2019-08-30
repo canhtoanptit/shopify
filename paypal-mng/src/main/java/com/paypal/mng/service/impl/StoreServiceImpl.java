@@ -93,4 +93,10 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreDTO> findAllStore() {
         return storeRepository.findAll().stream().map(storeMapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<StoreDTO> findByStoreName(String storeName) {
+        return storeRepository.findByStoreName(storeName)
+            .map(storeMapper::toDto);
+    }
 }

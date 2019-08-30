@@ -3,6 +3,7 @@ package com.paypal.mng.service.impl;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.paypal.mng.service.FileService;
+import com.paypal.mng.service.dto.csv.TrackingManual;
 import com.paypal.mng.service.dto.csv.TrackingReport;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,15 @@ public class FileServiceImpl implements FileService {
     public List<TrackingReport> uploadTracking(MultipartFile multipartFile) throws IOException {
         try (Reader reader = new InputStreamReader(multipartFile.getInputStream())) {
             CsvToBean<TrackingReport> csvToBean = new CsvToBeanBuilder<TrackingReport>(reader).withType(TrackingReport.class)
+                .withIgnoreLeadingWhiteSpace(true).build();
+            return csvToBean.parse();
+        }
+    }
+
+    @Override
+    public List<TrackingManual> uploadManual(MultipartFile multipartFile) throws IOException {
+        try (Reader reader = new InputStreamReader(multipartFile.getInputStream())) {
+            CsvToBean<TrackingManual> csvToBean = new CsvToBeanBuilder<TrackingManual>(reader).withType(TrackingManual.class)
                 .withIgnoreLeadingWhiteSpace(true).build();
             return csvToBean.parse();
         }

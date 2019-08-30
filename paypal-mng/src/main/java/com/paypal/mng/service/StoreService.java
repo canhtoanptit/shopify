@@ -50,4 +50,6 @@ public interface StoreService {
      * @return
      */
     List<StoreDTO> findAllStore();
+
+    Optional<StoreDTO> findByStoreName(String storeName);
 }

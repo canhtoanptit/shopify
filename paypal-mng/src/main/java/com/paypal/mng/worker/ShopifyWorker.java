@@ -9,11 +9,13 @@ import com.paypal.mng.service.dto.paypal.TokenDTO;
 import com.paypal.mng.service.dto.paypal.Tracker;
 import com.paypal.mng.service.dto.paypal.TrackerIdentifierListDTO;
 import com.paypal.mng.service.dto.paypal.TrackerList;
-import com.paypal.mng.service.dto.shopify.*;
+import com.paypal.mng.service.dto.shopify.Fulfillment;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
+import com.paypal.mng.service.dto.shopify.ShopifyTransaction;
+import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.external.PaypalApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -25,13 +27,10 @@ import java.util.Optional;
 @Component
 public class ShopifyWorker {
     private final Logger log = LoggerFactory.getLogger(ShopifyWorker.class);
-    private final ShopifyService shopifyService;
 
     private final TrackingService trackingService;
 
     private final OrderService orderService;
-
-    private final StoreService storeService;
 
     private final TransactionService transactionService;
 
@@ -41,72 +40,21 @@ public class ShopifyWorker {
 
     private final RedisCacheRepo redisCacheRepo;
 
-    public ShopifyWorker(ShopifyService shopifyService, TrackingService trackingService, OrderService orderService,
-                         StoreService storeService, TransactionService transactionService,
-                         PaypalHistoryService paypalHistoryService, PaypalApiClient paypalApiClient, RedisCacheRepo redisCacheRepo) {
-        this.shopifyService = shopifyService;
+    private final ShopifyService shopifyService;
+
+    public ShopifyWorker(TrackingService trackingService, OrderService orderService, TransactionService transactionService,
+                         PaypalHistoryService paypalHistoryService, PaypalApiClient paypalApiClient,
+                         RedisCacheRepo redisCacheRepo, ShopifyService shopifyService) {
         this.trackingService = trackingService;
         this.orderService = orderService;
-        this.storeService = storeService;
         this.transactionService = transactionService;
         this.paypalHistoryService = paypalHistoryService;
         this.paypalApiClient = paypalApiClient;
         this.redisCacheRepo = redisCacheRepo;
+        this.shopifyService = shopifyService;
     }
 
-    @Scheduled(fixedDelay = 600000)
-    public void processBatch() {
-        List<StoreDTO> storeDTOS = storeService.findAllStore();
-        if (!storeDTOS.isEmpty()) {
-            storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderExternalBatch(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
-                }
-            });
-        }
-    }
-
-    @Scheduled(fixedDelay = 7200000)
-    public void processPartial() {
-        List<StoreDTO> storeDTOS = storeService.findAllStore();
-        if (!storeDTOS.isEmpty()) {
-            storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderPartialExternal(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
-                }
-            });
-        }
-    }
-
-    @Scheduled(fixedDelay = 60000)
-    public void process() {
-        // get shopify orders
-        List<StoreDTO> storeDTOS = storeService.findAllStore();
-        if (!storeDTOS.isEmpty()) {
-            storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderExternal(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
-                }
-            });
-        }
-    }
-
-    private void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) {
+    public void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) {
         log.info("Process store {} and order {}", storeDTO, shopifyOrder);
         Optional<Order> existedOrder = orderService.findByOrderName(shopifyOrder.getName());
         Long orderId;
@@ -203,7 +151,7 @@ public class ShopifyWorker {
     }
 
     private List<Tracker> createTracking(List<Fulfillment> fulfillmentList, Long orderId,
-                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
+                                        ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
         fulfillmentList.forEach(fulfillment -> {
@@ -246,7 +194,7 @@ public class ShopifyWorker {
     }
 
     private void createPaypalHistory(String trackingNumber, String authorizationKey, String shippingStatus,
-                                     String carrier, Long shopifyOrder, Integer orderNumber, String orderName) {
+                                    String carrier, Long shopifyOrder, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         PaypalHistoryDTO ppHistoryDto = new PaypalHistoryDTO();
         ppHistoryDto.setShopifyOrderId(shopifyOrder);
