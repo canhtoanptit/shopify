@@ -177,7 +177,9 @@ public class ShopifyWorker {
                             log.info("Tracking url null");
                         }
                         trackingDto.setOrderId(orderId);
-                        trackingService.save(trackingDto);
+                        if (!trackingDto.getTrackingCompany().equals("Other")) {
+                            trackingService.save(trackingDto);
+                        }
                         createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
                             fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
                         Tracker tracker = new Tracker();
