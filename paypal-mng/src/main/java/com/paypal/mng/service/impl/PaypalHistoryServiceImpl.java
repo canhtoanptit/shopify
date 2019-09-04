@@ -1,14 +1,12 @@
 package com.paypal.mng.service.impl;
 
-import com.paypal.mng.service.OrderService;
-import com.paypal.mng.service.PaypalHistoryService;
 import com.paypal.mng.domain.PaypalHistory;
 import com.paypal.mng.repository.PaypalHistoryRepository;
+import com.paypal.mng.service.PaypalHistoryService;
 import com.paypal.mng.service.dto.PaypalHistoryDTO;
 import com.paypal.mng.service.mapper.PaypalHistoryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link PaypalHistory}.
@@ -30,12 +29,9 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
 
     private final PaypalHistoryMapper paypalHistoryMapper;
 
-    private final OrderService orderService;
-
-    public PaypalHistoryServiceImpl(PaypalHistoryRepository paypalHistoryRepository, PaypalHistoryMapper paypalHistoryMapper, OrderService orderService) {
+    public PaypalHistoryServiceImpl(PaypalHistoryRepository paypalHistoryRepository, PaypalHistoryMapper paypalHistoryMapper) {
         this.paypalHistoryRepository = paypalHistoryRepository;
         this.paypalHistoryMapper = paypalHistoryMapper;
-        this.orderService = orderService;
     }
 
     /**
@@ -121,5 +117,19 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
     public Page<PaypalHistoryDTO> findAllByAuthorizationKey(String authorizationKey, Pageable pageable) {
         return paypalHistoryRepository.findAllByShopifyAuthorizationKey(authorizationKey, pageable)
             .map(paypalHistoryMapper::toDto);
+    }
+
+    @Override
+    public Optional<PaypalHistoryDTO> findByOrderName(String shopifyOrderName) {
+        return paypalHistoryRepository.findByShopifyOrderName(shopifyOrderName)
+            .map(paypalHistoryMapper::toDto);
+    }
+
+    @Override
+    public List<PaypalHistoryDTO> findAllHistoryUploadFail() {
+        return paypalHistoryRepository.findAll()
+            .stream().map(paypalHistoryMapper::toDto)
+            .filter(paypalHistoryDTO -> !paypalHistoryDTO.getCarrier().equals("Other"))
+            .collect(Collectors.toList());
     }
 }

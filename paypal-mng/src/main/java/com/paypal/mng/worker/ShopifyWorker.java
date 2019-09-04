@@ -85,6 +85,16 @@ public class ShopifyWorker {
         }
     }
 
+    public void processRetry() {
+        List<PaypalHistoryDTO> listOrderProcessFail = paypalHistoryService.findAllHistoryUploadFail();
+        listOrderProcessFail.forEach(paypalHistoryDTO -> {
+            String numberProcessed = redisCacheRepo.getValue(paypalHistoryDTO.getShopifyOrderName());
+            if (numberProcessed != null && !numberProcessed.equals("3")) {
+
+            }
+        });
+    }
+
     private Long createOrder(StoreDTO storeDTO, ShopifyOrder order) {
         Instant now = Instant.now();
         OrderDTO orderDto = new OrderDTO();
@@ -154,7 +164,7 @@ public class ShopifyWorker {
                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
-        fulfillmentList.forEach(fulfillment -> {
+        for (Fulfillment fulfillment : fulfillmentList) {
             List<String> trackingNumbers = fulfillment.getTrackingNumbers();
             List<String> trackingUrls = fulfillment.getTrackingUrls();
             if (trackingNumbers != null) {
@@ -179,19 +189,22 @@ public class ShopifyWorker {
                         trackingDto.setOrderId(orderId);
                         if (!trackingDto.getTrackingCompany().equals("Other")) {
                             trackingService.save(trackingDto);
+                            Tracker tracker = new Tracker();
+                            tracker.setStatus("SHIPPED");
+                            tracker.setCarrier(fulfillment.getTrackingCompany());
+                            tracker.setTrackingNumber(trackingNumber);
+                            tracker.setTransactionId(shopifyTransaction.getAuthorization());
+                            trackers.add(tracker);
                         }
-                        createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                            fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
-                        Tracker tracker = new Tracker();
-                        tracker.setStatus("SHIPPED");
-                        tracker.setCarrier(fulfillment.getTrackingCompany());
-                        tracker.setTrackingNumber(trackingNumber);
-                        tracker.setTransactionId(shopifyTransaction.getAuthorization());
-                        trackers.add(tracker);
+                        Optional<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByOrderName(orderName);
+                        if (!hisOpt.isPresent()) {
+                            createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
+                                fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
+                        }
                     }
                 }
             }
-        });
+        }
         return trackers;
     }
 

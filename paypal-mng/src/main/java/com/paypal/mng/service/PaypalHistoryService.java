@@ -66,4 +66,8 @@ public interface PaypalHistoryService {
     Page<PaypalHistoryDTO> findAllByShopifyOrderIds(List<Long> shopifyOrderIds, Pageable pageable);
 
     Page<PaypalHistoryDTO> findAllByAuthorizationKey(String authorizationKey, Pageable pageable);
+
+    Optional<PaypalHistoryDTO> findByOrderName(String shopifyOrderName);
+
+    List<PaypalHistoryDTO> findAllHistoryUploadFail();
 }

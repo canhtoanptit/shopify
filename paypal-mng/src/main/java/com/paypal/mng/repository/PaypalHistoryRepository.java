@@ -22,4 +22,6 @@ public interface PaypalHistoryRepository extends JpaRepository<PaypalHistory, Lo
     Page<PaypalHistory> findAllByShopifyOrderIdIn(List<Long> shopifyOrderIds, Pageable pageable);
 
     Page<PaypalHistory> findAllByShopifyAuthorizationKey(String shopifyAuthorizationKey, Pageable pageable);
+
+    Optional<PaypalHistory> findByShopifyOrderName(String orderName);
 }
