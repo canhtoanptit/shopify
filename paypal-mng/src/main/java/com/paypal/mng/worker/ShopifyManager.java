@@ -46,7 +46,7 @@ public class ShopifyManager {
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void processRetry() {
-
+        shopifyWorker.processRetry();
     }
 
     @Scheduled(fixedDelay = 7200000)

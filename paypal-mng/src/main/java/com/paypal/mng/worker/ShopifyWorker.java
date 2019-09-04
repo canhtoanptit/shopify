@@ -20,9 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class ShopifyWorker {
@@ -87,12 +85,7 @@ public class ShopifyWorker {
 
     public void processRetry() {
         List<PaypalHistoryDTO> listOrderProcessFail = paypalHistoryService.findAllHistoryUploadFail();
-        listOrderProcessFail.forEach(paypalHistoryDTO -> {
-            String numberProcessed = redisCacheRepo.getValue(paypalHistoryDTO.getShopifyOrderName());
-            if (numberProcessed != null && !numberProcessed.equals("3")) {
-
-            }
-        });
+        listOrderProcessFail.forEach(this::accept);
     }
 
     private Long createOrder(StoreDTO storeDTO, ShopifyOrder order) {
@@ -223,5 +216,31 @@ public class ShopifyWorker {
         ppHistoryDto.setShopifyOrderNumber(orderNumber);
         ppHistoryDto.setShopifyOrderName(orderName);
         paypalHistoryService.save(ppHistoryDto);
+    }
+
+    private void accept(PaypalHistoryDTO paypalHistoryDTO) {
+        String numberProcessed = redisCacheRepo.getValue(paypalHistoryDTO.getShopifyOrderName());
+        if (numberProcessed == null || !numberProcessed.equals("4")) {
+            Optional<Order> storeDtoOpt = orderService.findByShopifyOrderId(paypalHistoryDTO.getShopifyOrderId());
+            if (storeDtoOpt.isPresent() && storeDtoOpt.get().getStore() != null) {
+                Tracker tracker = new Tracker();
+                tracker.setCarrier(paypalHistoryDTO.getCarrier());
+                tracker.setStatus(paypalHistoryDTO.getShopifyShippingStatus());
+                tracker.setTrackingNumber(paypalHistoryDTO.getShopifyTrackingNumber());
+                tracker.setTransactionId(paypalHistoryDTO.getShopifyAuthorizationKey());
+                StoreDTO storeDTO = new StoreDTO();
+                storeDTO.setPaypalId(storeDtoOpt.get().getStore().getPaypal().getId());
+                storeDTO.setPaypal(storeDtoOpt.get().getStore().getPaypal());
+                storeDTO.setShopifyApiUrl(storeDtoOpt.get().getStore().getShopifyApiUrl());
+                log.info("Store in processRetry {} ", storeDTO);
+                addTrackingToPaypal(Collections.singletonList(tracker), storeDTO);
+                if (numberProcessed == null) {
+                    numberProcessed = "1";
+                } else {
+                    numberProcessed = Integer.toString(Integer.parseInt(numberProcessed) + 1);
+                }
+                redisCacheRepo.setValue(paypalHistoryDTO.getShopifyOrderName(), numberProcessed);
+            }
+        }
     }
 }

@@ -21,4 +21,7 @@ public class RedisCacheRepo {
     public void setValue(String key, String value, Duration ttl) {
         redisTemplate.opsForValue().set(key, value, ttl);
     }
+    public void setValue(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
 }
