@@ -3,9 +3,11 @@ package com.paypal.mng.web.rest;
 import com.paypal.mng.service.FileService;
 import com.paypal.mng.service.StoreService;
 import com.paypal.mng.service.dto.csv.TrackingManual;
-import com.paypal.mng.service.dto.shopify.ShopifyOrder;
+import com.paypal.mng.service.dto.shopify.ShopifyOrderResponse;
 import com.paypal.mng.service.util.RestUtil;
 import com.paypal.mng.worker.ShopifyWorker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ManualController {
-
+    private final Logger log = LoggerFactory.getLogger(ManualController.class);
     private final FileService fileService;
 
     private final StoreService storeService;
@@ -46,11 +48,13 @@ public class ManualController {
             dataUpload.forEach(trackingManual -> {
                 storeService.findByStoreName(trackingManual.getStoreName())
                     .ifPresent(storeDTO -> {
-                        ResponseEntity<ShopifyOrder> rs = restTemplate.exchange(storeDTO.getShopifyApiUrl() + trackingManual.getOrderId() + ".json",
-                            HttpMethod.GET, new HttpEntity<ShopifyOrder>(RestUtil.createHeaders(storeDTO.getShopifyApiKey(),
-                                storeDTO.getShopifyApiPassword())), ShopifyOrder.class);
-                        if (rs.getStatusCode() == HttpStatus.OK) {
-                            this.shopifyWorker.processShopifyOrder(storeDTO, rs.getBody());
+                        String url = storeDTO.getShopifyApiUrl() + "orders/" + trackingManual.getOrderId() + ".json";
+                        log.info("Process with url {}", url);
+                        ResponseEntity<ShopifyOrderResponse> rs = restTemplate.exchange(url, HttpMethod.GET,
+                            new HttpEntity<ShopifyOrderResponse>(RestUtil.createHeaders(storeDTO.getShopifyApiKey(),
+                                storeDTO.getShopifyApiPassword())), ShopifyOrderResponse.class);
+                        if (rs.getStatusCode() == HttpStatus.OK && rs.getBody() != null) {
+                            this.shopifyWorker.processShopifyOrder(storeDTO, rs.getBody().getShopifyOrder());
                         }
                     });
             });

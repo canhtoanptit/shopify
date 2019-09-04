@@ -20,7 +20,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ShopifyWorker {
@@ -142,11 +145,11 @@ public class ShopifyWorker {
                 .addTrackersBatch(token, trackerList);
             if (res != null && res.getTrackerList() != null) {
                 res.getTrackerList().forEach(tracker -> {
-                    Optional<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
+                    List<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
                         tracker.getTrackingNumber());
-                    if (history.isPresent()) {
-                        history.get().setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
-                        paypalHistoryService.save(history.get());
+                    if (history != null && !history.isEmpty()) {
+                        history.get(0).setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
+                        paypalHistoryService.save(history.get(0));
                     }
                 });
             }
@@ -154,7 +157,7 @@ public class ShopifyWorker {
     }
 
     private List<Tracker> createTracking(List<Fulfillment> fulfillmentList, Long orderId,
-                                        ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
+                                         ShopifyTransaction shopifyTransaction, Long shopifyOrderId, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
         for (Fulfillment fulfillment : fulfillmentList) {
@@ -180,20 +183,22 @@ public class ShopifyWorker {
                             log.info("Tracking url null");
                         }
                         trackingDto.setOrderId(orderId);
-                        if (!trackingDto.getTrackingCompany().equals("Other")) {
-                            trackingService.save(trackingDto);
-                            Tracker tracker = new Tracker();
-                            tracker.setStatus("SHIPPED");
-                            tracker.setCarrier(fulfillment.getTrackingCompany());
-                            tracker.setTrackingNumber(trackingNumber);
-                            tracker.setTransactionId(shopifyTransaction.getAuthorization());
-                            trackers.add(tracker);
-                        }
-                        Optional<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByOrderName(orderName);
-                        if (!hisOpt.isPresent()) {
-                            createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                                fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
-                        }
+                        trackingService.save(trackingDto);
+                    }
+                    if ("Other".equals(fulfillment.getTrackingCompany())) {
+                        fulfillment.setTrackingCompany("CHINA_POST");
+                    }
+                    Optional<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByOrderName(orderName);
+                    if (!hisOpt.isPresent()) {
+                        createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
+                            fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
+                    } else if (hisOpt.get().getStatus() == Constants.CALLED) {
+                        Tracker tracker = new Tracker();
+                        tracker.setStatus("SHIPPED");
+                        tracker.setCarrier(fulfillment.getTrackingCompany());
+                        tracker.setTrackingNumber(trackingNumber);
+                        tracker.setTransactionId(shopifyTransaction.getAuthorization());
+                        trackers.add(tracker);
                     }
                 }
             }
@@ -202,7 +207,7 @@ public class ShopifyWorker {
     }
 
     private void createPaypalHistory(String trackingNumber, String authorizationKey, String shippingStatus,
-                                    String carrier, Long shopifyOrder, Integer orderNumber, String orderName) {
+                                     String carrier, Long shopifyOrder, Integer orderNumber, String orderName) {
         Instant now = Instant.now();
         PaypalHistoryDTO ppHistoryDto = new PaypalHistoryDTO();
         ppHistoryDto.setShopifyOrderId(shopifyOrder);

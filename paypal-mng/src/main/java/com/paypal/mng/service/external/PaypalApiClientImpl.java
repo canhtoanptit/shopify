@@ -37,7 +37,7 @@ public class PaypalApiClientImpl implements PaypalApiClient {
         String url = applicationProperties.getPaypal().getHost() + "/v1/shipping/trackers-batch";
         ResponseEntity<TrackerIdentifierListDTO> rs = restTemplate.exchange(url, HttpMethod.POST,
             new HttpEntity<>(trackerList, RestUtil.createHeaders(token)), TrackerIdentifierListDTO.class);
-        log.info("Status code of api call {}", rs.getStatusCode());
+        log.info("Status code of api call {} with body {}", rs.getStatusCode(), rs.getBody());
         return rs.getBody();
     }
 

@@ -61,6 +61,15 @@ public class TrackerIdentifierListDTO {
         public void setDetails(List<ErrorDetail> details) {
             this.details = details;
         }
+
+        @Override
+        public String toString() {
+            return "PayPalError{" +
+                "name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                ", details=" + details +
+                '}';
+        }
     }
 
     public static class ErrorDetail {
@@ -116,5 +125,24 @@ public class TrackerIdentifierListDTO {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        @Override
+        public String toString() {
+            return "ErrorDetail{" +
+                "field='" + field + '\'' +
+                ", value='" + value + '\'' +
+                ", location='" + location + '\'' +
+                ", issue='" + issue + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "TrackerIdentifierListDTO{" +
+            "trackerList=" + trackerList +
+            ", errors=" + errors +
+            '}';
     }
 }

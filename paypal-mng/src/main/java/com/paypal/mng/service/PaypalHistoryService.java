@@ -52,7 +52,7 @@ public interface PaypalHistoryService {
      * @param shopifyTrackingNumber
      * @return
      */
-    Optional<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber);
+    List<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber);
 
     /**
      * findByOrderIdAndTrackingNumber

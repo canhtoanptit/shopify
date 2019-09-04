@@ -89,9 +89,11 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
     }
 
     @Override
-    public Optional<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber) {
+    public List<PaypalHistoryDTO> findByTransactionIdAndTrackingNumber(String shopifyAuthorizationKey, String shopifyTrackingNumber) {
         return paypalHistoryRepository.findByShopifyAuthorizationKeyAndShopifyTrackingNumber(shopifyAuthorizationKey, shopifyTrackingNumber)
-            .map(paypalHistoryMapper::toDto);
+            .stream()
+            .map(paypalHistoryMapper::toDto)
+            .collect(Collectors.toList());
     }
 
     /**

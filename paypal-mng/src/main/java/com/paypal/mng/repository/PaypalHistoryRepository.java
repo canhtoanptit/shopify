@@ -15,7 +15,7 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface PaypalHistoryRepository extends JpaRepository<PaypalHistory, Long> {
-    Optional<PaypalHistory> findByShopifyAuthorizationKeyAndShopifyTrackingNumber(String transactionId, String trackingNumber);
+    List<PaypalHistory> findByShopifyAuthorizationKeyAndShopifyTrackingNumber(String transactionId, String trackingNumber);
 
     Optional<PaypalHistory> findByShopifyOrderIdAndShopifyTrackingNumber(Long shopifyOrderId, String trackingNumber);
 
