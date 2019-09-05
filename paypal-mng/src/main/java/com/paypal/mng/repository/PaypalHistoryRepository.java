@@ -25,5 +25,5 @@ public interface PaypalHistoryRepository extends JpaRepository<PaypalHistory, Lo
 
     Optional<PaypalHistory> findByShopifyOrderName(String orderName);
 
-    List<PaypalHistory> findAllByStatusIsFalse();
+    List<PaypalHistory> findAllByStatus(Integer status);
 }

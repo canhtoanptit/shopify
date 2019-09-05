@@ -55,7 +55,7 @@ public class ShopifyWorker {
         this.shopifyService = shopifyService;
     }
 
-    public void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) {
+    public void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) throws InterruptedException {
         log.info("Process store {} and order {}", storeDTO, shopifyOrder);
         Optional<Order> existedOrder = orderService.findByOrderName(shopifyOrder.getName());
         Long orderId;
@@ -84,6 +84,7 @@ public class ShopifyWorker {
                 createTransactions(transactions, orderId, shopifyOrder, storeDTO);
             }
         }
+        Thread.sleep(300);
     }
 
     public void processRetry() {

@@ -34,11 +34,7 @@ public class ShopifyManager {
             storeDTOS.forEach(storeDTO -> {
                 if (storeDTO.isAutomationStatus()) {
                     OrderList orders = shopifyService.getOrderExternalBatch(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.shopifyWorker.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
+                    processOrder(orders, storeDTO);
                 }
             });
         }
@@ -56,11 +52,7 @@ public class ShopifyManager {
             storeDTOS.forEach(storeDTO -> {
                 if (storeDTO.isAutomationStatus()) {
                     OrderList orders = shopifyService.getOrderPartialExternal(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.shopifyWorker.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
+                    processOrder(orders, storeDTO);
                 }
             });
         }
@@ -74,11 +66,21 @@ public class ShopifyManager {
             storeDTOS.forEach(storeDTO -> {
                 if (storeDTO.isAutomationStatus()) {
                     OrderList orders = shopifyService.getOrderExternal(storeDTO);
-                    if (orders != null && !orders.getOrders().isEmpty()) {
-                        log.info("Process order with size {}", orders.getOrders().size());
-                        // for each order find transaction and created
-                        orders.getOrders().forEach(shopifyOrder -> this.shopifyWorker.processShopifyOrder(storeDTO, shopifyOrder));
-                    }
+                    processOrder(orders, storeDTO);
+                }
+            });
+        }
+    }
+
+    private void processOrder(OrderList orders, StoreDTO storeDTO) {
+        if (orders != null && !orders.getOrders().isEmpty()) {
+            log.info("Process order with size {}", orders.getOrders().size());
+            // for each order find transaction and created
+            orders.getOrders().forEach(shopifyOrder -> {
+                try {
+                    this.shopifyWorker.processShopifyOrder(storeDTO, shopifyOrder);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             });
         }

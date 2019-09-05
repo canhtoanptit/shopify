@@ -129,7 +129,7 @@ public class PaypalHistoryServiceImpl implements PaypalHistoryService {
 
     @Override
     public List<PaypalHistoryDTO> findAllHistoryUploadFail() {
-        return paypalHistoryRepository.findAllByStatusIsFalse()
+        return paypalHistoryRepository.findAllByStatus(0)
             .stream().map(paypalHistoryMapper::toDto)
             .filter(paypalHistoryDTO -> !"Other".equals(paypalHistoryDTO.getCarrier()))
             .collect(Collectors.toList());

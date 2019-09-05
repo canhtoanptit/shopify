@@ -54,7 +54,11 @@ public class ManualController {
                             new HttpEntity<ShopifyOrderResponse>(RestUtil.createHeaders(storeDTO.getShopifyApiKey(),
                                 storeDTO.getShopifyApiPassword())), ShopifyOrderResponse.class);
                         if (rs.getStatusCode() == HttpStatus.OK && rs.getBody() != null) {
-                            this.shopifyWorker.processShopifyOrder(storeDTO, rs.getBody().getShopifyOrder());
+                            try {
+                                this.shopifyWorker.processShopifyOrder(storeDTO, rs.getBody().getShopifyOrder());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
             });
