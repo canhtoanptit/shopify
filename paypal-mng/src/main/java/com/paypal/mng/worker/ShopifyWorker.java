@@ -189,11 +189,12 @@ public class ShopifyWorker {
                     if ("Other".equals(fulfillment.getTrackingCompany())) {
                         fulfillment.setTrackingCompany("CHINA_POST");
                     }
-                    Optional<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByOrderName(orderName);
-                    if (!hisOpt.isPresent()) {
+                    List<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByTransactionIdAndTrackingNumber(shopifyTransaction.getAuthorization(),
+                        trackingNumber);
+                    if (hisOpt == null || hisOpt.isEmpty()) {
                         createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
                             fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
-                    } else if (hisOpt.get().getStatus() == Constants.CALLED) {
+                    } else if (hisOpt.get(0).getStatus() == Constants.CALLED) {
                         Tracker tracker = new Tracker();
                         tracker.setStatus("SHIPPED");
                         tracker.setCarrier(fulfillment.getTrackingCompany());
