@@ -186,7 +186,7 @@ public class ShopifyWorker {
                         trackingDto.setOrderId(orderId);
                         trackingService.save(trackingDto);
                     }
-                    if ("Other".equals(fulfillment.getTrackingCompany())) {
+                    if ("Other".equals(fulfillment.getTrackingCompany()) || "China Post".equals(fulfillment.getTrackingCompany())) {
                         fulfillment.setTrackingCompany("CHINA_POST");
                     }
                     List<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByTransactionIdAndTrackingNumber(shopifyTransaction.getAuthorization(),
