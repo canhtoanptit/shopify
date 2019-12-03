@@ -31,6 +31,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'report',
         loadChildren: () => import('./report/report.module').then(m => m.PaypalmngReportModule)
+      },
+      {
+        path: 'order-daily',
+        loadChildren: () => import('./order-daily/order-daily.module').then(m => m.PaypalmngOrderDailyModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

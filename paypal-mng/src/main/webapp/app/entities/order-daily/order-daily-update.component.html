@@ -1,0 +1,113 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-order-daily-heading">Create or edit a Order Daily</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_email">Email</label>
+                    <input type="text" class="form-control" name="email" id="field_email"
+                           formControlName="email"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_financialStatus">Financial Status</label>
+                    <input type="text" class="form-control" name="financialStatus" id="field_financialStatus"
+                           formControlName="financialStatus"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paidAt">Paid At</label>
+                    <div class="input-group">
+                        <input id="field_paidAt" type="text" class="form-control" name="paidAt" ngbDatepicker  #paidAtDp="ngbDatepicker" formControlName="paidAt"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="paidAtDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lineItemQuantity">Line Item Quantity</label>
+                    <input type="number" class="form-control" name="lineItemQuantity" id="field_lineItemQuantity"
+                           formControlName="lineItemQuantity"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lineItemName">Line Item Name</label>
+                    <input type="text" class="form-control" name="lineItemName" id="field_lineItemName"
+                           formControlName="lineItemName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingName">Shiping Name</label>
+                    <input type="text" class="form-control" name="shipingName" id="field_shipingName"
+                           formControlName="shipingName"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingAddress">Shiping Address</label>
+                    <input type="text" class="form-control" name="shipingAddress" id="field_shipingAddress"
+                           formControlName="shipingAddress"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingStreet">Shiping Street</label>
+                    <input type="text" class="form-control" name="shipingStreet" id="field_shipingStreet"
+                           formControlName="shipingStreet"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingAddress2">Shiping Address 2</label>
+                    <input type="text" class="form-control" name="shipingAddress2" id="field_shipingAddress2"
+                           formControlName="shipingAddress2"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingCompany">Shiping Company</label>
+                    <input type="text" class="form-control" name="shipingCompany" id="field_shipingCompany"
+                           formControlName="shipingCompany"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingCity">Shiping City</label>
+                    <input type="text" class="form-control" name="shipingCity" id="field_shipingCity"
+                           formControlName="shipingCity"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingZip">Shiping Zip</label>
+                    <input type="text" class="form-control" name="shipingZip" id="field_shipingZip"
+                           formControlName="shipingZip"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingProvince">Shiping Province</label>
+                    <input type="text" class="form-control" name="shipingProvince" id="field_shipingProvince"
+                           formControlName="shipingProvince"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingCountry">Shiping Country</label>
+                    <input type="text" class="form-control" name="shipingCountry" id="field_shipingCountry"
+                           formControlName="shipingCountry"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_shipingPhone">Shiping Phone</label>
+                    <input type="text" class="form-control" name="shipingPhone" id="field_shipingPhone"
+                           formControlName="shipingPhone"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <input type="text" class="form-control" name="note" id="field_note"
+                           formControlName="note"/>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

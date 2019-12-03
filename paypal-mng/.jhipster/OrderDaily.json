@@ -1,0 +1,83 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "financialStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paidAt",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "lineItemQuantity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "lineItemName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingStreet",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingAddress2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingCompany",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingCity",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingZip",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingProvince",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingCountry",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shipingPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "note",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20191203205928",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "order_daily",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}
