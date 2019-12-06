@@ -111,4 +111,19 @@ public class Customer
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", note='" + note + '\'' +
+            ", tags='" + tags + '\'' +
+            ", acceptsMarketing=" + acceptsMarketing +
+            ", createdAt=" + createdAt +
+            ", addresses=" + addresses +
+            '}';
+    }
 }

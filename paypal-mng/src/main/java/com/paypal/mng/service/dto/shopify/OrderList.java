@@ -16,4 +16,11 @@ public class OrderList
     public void setOrders(List<ShopifyOrder> orders) {
         this.orders = orders;
     }
+
+    @Override
+    public String toString() {
+        return "OrderList{" +
+            "orders=" + orders +
+            '}';
+    }
 }

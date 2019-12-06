@@ -16,5 +16,7 @@ public interface ShopifyApiClient {
     OrderList getListOrderBatch(StoreDTO storeDTO);
 
     OrderList getListOrderPartial(StoreDTO storeDTO);
+
+    OrderList getOrderInDay(String url, String username, String password);
 }
 

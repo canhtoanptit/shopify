@@ -134,4 +134,22 @@ public class Address {
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", company='" + company + '\'' +
+            ", country='" + country + '\'' +
+            ", city='" + city + '\'' +
+            ", province='" + province + '\'' +
+            ", zip='" + zip + '\'' +
+            ", phone='" + phone + '\'' +
+            ", address1='" + address1 + '\'' +
+            ", address2='" + address2 + '\'' +
+            '}';
+    }
 }

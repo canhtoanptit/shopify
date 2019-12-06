@@ -104,4 +104,19 @@ public class LineItem
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "LineItem{" +
+            "id=" + id +
+            ", productId=" + productId +
+            ", productExists=" + productExists +
+            ", variantId=" + variantId +
+            ", title='" + title + '\'' +
+            ", name='" + name + '\'' +
+            ", variantTitle='" + variantTitle + '\'' +
+            ", quantity=" + quantity +
+            ", price=" + price +
+            '}';
+    }
 }

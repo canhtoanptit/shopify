@@ -1,5 +1,7 @@
 package com.paypal.mng.service.impl;
 
+import com.paypal.mng.domain.Store;
+import com.paypal.mng.repository.StoreRepository;
 import com.paypal.mng.service.ShopifyService;
 import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.JsonConstants;
@@ -13,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ShopifyServiceImpl implements ShopifyService {
@@ -22,8 +26,11 @@ public class ShopifyServiceImpl implements ShopifyService {
 
     private final ShopifyApiClient shopifyApiClient;
 
-    public ShopifyServiceImpl(ShopifyApiClient shopifyApiClient) {
+    private final StoreRepository storeRepository;
+
+    public ShopifyServiceImpl(ShopifyApiClient shopifyApiClient, StoreRepository storeRepository) {
         this.shopifyApiClient = shopifyApiClient;
+        this.storeRepository = storeRepository;
     }
 
     public OrderList getOrdersBy(String baseUrl, String username, String password, Long sinceId) {
@@ -66,5 +73,19 @@ public class ShopifyServiceImpl implements ShopifyService {
     public OrderList getOrderPartialExternal(StoreDTO storeDTO) {
         log.info("Process getOrderPartialExternal");
         return shopifyApiClient.getListOrderPartial(storeDTO);
+    }
+
+    @Override
+    public OrderList getOrderDaily() {
+        OrderList rs = new OrderList();
+        List<Store> stores = storeRepository.findAll();
+        if (stores.isEmpty()) {
+            return rs;
+        }
+        stores.forEach(store -> {
+            OrderList orders = shopifyApiClient.getOrderInDay(store.getShopifyApiUrl(), store.getShopifyApiKey(), store.getShopifyApiPassword());
+        });
+
+        return rs;
     }
 }

@@ -50,4 +50,12 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
         log.info("Process getListOrderPartial");
         return restTemplate.postForObject("http://localhost:3000/api/order/internal/partial", storeDTO, OrderList.class);
     }
+
+    @Override
+    public OrderList getOrderInDay(String url, String username, String password) {
+        ResponseEntity<OrderList> rs = restTemplate.exchange(url,
+            HttpMethod.GET, new HttpEntity<OrderList>(RestUtil.createHeaders(username, password)), OrderList.class);
+        log.info("Get rs from shopify with hhtp status {}", rs.getStatusCodeValue());
+        return rs.getBody();
+    }
 }
