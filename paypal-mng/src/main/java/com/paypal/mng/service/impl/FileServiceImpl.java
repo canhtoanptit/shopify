@@ -1,16 +1,22 @@
 package com.paypal.mng.service.impl;
 
+import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.paypal.mng.service.FileService;
+import com.paypal.mng.service.dto.OrderDailyDTO;
 import com.paypal.mng.service.dto.csv.TrackingManual;
 import com.paypal.mng.service.dto.csv.TrackingReport;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,5 +38,19 @@ public class FileServiceImpl implements FileService {
                 .withIgnoreLeadingWhiteSpace(true).build();
             return csvToBean.parse();
         }
+    }
+
+    @Override
+    public String writeOrderDaily(List<OrderDailyDTO> orderDailyDTOS) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+        Date date = new Date();
+        String path = "/home/ec2-user/toannc/files/" + new SimpleDateFormat("yyyy-MM-dd").format(date) + ".csv";
+        Writer writer  = new FileWriter( path);
+
+        StatefulBeanToCsv sbc = new StatefulBeanToCsvBuilder(writer)
+            .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+            .build();
+        sbc.write(orderDailyDTOS);
+        writer.close();
+        return path;
     }
 }

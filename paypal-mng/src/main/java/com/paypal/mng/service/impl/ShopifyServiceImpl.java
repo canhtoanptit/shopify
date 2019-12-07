@@ -6,6 +6,7 @@ import com.paypal.mng.service.ShopifyService;
 import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.JsonConstants;
 import com.paypal.mng.service.dto.shopify.OrderList;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.external.ShopifyApiClient;
 import com.paypal.mng.service.util.DateTimeUtil;
@@ -15,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ShopifyServiceImpl implements ShopifyService {
@@ -82,10 +80,19 @@ public class ShopifyServiceImpl implements ShopifyService {
         if (stores.isEmpty()) {
             return rs;
         }
+        List<ShopifyOrder> allOrders = new ArrayList<>();
+        String startOfDay = DateTimeUtil.atStartOfDay(new Date()) + "-07:00";
         stores.forEach(store -> {
-            OrderList orders = shopifyApiClient.getOrderInDay(store.getShopifyApiUrl(), store.getShopifyApiKey(), store.getShopifyApiPassword());
+            String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay;
+            OrderList orders = shopifyApiClient.getOrderInDay(uri, store.getShopifyApiKey(), store.getShopifyApiPassword());
+            allOrders.addAll(orders.getOrders());
         });
-
+        rs.setOrders(allOrders);
         return rs;
+    }
+
+    @Override
+    public ShopifyOrder findById(StoreDTO storeDTO) {
+        return shopifyApiClient.findById(storeDTO);
     }
 }

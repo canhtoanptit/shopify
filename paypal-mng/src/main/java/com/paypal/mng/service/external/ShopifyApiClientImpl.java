@@ -2,6 +2,7 @@ package com.paypal.mng.service.external;
 
 import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.OrderList;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.util.RestUtil;
 import org.slf4j.Logger;
@@ -56,6 +57,15 @@ public class ShopifyApiClientImpl implements ShopifyApiClient {
         ResponseEntity<OrderList> rs = restTemplate.exchange(url,
             HttpMethod.GET, new HttpEntity<OrderList>(RestUtil.createHeaders(username, password)), OrderList.class);
         log.info("Get rs from shopify with hhtp status {}", rs.getStatusCodeValue());
+        return rs.getBody();
+    }
+
+    @Override
+    public ShopifyOrder findById(StoreDTO storeDTO) {
+        String url = storeDTO.getShopifyApiUrl() + "orders.json?ids=" + storeDTO.getId();
+        ResponseEntity<ShopifyOrder> rs = restTemplate.exchange(url,
+            HttpMethod.GET, new HttpEntity<ShopifyOrder>(RestUtil.createHeaders(storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword())),
+            ShopifyOrder.class);
         return rs.getBody();
     }
 }

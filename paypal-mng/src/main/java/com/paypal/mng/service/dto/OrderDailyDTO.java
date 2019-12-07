@@ -1,5 +1,7 @@
 package com.paypal.mng.service.dto;
 
+import com.opencsv.bean.CsvBindByName;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -10,40 +12,58 @@ public class OrderDailyDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @CsvBindByName(column = "ID")
     private Long id;
 
+    @CsvBindByName(column = "NAME")
     private String name;
 
+    @CsvBindByName(column = "EMAIL")
     private String email;
 
+    @CsvBindByName(column = "FINANCIAL STATUS")
     private String financialStatus;
 
+    @CsvBindByName(column = "PAID AT")
     private LocalDate paidAt;
 
+    @CsvBindByName(column = "LINE ITEM QUANTITY")
     private Integer lineItemQuantity;
 
+    @CsvBindByName(column = "LINE ITEM NAME")
     private String lineItemName;
 
+    @CsvBindByName(column = "SHIPPING NAME")
     private String shipingName;
 
+    @CsvBindByName(column = "SHIPPING ADDRESS1")
     private String shipingAddress;
 
+    @CsvBindByName(column = "SHIPPING STREET")
     private String shipingStreet;
 
+    @CsvBindByName(column = "SHIPPING ADDRESS2")
     private String shipingAddress2;
 
+    @CsvBindByName(column = "SHIPPING COMPANY")
     private String shipingCompany;
 
+    @CsvBindByName(column = "SHIPPING CITY")
     private String shipingCity;
 
+    @CsvBindByName(column = "SHIPPING ZIP")
     private String shipingZip;
 
+    @CsvBindByName(column = "SHIPPING PROVINCE")
     private String shipingProvince;
 
+    @CsvBindByName(column = "SHIPPING COUNTRY")
     private String shipingCountry;
 
+    @CsvBindByName(column = "SHIPPING PHONE")
     private String shipingPhone;
 
+    @CsvBindByName(column = "NOTE")
     private String note;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

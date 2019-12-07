@@ -2,6 +2,7 @@ package com.paypal.mng.service;
 
 import com.paypal.mng.service.dto.StoreDTO;
 import com.paypal.mng.service.dto.shopify.OrderList;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
 import com.paypal.mng.service.dto.shopify.TransactionList;
 
 public interface ShopifyService {
@@ -17,4 +18,6 @@ public interface ShopifyService {
     OrderList getOrderPartialExternal(StoreDTO storeDTO);
 
     OrderList getOrderDaily();
+
+    ShopifyOrder findById(StoreDTO storeDTO);
 }

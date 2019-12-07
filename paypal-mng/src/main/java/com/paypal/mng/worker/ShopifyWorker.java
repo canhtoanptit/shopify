@@ -93,10 +93,9 @@ public class ShopifyWorker {
     }
 
     private Long createOrder(StoreDTO storeDTO, ShopifyOrder order) {
-        Instant now = Instant.now();
         OrderDTO orderDto = new OrderDTO();
-        orderDto.setCreatedAt(now);
-        orderDto.setUpdatedAt(now);
+        orderDto.setCreatedAt(order.getCreatedAt().toInstant());
+        orderDto.setUpdatedAt(order.getProcessedAt().toInstant());
         orderDto.setStoreId(storeDTO.getId());
         orderDto.setShopifyOrderId(order.getId());
         orderDto.setOrderNumber(order.getOrderNumber());
@@ -115,8 +114,8 @@ public class ShopifyWorker {
                 transDto.setAuthorization(shopifyTransaction.getAuthorization());
                 transDto.setOrderId(orderId);
                 transDto.setShopifyTransactionId(shopifyTransaction.getId());
-                transDto.setCreatedAt(now);
-                transDto.setUpdatedAt(now);
+                transDto.setCreatedAt(shopifyOrder.getCreatedAt().toInstant());
+                transDto.setUpdatedAt(shopifyOrder.getProcessedAt().toInstant());
                 transactionService.save(transDto);
             }
             // created tracking
