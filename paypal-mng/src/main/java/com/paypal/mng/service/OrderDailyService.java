@@ -53,7 +53,7 @@ public class OrderDailyService {
         List<LineItem> itemList = shopifyOrder.getLineItems();
         if (itemList != null) {
             for(LineItem lineItem : itemList) {
-                lineItems.append(lineItem).append(" ,");
+                lineItems.append(lineItem.getName()).append(" ,");
                 quantity += quantity + lineItem.getQuantity();
             }
         }

@@ -83,7 +83,7 @@ public class ShopifyServiceImpl implements ShopifyService {
         List<ShopifyOrder> allOrders = new ArrayList<>();
         String startOfDay = DateTimeUtil.atStartOfDay(new Date()) + "-07:00";
         stores.forEach(store -> {
-            String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay;
+            String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay + "&limit=250";
             OrderList orders = shopifyApiClient.getOrderInDay(uri, store.getShopifyApiKey(), store.getShopifyApiPassword());
             allOrders.addAll(orders.getOrders());
         });
