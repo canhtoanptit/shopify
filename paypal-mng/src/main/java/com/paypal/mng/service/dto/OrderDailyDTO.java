@@ -21,46 +21,46 @@ public class OrderDailyDTO implements Serializable {
     @CsvBindByName(column = "EMAIL")
     private String email;
 
-    @CsvBindByName(column = "FINANCIAL STATUS")
+    @CsvBindByName(column = "FINANCIAL_STATUS")
     private String financialStatus;
 
-    @CsvBindByName(column = "PAID AT")
+    @CsvBindByName(column = "PAID_AT")
     private LocalDate paidAt;
 
-    @CsvBindByName(column = "LINE ITEM QUANTITY")
+    @CsvBindByName(column = "LINE_ITEM_QUANTITY")
     private Integer lineItemQuantity;
 
-    @CsvBindByName(column = "LINE ITEM NAME")
+    @CsvBindByName(column = "LINE_ITEM_NAME")
     private String lineItemName;
 
-    @CsvBindByName(column = "SHIPPING NAME")
+    @CsvBindByName(column = "SHIPPING_NAME")
     private String shipingName;
 
-    @CsvBindByName(column = "SHIPPING ADDRESS1")
+    @CsvBindByName(column = "SHIPPING_ADDRESS1")
     private String shipingAddress;
 
-    @CsvBindByName(column = "SHIPPING STREET")
+    @CsvBindByName(column = "SHIPPING_STREET")
     private String shipingStreet;
 
-    @CsvBindByName(column = "SHIPPING ADDRESS2")
+    @CsvBindByName(column = "SHIPPING_ADDRESS2")
     private String shipingAddress2;
 
-    @CsvBindByName(column = "SHIPPING COMPANY")
+    @CsvBindByName(column = "SHIPPING_COMPANY")
     private String shipingCompany;
 
-    @CsvBindByName(column = "SHIPPING CITY")
+    @CsvBindByName(column = "SHIPPING_CITY")
     private String shipingCity;
 
-    @CsvBindByName(column = "SHIPPING ZIP")
+    @CsvBindByName(column = "SHIPPING_ZIP")
     private String shipingZip;
 
-    @CsvBindByName(column = "SHIPPING PROVINCE")
+    @CsvBindByName(column = "SHIPPING_PROVINCE")
     private String shipingProvince;
 
-    @CsvBindByName(column = "SHIPPING COUNTRY")
+    @CsvBindByName(column = "SHIPPING_COUNTRY")
     private String shipingCountry;
 
-    @CsvBindByName(column = "SHIPPING PHONE")
+    @CsvBindByName(column = "SHIPPING_PHONE")
     private String shipingPhone;
 
     @CsvBindByName(column = "NOTE")

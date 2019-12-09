@@ -47,6 +47,7 @@ public class OrderDailyService {
         dailyDTO.setShipingPhone(shopifyOrder.getShippingAddress().getPhone());
         dailyDTO.setShipingStreet(shopifyOrder.getShippingAddress().getAddress1());
         dailyDTO.setShipingProvince(shopifyOrder.getShippingAddress().getProvince());
+        dailyDTO.setShipingZip(shopifyOrder.getShippingAddress().getZip());
         StringBuilder lineItems = new StringBuilder();
         int quantity = 0;
         List<LineItem> itemList = shopifyOrder.getLineItems();
