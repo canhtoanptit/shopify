@@ -24,7 +24,7 @@ public class OrderDailyWorker {
         this.fileService = fileService;
     }
 
-    @Scheduled(cron = "0 56 23 * * ?")
+    @Scheduled(cron = "0 50 23 * * ?")
     void getOrderDaily() {
         try {
             List<OrderDailyDTO> orders = orderDailyService.findAll();
