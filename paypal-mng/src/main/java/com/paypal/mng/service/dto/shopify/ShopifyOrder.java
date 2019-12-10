@@ -9,6 +9,7 @@ import com.paypal.mng.config.jackson.FlexDateSerializer;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ShopifyOrder
 {
@@ -168,6 +169,19 @@ public class ShopifyOrder
 
     public void setFulfillments(List<Fulfillment> fulfillments) {
         this.fulfillments = fulfillments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShopifyOrder that = (ShopifyOrder) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

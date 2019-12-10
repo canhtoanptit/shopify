@@ -3,17 +3,24 @@ package com.paypal.mng.worker;
 import com.paypal.mng.service.FileService;
 import com.paypal.mng.service.OrderDailyService;
 import com.paypal.mng.service.dto.OrderDailyDTO;
+import com.paypal.mng.service.dto.shopify.LineItem;
+import com.paypal.mng.service.dto.shopify.ShopifyOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class OrderDailyWorker {
 
     private final Logger logger = LoggerFactory.getLogger(OrderDailyWorker.class);
+
+    private Set<ShopifyOrder> orderDailyCache = new HashSet<>();
 
     private final OrderDailyService orderDailyService;
 
@@ -24,15 +31,65 @@ public class OrderDailyWorker {
         this.fileService = fileService;
     }
 
-    @Scheduled(cron = "0 50 23 * * ?")
+    @Scheduled(cron = "0 10 */2 * * ?")
     void getOrderDaily() {
         try {
-            List<OrderDailyDTO> orders = orderDailyService.findAll();
-            String filePath = fileService.writeOrderDaily(orders);
-            logger.info("Write file to {}", filePath);
+            List<ShopifyOrder> orders = orderDailyService.findAll();
+            orderDailyCache.addAll(orders);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+    }
+
+    @Scheduled(cron = "0 40 23 * * ?")
+    void saveOrderDailyToFile() {
+        String filePath = null;
+        try {
+            List<OrderDailyDTO> data = new ArrayList<>();
+            orderDailyCache.forEach(shopifyOrder -> data.addAll(getFromShopifyOrder(shopifyOrder)));
+            filePath = fileService.writeOrderDaily(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            orderDailyCache.clear();
+        }
+        logger.info("Write file to {}", filePath);
+    }
+
+    private List<OrderDailyDTO> getFromShopifyOrder(ShopifyOrder shopifyOrder) {
+        List<OrderDailyDTO> orderDailyDTOS = new ArrayList<>();
+        List<LineItem> itemList = shopifyOrder.getLineItems();
+        if (itemList != null && !itemList.isEmpty()) {
+            itemList.forEach(lineItem -> {
+                OrderDailyDTO order = createCommonField(shopifyOrder);
+                order.setLineItemName(lineItem.getName());
+                order.setLineItemQuantity(lineItem.getQuantity());
+                orderDailyDTOS.add(order);
+            });
+        } else {
+            orderDailyDTOS.add(createCommonField(shopifyOrder));
+        }
+        return orderDailyDTOS;
+    }
+
+    private OrderDailyDTO createCommonField(ShopifyOrder shopifyOrder) {
+        OrderDailyDTO dailyDTO = new OrderDailyDTO();
+        dailyDTO.setEmail(shopifyOrder.getEmail());
+        dailyDTO.setFinancialStatus(shopifyOrder.getFinancialStatus().toString());
+        dailyDTO.setName(shopifyOrder.getName());
+        dailyDTO.setShipingAddress(shopifyOrder.getShippingAddress().getAddress1());
+        dailyDTO.setShipingAddress2(shopifyOrder.getShippingAddress().getAddress2());
+        dailyDTO.setShipingCity(shopifyOrder.getShippingAddress().getCity());
+        dailyDTO.setShipingCompany(shopifyOrder.getShippingAddress().getCompany());
+        dailyDTO.setShipingCountry(shopifyOrder.getShippingAddress().getCountry());
+        dailyDTO.setShipingPhone(shopifyOrder.getShippingAddress().getPhone());
+        dailyDTO.setShipingStreet(shopifyOrder.getShippingAddress().getAddress1());
+        dailyDTO.setShipingProvince(shopifyOrder.getShippingAddress().getProvince());
+        dailyDTO.setShipingZip(shopifyOrder.getShippingAddress().getZip());
+        dailyDTO.setShipingName(shopifyOrder.getShippingAddress().getFirstName() + " "
+            + shopifyOrder.getShippingAddress().getLastName());
+        dailyDTO.setId(shopifyOrder.getId());
+        return dailyDTO;
     }
 }
