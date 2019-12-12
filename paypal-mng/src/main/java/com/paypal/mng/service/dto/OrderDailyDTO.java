@@ -3,7 +3,7 @@ package com.paypal.mng.service.dto;
 import com.opencsv.bean.CsvBindByName;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * A OrderDaily.
@@ -25,7 +25,7 @@ public class OrderDailyDTO implements Serializable {
     private String financialStatus;
 
     @CsvBindByName(column = "PAID_AT")
-    private LocalDate paidAt;
+    private Date paidAt;
 
     @CsvBindByName(column = "LINE_ITEM_QUANTITY")
     private Integer lineItemQuantity;
@@ -114,16 +114,16 @@ public class OrderDailyDTO implements Serializable {
         this.financialStatus = financialStatus;
     }
 
-    public LocalDate getPaidAt() {
+    public Date getPaidAt() {
         return paidAt;
     }
 
-    public OrderDailyDTO paidAt(LocalDate paidAt) {
+    public OrderDailyDTO paidAt(Date paidAt) {
         this.paidAt = paidAt;
         return this;
     }
 
-    public void setPaidAt(LocalDate paidAt) {
+    public void setPaidAt(Date paidAt) {
         this.paidAt = paidAt;
     }
 

@@ -90,6 +90,7 @@ public class OrderDailyWorker {
         dailyDTO.setShipingName(shopifyOrder.getShippingAddress().getFirstName() + " "
             + shopifyOrder.getShippingAddress().getLastName());
         dailyDTO.setId(shopifyOrder.getId());
+        dailyDTO.setPaidAt(shopifyOrder.getProcessedAt());
         return dailyDTO;
     }
 }
