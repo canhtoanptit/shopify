@@ -1,6 +1,7 @@
 package com.paypal.mng.service.dto;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,58 +13,58 @@ public class OrderDailyDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @CsvBindByName(column = "ID")
+    @CsvBindByPosition(position = 0)
     private Long id;
 
-    @CsvBindByName(column = "NAME")
+    @CsvBindByPosition(position = 1)
     private String name;
 
-    @CsvBindByName(column = "EMAIL")
+    @CsvBindByPosition(position = 2)
     private String email;
 
-    @CsvBindByName(column = "FINANCIAL_STATUS")
+    @CsvBindByPosition(position = 3)
     private String financialStatus;
 
-    @CsvBindByName(column = "PAID_AT")
+    @CsvBindByPosition(position = 4)
     private Date paidAt;
 
-    @CsvBindByName(column = "LINE_ITEM_QUANTITY")
+    @CsvBindByPosition(position = 5)
     private Integer lineItemQuantity;
 
-    @CsvBindByName(column = "LINE_ITEM_NAME")
+    @CsvBindByPosition(position = 6)
     private String lineItemName;
 
-    @CsvBindByName(column = "SHIPPING_NAME")
+    @CsvBindByPosition(position = 7)
     private String shipingName;
 
-    @CsvBindByName(column = "SHIPPING_ADDRESS1")
+    @CsvBindByPosition(position = 8)
     private String shipingAddress;
 
-    @CsvBindByName(column = "SHIPPING_STREET")
+    @CsvBindByPosition(position = 9)
     private String shipingStreet;
 
-    @CsvBindByName(column = "SHIPPING_ADDRESS2")
+    @CsvBindByPosition(position = 10)
     private String shipingAddress2;
 
-    @CsvBindByName(column = "SHIPPING_COMPANY")
+    @CsvBindByPosition(position = 11)
     private String shipingCompany;
 
-    @CsvBindByName(column = "SHIPPING_CITY")
+    @CsvBindByPosition(position = 12)
     private String shipingCity;
 
-    @CsvBindByName(column = "SHIPPING_ZIP")
+    @CsvBindByPosition(position = 13)
     private String shipingZip;
 
-    @CsvBindByName(column = "SHIPPING_PROVINCE")
+    @CsvBindByPosition(position = 14)
     private String shipingProvince;
 
-    @CsvBindByName(column = "SHIPPING_COUNTRY")
+    @CsvBindByPosition(position = 15)
     private String shipingCountry;
 
-    @CsvBindByName(column = "SHIPPING_PHONE")
+    @CsvBindByPosition(position = 16)
     private String shipingPhone;
 
-    @CsvBindByName(column = "NOTE")
+    @CsvBindByPosition(position = 17)
     private String note;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
