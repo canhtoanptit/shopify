@@ -17,7 +17,7 @@ public interface ShopifyService {
 
     OrderList getOrderPartialExternal(StoreDTO storeDTO);
 
-    OrderList getOrderDaily();
+    void getOrderDaily();
 
     ShopifyOrder findById(StoreDTO storeDTO);
 }

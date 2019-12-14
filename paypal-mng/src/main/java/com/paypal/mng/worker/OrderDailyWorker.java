@@ -11,22 +11,23 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderDailyWorker {
 
     private final Logger logger = LoggerFactory.getLogger(OrderDailyWorker.class);
 
-    private Set<ShopifyOrder> orderDailyCache = new HashSet<>();
+    private final OrderDailyCacheManager orderDailyCacheManager;
 
     private final OrderDailyService orderDailyService;
 
     private final FileService fileService;
 
-    public OrderDailyWorker(OrderDailyService orderDailyService, FileService fileService) {
+    public OrderDailyWorker(OrderDailyCacheManager orderDailyCacheManager, OrderDailyService orderDailyService,
+                            FileService fileService) {
+        this.orderDailyCacheManager = orderDailyCacheManager;
         this.orderDailyService = orderDailyService;
         this.fileService = fileService;
     }
@@ -34,8 +35,7 @@ public class OrderDailyWorker {
     @Scheduled(cron = "0 10 */2 * * ?")
     void getOrderDaily() {
         try {
-            List<ShopifyOrder> orders = orderDailyService.findAll();
-            orderDailyCache.addAll(orders);
+            orderDailyService.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -47,12 +47,14 @@ public class OrderDailyWorker {
         String filePath = null;
         try {
             List<OrderDailyDTO> data = new ArrayList<>();
-            orderDailyCache.forEach(shopifyOrder -> data.addAll(getFromShopifyOrder(shopifyOrder)));
+            orderDailyCacheManager.getAllOrder()
+                .stream().map(this::getFromShopifyOrder)
+                .collect(Collectors.toList());
             filePath = fileService.writeOrderDaily(data);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            orderDailyCache.clear();
+            orderDailyCacheManager.clearCache();
         }
         logger.info("Write file to {}", filePath);
     }

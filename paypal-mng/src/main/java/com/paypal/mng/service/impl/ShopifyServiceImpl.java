@@ -11,6 +11,7 @@ import com.paypal.mng.service.dto.shopify.TransactionList;
 import com.paypal.mng.service.external.ShopifyApiClient;
 import com.paypal.mng.service.util.DateTimeUtil;
 import com.paypal.mng.service.util.RestUtil;
+import com.paypal.mng.worker.OrderDailyCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,13 @@ public class ShopifyServiceImpl implements ShopifyService {
 
     private final StoreRepository storeRepository;
 
-    public ShopifyServiceImpl(ShopifyApiClient shopifyApiClient, StoreRepository storeRepository) {
+    private final OrderDailyCacheManager orderDailyCacheManager;
+
+    public ShopifyServiceImpl(ShopifyApiClient shopifyApiClient, StoreRepository storeRepository,
+                              OrderDailyCacheManager orderDailyCacheManager) {
         this.shopifyApiClient = shopifyApiClient;
         this.storeRepository = storeRepository;
+        this.orderDailyCacheManager = orderDailyCacheManager;
     }
 
     public OrderList getOrdersBy(String baseUrl, String username, String password, Long sinceId) {
@@ -74,21 +79,18 @@ public class ShopifyServiceImpl implements ShopifyService {
     }
 
     @Override
-    public OrderList getOrderDaily() {
-        OrderList rs = new OrderList();
+    public void getOrderDaily() {
         List<Store> stores = storeRepository.findAll();
         if (stores.isEmpty()) {
-            return rs;
+            return;
         }
-        List<ShopifyOrder> allOrders = new ArrayList<>();
-        String startOfDay = DateTimeUtil.atStartOfDay(new Date()) + "-07:00";
+
+        String startOfDay = DateTimeUtil.atStartOfDay(new Date()) + "-09:00";
         stores.forEach(store -> {
             String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay + "&limit=250";
             OrderList orders = shopifyApiClient.getOrderInDay(uri, store.getShopifyApiKey(), store.getShopifyApiPassword());
-            allOrders.addAll(orders.getOrders());
+            orderDailyCacheManager.addOrder(store.getStoreName(), orders.getOrders());
         });
-        rs.setOrders(allOrders);
-        return rs;
     }
 
     @Override
