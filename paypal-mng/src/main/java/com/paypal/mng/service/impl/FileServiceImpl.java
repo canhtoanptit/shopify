@@ -45,6 +45,8 @@ public class FileServiceImpl implements FileService {
         Date date = new Date();
         String path = "/home/ec2-user/toannc/files/" + new SimpleDateFormat("yyyy-MM-dd").format(date) + ".csv";
         Writer writer  = new FileWriter( path);
+        writer.append("ID,NAME,EMAIL,FINANCIAL_STATUS,PAID_AT,LINE_ITEM_QUANTITY,LINE_ITEM_NAME,SHIPPING_NAME,SHIPPING_ADDRESS1," +
+            "SHIPPING_STREET,SHIPPING_ADDRESS2,SHIPPING_COMPANY,SHIPPING_CITY,SHIPPING_ZIP,SHIPPING_PROVINCE,SHIPPING_COUNTRY,SHIPPING_PHONE,NOTE \n");
 
         StatefulBeanToCsv sbc = new StatefulBeanToCsvBuilder(writer)
             .withSeparator(CSVWriter.DEFAULT_SEPARATOR)

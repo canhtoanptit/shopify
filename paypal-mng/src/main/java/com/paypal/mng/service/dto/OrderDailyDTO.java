@@ -1,6 +1,5 @@
 package com.paypal.mng.service.dto;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
 import java.io.Serializable;
