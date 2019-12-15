@@ -18,7 +18,10 @@ public class OrderDailyCacheManager {
         Set<ShopifyOrder> orders = orderDailyCache.get(storeName);
         if (orders == null) {
             logger.warn("orders null");
-            orders = new TreeSet<>(Comparator.comparingLong(ShopifyOrder::getId));
+            Comparator<ShopifyOrder> com = Comparator.comparingLong(ShopifyOrder::getId);
+            orders = new TreeSet<>(com.reversed());
+            orders.addAll(orderList);
+            orderDailyCache.put(storeName, orders);
         }
         orders.addAll(orderList);
     }

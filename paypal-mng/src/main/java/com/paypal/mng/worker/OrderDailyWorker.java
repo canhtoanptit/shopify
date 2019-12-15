@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class OrderDailyWorker {
@@ -48,8 +47,7 @@ public class OrderDailyWorker {
         try {
             List<OrderDailyDTO> data = new ArrayList<>();
             orderDailyCacheManager.getAllOrder()
-                .stream().map(this::getFromShopifyOrder)
-                .collect(Collectors.toList());
+                .forEach(shopifyOrder -> data.addAll(this.getFromShopifyOrder(shopifyOrder)));
             filePath = fileService.writeOrderDaily(data);
         } catch (Exception e) {
             e.printStackTrace();
