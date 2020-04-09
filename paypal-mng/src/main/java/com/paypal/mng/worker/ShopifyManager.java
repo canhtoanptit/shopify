@@ -32,15 +32,19 @@ public class ShopifyManager {
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {
             storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderExternalBatch(storeDTO);
-                    processOrder(orders, storeDTO);
+                try {
+                    if (storeDTO.isAutomationStatus()) {
+                        OrderList orders = shopifyService.getOrderExternalBatch(storeDTO);
+                        processOrder(orders, storeDTO);
+                    }
+                } catch (Exception ex) {
+                    log.error("Error when processBatch ", ex);
                 }
             });
         }
     }
 
-    @Scheduled(cron = "0 0 */6 * * ?")
+    @Scheduled(cron = "* * */3 * * ?")
     public void processRetry() {
         shopifyWorker.processRetry();
     }
@@ -50,9 +54,13 @@ public class ShopifyManager {
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {
             storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderPartialExternal(storeDTO);
-                    processOrder(orders, storeDTO);
+                try {
+                    if (storeDTO.isAutomationStatus()) {
+                        OrderList orders = shopifyService.getOrderPartialExternal(storeDTO);
+                        processOrder(orders, storeDTO);
+                    }
+                } catch (Exception ex) {
+                    log.error("Error when processPartial ", ex);
                 }
             });
         }
@@ -64,9 +72,13 @@ public class ShopifyManager {
         List<StoreDTO> storeDTOS = storeService.findAllStore();
         if (!storeDTOS.isEmpty()) {
             storeDTOS.forEach(storeDTO -> {
-                if (storeDTO.isAutomationStatus()) {
-                    OrderList orders = shopifyService.getOrderExternal(storeDTO);
-                    processOrder(orders, storeDTO);
+                try {
+                    if (storeDTO.isAutomationStatus()) {
+                        OrderList orders = shopifyService.getOrderExternal(storeDTO);
+                        processOrder(orders, storeDTO);
+                    }
+                } catch (Exception ex) {
+                    log.error("Error when process order ", ex);
                 }
             });
         }

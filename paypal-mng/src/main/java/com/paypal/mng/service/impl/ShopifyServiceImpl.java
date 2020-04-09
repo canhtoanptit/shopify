@@ -62,19 +62,19 @@ public class ShopifyServiceImpl implements ShopifyService {
 
     @Override
     public OrderList getOrderExternal(StoreDTO storeDTO) {
-        log.info("Process getOrderExternal");
+        log.debug("Process getOrderExternal");
         return shopifyApiClient.getListOrder(storeDTO);
     }
 
     @Override
     public OrderList getOrderExternalBatch(StoreDTO storeDTO) {
-        log.info("Process getOrderExternalBatch");
+        log.debug("Process getOrderExternalBatch");
         return shopifyApiClient.getListOrderBatch(storeDTO);
     }
 
     @Override
     public OrderList getOrderPartialExternal(StoreDTO storeDTO) {
-        log.info("Process getOrderPartialExternal");
+        log.debug("Process getOrderPartialExternal");
         return shopifyApiClient.getListOrderPartial(storeDTO);
     }
 
@@ -87,9 +87,13 @@ public class ShopifyServiceImpl implements ShopifyService {
 
         String startOfDay = DateTimeUtil.atStartOfDay(new Date()) + "-09:00";
         stores.forEach(store -> {
-            String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay + "&limit=250";
-            OrderList orders = shopifyApiClient.getOrderInDay(uri, store.getShopifyApiKey(), store.getShopifyApiPassword());
-            orderDailyCacheManager.addOrder(store.getStoreName(), orders.getOrders());
+            try {
+                String uri = store.getShopifyApiUrl() + "orders.json?created_at_min=" + startOfDay + "&limit=250";
+                OrderList orders = shopifyApiClient.getOrderInDay(uri, store.getShopifyApiKey(), store.getShopifyApiPassword());
+                orderDailyCacheManager.addOrder(store.getStoreName(), orders.getOrders());
+            } catch (Exception ex) {
+                log.error("Error when getOrderDaily ", ex);
+            }
         });
     }
 

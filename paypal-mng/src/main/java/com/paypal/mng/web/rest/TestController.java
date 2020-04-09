@@ -1,45 +1,25 @@
 package com.paypal.mng.web.rest;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.paypal.mng.config.Constants;
-import com.paypal.mng.domain.Tracking;
-import com.paypal.mng.service.FileService;
-import com.paypal.mng.service.PaypalHistoryService;
-import com.paypal.mng.service.ShopifyService;
-import com.paypal.mng.service.TrackingService;
-import com.paypal.mng.service.dto.PaypalHistoryDTO;
-import com.paypal.mng.service.dto.csv.TrackingReport;
 import com.paypal.mng.service.dto.shopify.OrderList;
-import com.paypal.mng.service.dto.shopify.TransactionList;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.paypal.mng.worker.ShopifyWorker;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
 
-    private final ShopifyService shopifyService;
+    private final ShopifyWorker shopifyWorker;
 
-    private final FileService fileService;
+    public TestController(ShopifyWorker shopifyWorker) {
+        this.shopifyWorker = shopifyWorker;
+    }
 
-    private final PaypalHistoryService paypalHistoryService;
-
-    private final TrackingService trackingService;
-
-    public TestController(ShopifyService shopifyService, FileService fileService, PaypalHistoryService paypalHistoryService, TrackingService trackingService) {
-        this.shopifyService = shopifyService;
-        this.fileService = fileService;
-        this.paypalHistoryService = paypalHistoryService;
-        this.trackingService = trackingService;
+    @PostMapping("/tracking/retry")
+    public void retryUploadTracking() {
+        shopifyWorker.processRetry();
     }
 
     @GetMapping("/order")

@@ -56,7 +56,7 @@ public class ShopifyWorker {
     }
 
     public void processShopifyOrder(StoreDTO storeDTO, ShopifyOrder shopifyOrder) throws InterruptedException {
-        log.info("Process store {} and order {}", storeDTO, shopifyOrder);
+        log.debug("Process store {} and order {}", storeDTO, shopifyOrder);
         Optional<Order> existedOrder = orderService.findByOrderName(shopifyOrder.getName());
         Long orderId;
         if (!existedOrder.isPresent()) {
@@ -67,12 +67,12 @@ public class ShopifyWorker {
         String baseUrl = storeDTO.getShopifyApiUrl() + "orders/" + shopifyOrder.getId() + "/transactions.json";
         TransactionList transactions = shopifyService.getTransactions(baseUrl, storeDTO.getShopifyApiKey(), storeDTO.getShopifyApiPassword());
         if (transactions != null && transactions.getTransactions().size() == 1) {
-            log.info("Transaction with size: {}", transactions.getTransactions().size());
+            log.debug("Transaction with size: {}", transactions.getTransactions().size());
             // created transactions
             createTransactions(transactions, orderId, shopifyOrder, storeDTO);
 
         } else {
-            log.info("transaction is null or size is not 1");
+            log.debug("transaction is null or size is not 1");
             if (transactions != null && transactions.getTransactions() != null) {
                 List<ShopifyTransaction> rs = new ArrayList<>();
                 for (ShopifyTransaction shopifyTransaction : transactions.getTransactions()) {
@@ -108,25 +108,29 @@ public class ShopifyWorker {
     private void createTransactions(TransactionList transactions, Long orderId, ShopifyOrder shopifyOrder, StoreDTO storeDTO) {
         Instant now = Instant.now();
         transactions.getTransactions().forEach(shopifyTransaction -> {
-            log.info("Process transaction {}", shopifyTransaction);
-            Optional<TransactionDTO> transOps = transactionService.findByShopifyTransactionIdAndOrderId(shopifyTransaction.getId(), orderId);
-            if (!transOps.isPresent()) {
-                TransactionDTO transDto = new TransactionDTO();
-                transDto.setAuthorization(shopifyTransaction.getAuthorization());
-                transDto.setOrderId(orderId);
-                transDto.setShopifyTransactionId(shopifyTransaction.getId());
+            try {
+                log.debug("Process transaction {}", shopifyTransaction);
+                Optional<TransactionDTO> transOps = transactionService.findByShopifyTransactionIdAndOrderId(shopifyTransaction.getId(), orderId);
+                if (!transOps.isPresent()) {
+                    TransactionDTO transDto = new TransactionDTO();
+                    transDto.setAuthorization(shopifyTransaction.getAuthorization());
+                    transDto.setOrderId(orderId);
+                    transDto.setShopifyTransactionId(shopifyTransaction.getId());
 
-                transDto.setCreatedAt(now);
-                transDto.setUpdatedAt(now);
-                transactionService.save(transDto);
-            }
-            // created tracking
-            List<Fulfillment> fulfillmentList = shopifyOrder.getFulfillments();
-            if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
-                log.info("Size of fulfillment {} ", fulfillmentList.size());
-                List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(),
-                    shopifyOrder.getOrderNumber(), shopifyOrder.getName());
-                addTrackingToPaypal(trackers, storeDTO);
+                    transDto.setCreatedAt(now);
+                    transDto.setUpdatedAt(now);
+                    transactionService.save(transDto);
+                }
+                // created tracking
+                List<Fulfillment> fulfillmentList = shopifyOrder.getFulfillments();
+                if (fulfillmentList != null && !fulfillmentList.isEmpty()) {
+                    log.info("Size of fulfillment {} ", fulfillmentList.size());
+                    List<Tracker> trackers = createTracking(fulfillmentList, orderId, shopifyTransaction, shopifyOrder.getId(),
+                        shopifyOrder.getOrderNumber(), shopifyOrder.getName());
+                    addTrackingToPaypal(trackers, storeDTO);
+                }
+            } catch (Exception ex) {
+                log.error("Error when createTransactions ", ex);
             }
         });
     }
@@ -147,11 +151,15 @@ public class ShopifyWorker {
                 .addTrackersBatch(token, trackerList);
             if (res != null && res.getTrackerList() != null) {
                 res.getTrackerList().forEach(tracker -> {
-                    List<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
-                        tracker.getTrackingNumber());
-                    if (history != null && !history.isEmpty()) {
-                        history.get(0).setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
-                        paypalHistoryService.save(history.get(0));
+                    try {
+                        List<PaypalHistoryDTO> history = paypalHistoryService.findByTransactionIdAndTrackingNumber(tracker.getTransactionId(),
+                            tracker.getTrackingNumber());
+                        if (history != null && !history.isEmpty()) {
+                            history.get(0).setStatus(Constants.PAYPAL_ADD_TRACKING_SUCCESS);
+                            paypalHistoryService.save(history.get(0));
+                        }
+                    } catch (Exception ex) {
+                        log.error("Error when addTrackingToPaypal ", ex);
                     }
                 });
             }
@@ -163,47 +171,55 @@ public class ShopifyWorker {
         Instant now = Instant.now();
         ArrayList<Tracker> trackers = new ArrayList<>();
         for (Fulfillment fulfillment : fulfillmentList) {
-            List<String> trackingNumbers = fulfillment.getTrackingNumbers();
-            List<String> trackingUrls = fulfillment.getTrackingUrls();
-            if (trackingNumbers != null) {
-                log.info("Process fulfilment {}", fulfillment);
-                for (int i = 0; i < trackingNumbers.size(); i++) {
-                    String trackingNumber = trackingNumbers.get(i);
-                    Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
-                    if (!trackOpt.isPresent()) {
-                        TrackingDTO trackingDto = new TrackingDTO();
-                        trackingDto.setCreatedAt(now);
-                        trackingDto.setUpdatedAt(now);
-                        log.info("Process with tracking number {}", trackingNumber);
-                        trackingDto.setTrackingNumber(trackingNumbers.get(i));
-                        trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
-                        if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
-                            trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
-                        } else if (trackingUrls != null) {
-                            log.info("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
-                        } else {
-                            log.info("Tracking url null");
+            try {
+                List<String> trackingNumbers = fulfillment.getTrackingNumbers();
+                List<String> trackingUrls = fulfillment.getTrackingUrls();
+                if (trackingNumbers != null) {
+                    log.debug("Process fulfilment {}", fulfillment);
+                    for (int i = 0; i < trackingNumbers.size(); i++) {
+                        try {
+                            String trackingNumber = trackingNumbers.get(i);
+                            Optional<TrackingDTO> trackOpt = trackingService.findByTrackingNumber(trackingNumber);
+                            if (!trackOpt.isPresent()) {
+                                TrackingDTO trackingDto = new TrackingDTO();
+                                trackingDto.setCreatedAt(now);
+                                trackingDto.setUpdatedAt(now);
+                                log.debug("Process with tracking number {}", trackingNumber);
+                                trackingDto.setTrackingNumber(trackingNumbers.get(i));
+                                trackingDto.setTrackingCompany(fulfillment.getTrackingCompany());
+                                if (trackingUrls != null && trackingUrls.size() == trackingNumbers.size()) {
+                                    trackingDto.setTrackingUrl(fulfillment.getTrackingUrls().get(i));
+                                } else if (trackingUrls != null) {
+                                    log.debug("total tracking url difference than total tracking number: {} {}", trackingUrls.size(), trackingNumbers.size());
+                                } else {
+                                    log.debug("Tracking url null");
+                                }
+                                trackingDto.setOrderId(orderId);
+                                trackingService.save(trackingDto);
+                            }
+                            if ("Other".equals(fulfillment.getTrackingCompany()) || "China Post".equals(fulfillment.getTrackingCompany())) {
+                                fulfillment.setTrackingCompany("CHINA_POST");
+                            }
+                            List<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByTransactionIdAndTrackingNumber(shopifyTransaction.getAuthorization(),
+                                trackingNumber);
+                            if (hisOpt == null || hisOpt.isEmpty()) {
+                                createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
+                                    fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
+                            } else if (hisOpt.get(0).getStatus() == Constants.CALLED) {
+                                Tracker tracker = new Tracker();
+                                tracker.setStatus("SHIPPED");
+                                tracker.setCarrier(fulfillment.getTrackingCompany());
+                                tracker.setTrackingNumber(trackingNumber);
+                                tracker.setTransactionId(shopifyTransaction.getAuthorization());
+                                trackers.add(tracker);
+                            }
+                        } catch (Exception ex) {
+                            log.error("Error when createTracking ", ex);
                         }
-                        trackingDto.setOrderId(orderId);
-                        trackingService.save(trackingDto);
-                    }
-                    if ("Other".equals(fulfillment.getTrackingCompany()) || "China Post".equals(fulfillment.getTrackingCompany())) {
-                        fulfillment.setTrackingCompany("CHINA_POST");
-                    }
-                    List<PaypalHistoryDTO> hisOpt = paypalHistoryService.findByTransactionIdAndTrackingNumber(shopifyTransaction.getAuthorization(),
-                        trackingNumber);
-                    if (hisOpt == null || hisOpt.isEmpty()) {
-                        createPaypalHistory(trackingNumber, shopifyTransaction.getAuthorization(), "SHIPPED",
-                            fulfillment.getTrackingCompany(), shopifyOrderId, orderNumber, orderName);
-                    } else if (hisOpt.get(0).getStatus() == Constants.CALLED) {
-                        Tracker tracker = new Tracker();
-                        tracker.setStatus("SHIPPED");
-                        tracker.setCarrier(fulfillment.getTrackingCompany());
-                        tracker.setTrackingNumber(trackingNumber);
-                        tracker.setTransactionId(shopifyTransaction.getAuthorization());
-                        trackers.add(tracker);
                     }
                 }
+            } catch (Exception ex) {
+                log.error("Error when createTracking ", ex);
             }
         }
         return trackers;
@@ -227,28 +243,32 @@ public class ShopifyWorker {
     }
 
     private void accept(PaypalHistoryDTO paypalHistoryDTO) {
-        String numberProcessed = redisCacheRepo.getValue(paypalHistoryDTO.getShopifyOrderName());
-        if (numberProcessed == null || !numberProcessed.equals("4")) {
-            Optional<Order> storeDtoOpt = orderService.findByShopifyOrderId(paypalHistoryDTO.getShopifyOrderId());
-            if (storeDtoOpt.isPresent() && storeDtoOpt.get().getStore() != null) {
-                Tracker tracker = new Tracker();
-                tracker.setCarrier(paypalHistoryDTO.getCarrier());
-                tracker.setStatus(paypalHistoryDTO.getShopifyShippingStatus());
-                tracker.setTrackingNumber(paypalHistoryDTO.getShopifyTrackingNumber());
-                tracker.setTransactionId(paypalHistoryDTO.getShopifyAuthorizationKey());
-                StoreDTO storeDTO = new StoreDTO();
-                storeDTO.setPaypalId(storeDtoOpt.get().getStore().getPaypal().getId());
-                storeDTO.setPaypal(storeDtoOpt.get().getStore().getPaypal());
-                storeDTO.setShopifyApiUrl(storeDtoOpt.get().getStore().getShopifyApiUrl());
-                log.info("Store in processRetry {} ", storeDTO);
-                addTrackingToPaypal(Collections.singletonList(tracker), storeDTO);
-                if (numberProcessed == null) {
-                    numberProcessed = "1";
-                } else {
-                    numberProcessed = Integer.toString(Integer.parseInt(numberProcessed) + 1);
+        try {
+            String numberProcessed = redisCacheRepo.getValue(paypalHistoryDTO.getShopifyOrderName());
+            if (numberProcessed == null || !numberProcessed.equals("4")) {
+                Optional<Order> storeDtoOpt = orderService.findByShopifyOrderId(paypalHistoryDTO.getShopifyOrderId());
+                if (storeDtoOpt.isPresent() && storeDtoOpt.get().getStore() != null) {
+                    Tracker tracker = new Tracker();
+                    tracker.setCarrier(paypalHistoryDTO.getCarrier());
+                    tracker.setStatus(paypalHistoryDTO.getShopifyShippingStatus());
+                    tracker.setTrackingNumber(paypalHistoryDTO.getShopifyTrackingNumber());
+                    tracker.setTransactionId(paypalHistoryDTO.getShopifyAuthorizationKey());
+                    StoreDTO storeDTO = new StoreDTO();
+                    storeDTO.setPaypalId(storeDtoOpt.get().getStore().getPaypal().getId());
+                    storeDTO.setPaypal(storeDtoOpt.get().getStore().getPaypal());
+                    storeDTO.setShopifyApiUrl(storeDtoOpt.get().getStore().getShopifyApiUrl());
+                    log.info("Store in processRetry {} ", storeDTO);
+                    addTrackingToPaypal(Collections.singletonList(tracker), storeDTO);
+                    if (numberProcessed == null) {
+                        numberProcessed = "1";
+                    } else {
+                        numberProcessed = Integer.toString(Integer.parseInt(numberProcessed) + 1);
+                    }
+                    redisCacheRepo.setValue(paypalHistoryDTO.getShopifyOrderName(), numberProcessed);
                 }
-                redisCacheRepo.setValue(paypalHistoryDTO.getShopifyOrderName(), numberProcessed);
             }
+        } catch (Exception ex) {
+            log.error("Exception when retry process ", ex);
         }
     }
 }
