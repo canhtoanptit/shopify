@@ -259,6 +259,7 @@ public class ShopifyWorker {
                     storeDTO.setShopifyApiUrl(storeDtoOpt.get().getStore().getShopifyApiUrl());
                     log.info("Store in processRetry {} ", storeDTO);
                     addTrackingToPaypal(Collections.singletonList(tracker), storeDTO);
+                    Thread.sleep(300);
                     if (numberProcessed == null) {
                         numberProcessed = "1";
                     } else {
